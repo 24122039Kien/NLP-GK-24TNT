@@ -1,0 +1,4 @@
+# HCB_13 – 宋史 卷488 / Tống sử quyển 488. Bản Việt chỉ dịch mục 交趾.
+loai_tru:
+  - {lang: han, muc: 大理, ly_do: "Bản Việt không dịch mục 大理"}
+  - {lang: han, regex: "^校勘記$", den_het_quyen: true, ly_do: "校勘記 – ghi chú hiệu khám, không phải chính văn"}

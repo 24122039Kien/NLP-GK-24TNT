@@ -1,0 +1,5 @@
+# tệp trung gian của hvalign – không nộp, chạy lại là có
+work/
+__pycache__/
+*.pyc
+.pytest_cache/

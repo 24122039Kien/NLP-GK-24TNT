@@ -1,0 +1,17 @@
+# Phân công: mỗi dòng một (tác phẩm, quyển, thành viên). Quyển '*' = cả tác phẩm.
+# Mỗi thành viên tự thêm dòng của mình; chương trình dùng tệp này để đếm số cặp từng người.
+ma_tac_pham	quyen	thanh_vien
+HCB_01	2	Kien
+HCB_01	6	Kien
+HCB_01	10	Kien
+HCB_01	15	Kien
+HCB_01	20	Kien
+HCB_04	*	Kien
+HCB_05	*	Kien
+HCB_07	*	Kien
+HCB_11	*	Kien
+HCB_13	*	Kien
+HCB_14	1333	Kien
+HCB_14	1339	Kien
+HCB_14	1357	Kien
+HCB_14	1438	Kien

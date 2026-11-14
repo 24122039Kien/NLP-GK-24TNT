@@ -1,0 +1,8 @@
+# HCB_05 – 交州記 / Giao Châu ký. Bản Hán không có dấu câu → đơn vị dóng là từng khoản (*).
+# Phạm vi (cả tác phẩm hay chỉ Quyển 1) còn chờ nhóm chốt – implementation_plan.md mục 11, câu 4.
+lam_sach:
+  R05_viet_dan_nguon_cuoi_khoan: true    # "(Ngự Lãm 829)", "(《齊民要術》10)" ở cuối khoản
+loai_tru:                                # ghi chú khảo chứng của người biên tập (câu 3 mục 11: mặc định xóa)
+  - {lang: han, loai: indent, muc: 交洲記卷一, ly_do: "Ghi chú khảo chứng 按 / trích dẫn của người biên tập"}
+  - {lang: han, loai: indent, muc: 交州記卷二, ly_do: "Ghi chú khảo chứng 按 / trích dẫn của người biên tập"}
+  - {lang: viet, regex: "^(Theo |Chú:)", ly_do: "Bản dịch ghi chú khảo chứng 按 (dòng : hoặc khoản *)"}

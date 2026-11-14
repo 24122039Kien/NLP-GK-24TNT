@@ -1,0 +1,53 @@
+# Cấu hình chung của chương trình hvalign (nhóm CV02).
+# Cấu hình riêng từng tác phẩm ở config/works/<MA>.yaml, ghi đè lên khối mac_dinh dưới đây.
+
+ma_de_tai: CV02
+
+mac_dinh:
+  # --- Bước 4 ---
+  quyen_mac_dinh: "1"          # số quyển khi tên tệp không có số (tác phẩm 1 quyển)
+  # dinh_dang_nguon: {han: wikitext, viet: plain}   # ép định dạng nếu tự nhận dạng sai
+
+  # --- Bước 5: luật làm sạch (bật/tắt từng luật) ---
+  lam_sach:
+    R01_bo_dong_ngoai_noi_dung: true   # dòng "Nguồn:", URL, thể loại còn sót
+    R03_bo_ref: true                   # <ref>, 校勘記, chú thích dịch giả
+    R04_bo_chu_nho: true               # {{*|…}} (chú nhỏ, 【攷異】), "(Khảo dị: …)"
+    R05_bo_dan_nguon: true             # {{注|…}}; bản Việt: dẫn nguồn cuối khoản (chỉ bật ở HCB_05)
+    R05_viet_dan_nguon_cuoi_khoan: false
+    R06_bo_chu_han_trong_viet: true    # Phúc Khang An (福康安) → Phúc Khang An
+    R07_bo_nam_duong_lich: true        # (112 TCN), (năm 1789 dương lịch)
+    R08_bo_dong_tieu_de: true          # dòng tiêu đề, 《…》卷第二, dấu §
+    R09_sua_ma_chu: true               # {{SKchar}}, [BD77] → tra resources/char_fix.tsv
+    R10_chuan_hoa_khoang_trang_dau_cau: true
+  bo_mau: []          # R11: [{lang: viet, regex: "..."}] – xóa đoạn khớp mẫu
+  loai_tru: []        # R12: [{lang: han, muc: "大理", ly_do: "..."}] – vùng không có bản dịch
+  co_rui_ro: []       # [{lang: han, regex: "^若荆", co: rut_gon}] – gắn cờ để ưu tiên hiệu đính
+  van_ban_sach_gom_de_muc: false     # 03_text_sach có ghi cả dòng đề mục hay không
+
+  # --- Bước 6 ---
+  tach_cau:
+    han_cham_la_ranh_gioi_mem: false   # true cho sillok (HCB_14): 。 dùng cả ở chỗ ngắt nhỏ
+    trong_ngoac_kep_la_mem: true       # dấu câu bên trong 「…」 / “…” chỉ là ranh giới mềm
+
+  # --- Bước 7 ---
+  dong_hang:
+    ty_le: auto                 # âm tiết Việt / chữ Hán; auto = đo trên chính quyển đó
+    phuong_sai: auto            # s² của Gale–Church; auto = ước lượng từ các cặp đoạn 1–1
+    tang1_muc: auto             # auto: ghép mục 1–1 khi số đề mục hai bản bằng nhau; none: bỏ tầng 1
+    tang2_max: 8                # một đoạn ứng tối đa bao nhiêu đoạn bên kia
+    # chi phí kiểu ghép ở tầng câu (= -log xác suất tiên nghiệm)
+    kieu_ghep:
+      "1-1": 0.89
+      "1-2": 0.04
+      "2-1": 0.04
+      "1-3": 0.008
+      "3-1": 0.008
+      "2-2": 0.01
+      "1-0": 0.002
+      "0-1": 0.002
+    gop_toi_da: 10              # thêm kiểu 1–4 … 1–k và 4–1 … k–1 (xác suất nhỏ) cho câu rất dài
+    phat_gop_qua_ranh_gioi_cung: 0.7
+    phat_gop_qua_ranh_gioi_mem: 0.0
+    moc_khop: 2.0              # thưởng cho mỗi mốc (can chi, tên riêng) khớp hai bên
+    moc_lech: 0.7              # phạt cho mỗi mốc chỉ có ở một bên

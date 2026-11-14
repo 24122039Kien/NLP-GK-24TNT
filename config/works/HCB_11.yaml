@@ -1,0 +1,9 @@
+# HCB_11 – 後漢書 卷86 / Hậu Hán thư quyển 86.
+# 6 đoạn trong mục 南蠻 bị dịch rút gọn (Check_Kien.md mục 2.1) → gắn cờ để ưu tiên hiệu đính.
+co_rui_ro:
+  - {lang: han, regex: "^若荆、楊無事", co: rut_gon}
+  - {lang: han, regex: "^交阯之南有越裳國", co: rut_gon}
+  - {lang: han, regex: "^至於中興，郡守常率以征伐", co: rut_gon}
+  - {lang: han, regex: "^永壽三年十一月", co: rut_gon}
+  - {lang: han, regex: "^順帝永和元年", co: rut_gon}
+  - {lang: han, regex: "^及楚子稱霸，朝貢百越", co: rut_gon}

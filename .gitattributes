@@ -1,0 +1,7 @@
+# Văn bản do chương trình sinh ra: luôn xuống dòng LF (Guideline: TSV UTF-8, LF)
+* text=auto eol=lf
+# Tệp nguồn: giữ nguyên từng byte để SHA-256 khớp manifest (Guideline Bước 3: nguồn chỉ đọc)
+CV02_*/01_nguon/** -text
+*.pdf binary
+*.xlsx binary
+*.png binary
