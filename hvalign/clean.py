@@ -225,7 +225,9 @@ def run(project, work: str, log=print) -> dict:
             head = path.read_text(encoding="utf-8").split("\n", 1)[0]
             m = re.search(r"quyển (\S+)", head)
             vol = norm_vol(m.group(1)) if m else vl[1:]
-            member = project.member_of(work, vol)
+            # thành viên do Bước 4 ghi vào đầu tệp (từ phan_cong.tsv hoặc 'member:' trong cấu hình sources)
+            mm = re.search(r"thành viên: (\S+)", head)
+            member = mm.group(1) if mm else project.member_of(work, vol)
             raw = read_raw(path)
             content = [r for r in raw if not r["kind"].startswith("h")]
             punct = (sum(1 for r in content if ("。" if lang == "han" else ".") in r["text"])

@@ -7,7 +7,7 @@ from datetime import date
 from pathlib import Path
 
 from . import __version__
-from .textutil import read_jsonl
+from . import review
 
 
 def read_tsv(path: Path) -> list[dict]:
@@ -29,7 +29,8 @@ def load_manifests(root: Path) -> list[dict]:
 
 def run(project, work: str, validation=None, log=print) -> Path:
     scratch = project.scratch(work)
-    pairs = read_jsonl(scratch / "alignment.jsonl")
+    machine = review.machine_pairs(project, work)
+    pairs, hd = review.final_pairs(project, work)
     sach = project.work_dir(work) / "03_text_sach"
     n_lines = {lang: sum(1 for _ in open(sach / f"{lang}.txt", encoding="utf-8")) for lang in ("han", "viet")}
     clean_log = read_tsv(scratch / "clean_log.tsv")
@@ -39,9 +40,13 @@ def run(project, work: str, validation=None, log=print) -> Path:
     ext = read_tsv(scratch / "extract_log.tsv")
     man = load_manifests(project.root)
 
+    flagged = [p for p in machine if p["co"]]
+    decided = review.handled(review.load_decisions(project, work))
+    seen = sum(1 for p in flagged if review.key_of(p) in decided)
+    state = (f"đã hiệu đính {seen}/{len(flagged)} cặp máy gắn cờ" if seen
+             else "bản dóng tự động, CHƯA hiệu đính")
     L = [f"# Báo cáo tự sinh – {work}", "",
-         f"Ngày: {date.today().isoformat()} · hvalign {__version__} · "
-         "**Trạng thái: bản dóng tự động, CHƯA hiệu đính**", ""]
+         f"Ngày: {date.today().isoformat()} · hvalign {__version__} · **Trạng thái: {state}**", ""]
     by_member = Counter(p["member"] for p in pairs)
     L += ["## 1. Số cặp", "", f"Tổng: **{len(pairs)}** cặp.", "", "| Thành viên | Số cặp |", "|---|---|"]
     L += [f"| {m} | {n} |" for m, n in sorted(by_member.items())]
@@ -67,10 +72,24 @@ def run(project, work: str, validation=None, log=print) -> Path:
     L.append(f"- Loại trừ (không có bản dịch / không phải chính văn): {len(excl)} khối"
              + (" – " + "; ".join(f"{k} ({v})" for k, v in reasons.items()) if reasons else ""))
     L.append(f"- Câu không ghép được (ghi ở `work/{work}/khong_ghep.tsv`, không đưa vào TSV): {len(unp)}")
-    flags = Counter(f for p in pairs for f in p["co"])
-    L.append("- Cặp gắn cờ cần hiệu đính: " + (", ".join(f"`{k}` {v}" for k, v in flags.most_common()) or "không"))
+    flags = Counter(f for p in machine for f in p["co"])
+    L.append(f"- Cặp máy gắn cờ: {len(flagged)} (" + (", ".join(f"`{k}` {v}" for k, v in flags.most_common())
+                                                      or "không") + f"); người đã xem {seen}")
+    L.append(f"- Hiệu đính đã áp: xác nhận đúng {hd['dung']}, sửa chữ {hd['sua']}, gộp {hd['gop']}, "
+             f"bỏ cặp sai {hd['sai']} (quyết định lưu ở `hieu_dinh/{work}__<người>.tsv`)")
     L.append(f"- Cảnh báo khi làm sạch: {len(warns)} (xem `work/{work}/canh_bao.tsv`)")
-    L.append("- Tỷ lệ lỗi theo §8 Guideline: **chưa đo** – cần lấy mẫu kiểm tra chéo sau khi hiệu đính.")
+    grades = review.load_grades(project)
+    keys = {p["khoa"] for p in pairs}
+    rates = {m: review.error_rate(grades, m, keys, work) for m in sorted(by_member)}
+    if any(r["da_cham"] for r in rates.values()):
+        L.append("- Tỷ lệ lỗi theo §8 Guideline (mẫu chấm chéo, chỉ tính cặp thuộc tác phẩm này):")
+        for m, r in rates.items():
+            if r["da_cham"]:
+                lb = ", ".join(f"{k} {v}" for k, v in r["nhan"].items() if v)
+                L.append(f"  - {m}: {r['sai']}/{r['da_cham']} cặp lỗi = **{r['ty_le_loi']:.1%}**"
+                         + (f" ({lb})" if lb else ""))
+    else:
+        L.append("- Tỷ lệ lỗi theo §8 Guideline: **chưa đo** – chấm mẫu trong app (`python -m hvalign app`).")
     L.append("")
 
     L += ["## 4. Nguồn tài liệu", "", "| Quyển | Bản | Tệp | Định dạng đọc được | Nguồn trực tuyến | revid |",

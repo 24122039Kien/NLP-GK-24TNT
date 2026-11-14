@@ -10,9 +10,10 @@
 
 | | Tình trạng |
 |---|---|
-| Đã chạy ổn | 7 tác phẩm của Kiên: 3.490 cặp tự động; 13/13 kiểm thử đạt; 7/7 qua kiểm định TSV/XLSX |
+| Đã chạy ổn | 7 tác phẩm của Kiên: 3.490 cặp tự động; 16/16 kiểm thử đạt; 7/7 qua kiểm định TSV/XLSX |
+| **Mới: app giao diện** | `Mo_hvalign.bat` hoặc `python -m hvalign app`: chạy, hiệu đính cặp máy gắn cờ, chấm mẫu §8, bàn giao. Quyết định tự áp mỗi lần xuất |
 | **Chưa chạy trên dữ liệu thật của Huy, Tài, Đăng** | Máy Kiên chưa có nguồn của các bạn. Kiểu tên tệp `.txt` của Huy mới được thử bằng bản giả lập |
-| Chương trình còn thiếu | (1) tải bài sillok; (2) chấm câu cho văn bản Hán không dấu (HCB_03); (3) luật bỏ phiên âm trong thơ 4 phần (HCB_14); (4) áp bản sửa từ sổ hiệu đính; (5) bộ mẫu chuẩn và chỉnh trọng số |
+| Chương trình còn thiếu | (1) tải bài sillok; (2) chấm câu cho văn bản Hán không dấu (HCB_03); (3) luật bỏ phiên âm trong thơ 4 phần (HCB_14); (4) bộ mẫu chuẩn và chỉnh trọng số |
 
 Mỗi phần còn thiếu được giao cho người có dữ liệu cần đến phần đó (mục 3).
 
@@ -22,19 +23,14 @@ Mỗi phần còn thiếu được giao cho người có dữ liệu cần đế
 
 Làm trước tiên, vì đợt này lộ ra lỗi sớm nhất.
 
-1. **Lấy code:** clone kho chung (Kiên tạo, mục 3.4). Chạy `pip install -r requirements.txt`, rồi `python -m pytest -q` phải ra 13 passed.
+1. **Lấy code:** clone kho chung https://github.com/24122039Kien/NLP-GK-24TNT.git. Chạy `pip install -r requirements.txt`, rồi `python -m pytest -q` phải ra 16 passed.
 2. **Chép nguồn:** chép vào `CV02_<MA>/01_nguon/` và **giữ nguyên tên và định dạng** (`.wikitext`, `.txt`, `.html` đều được). PDF cứ để đó, chương trình không đọc PDF.
 3. **Khai báo phân công:** thêm dòng của mình vào `config/phan_cong.tsv`.
 4. **Manifest:** chép manifest của mình thành `Docs/nguon_manifest_<ten>.tsv`. Cột `tep` phải là đường dẫn tính từ `Lab/GK`, ví dụ `CV02_HCB_01/01_nguon/han/x.wikitext`.
-5. **Chạy:** tại `Lab/GK`, chạy lần lượt:
-   ```
-   python -m hvalign inventory --work <các mã của bạn>
-   python -m hvalign run --work <các mã của bạn>
-   python -m hvalign mau --work <các mã của bạn> --so-cap 30
-   python -m hvalign status
-   ```
-6. **Chấm mẫu:** mở `work/<MA>/mau/<MA>_mau_30.xlsx` và điền cột `Đúng/Sai`. Cặp sai thì ghi nhãn: `OMISSION` / `ADDITION` / `MISSING` / `RANH_GIOI` (sai chỗ cắt câu).
-7. **Ghi kết quả** vào `Docs/kiem_tra_hvalign_<ten>.md` theo mẫu ở mục 5.
+5. **Chạy:** `python -m hvalign inventory --work <các mã của bạn>` để kiểm kê nguồn. Sau đó mở app (`Mo_hvalign.bat`), chọn tên mình và bấm **Chạy tất cả**.
+6. **Hiệu đính** các cặp máy gắn cờ của mình trong tab **Hiệu đính** ([hướng dẫn mục 6](huong_dan_hvalign.md#6-hiệu-đính)). Xong thì bấm **Cập nhật bản xuất**, rồi commit thư mục `hieu_dinh/`.
+7. **Chấm chéo** 100 cặp trong tab **Chấm mẫu**, theo vòng: **Kiên chấm Huy → Huy chấm Tài → Tài chấm Đăng → Đăng chấm Kiên.** Người chấm cần `git pull` và chạy tác phẩm của bạn mình để có cùng dữ liệu. Cặp sai thì báo người làm sửa.
+8. **Ghi kết quả** vào `Docs/kiem_tra_hvalign_<ten>.md` theo mẫu ở mục 5.
 
 **Tiêu chí xong Đợt 1** (cho từng tác phẩm của mình):
 
@@ -122,9 +118,9 @@ Làm trước tiên, vì đợt này lộ ra lỗi sớm nhất.
 
 | Việc | Ghi chú |
 |---|---|
-| Tạo kho git riêng tư cho `Lab/GK`, mời 3 bạn | Đã có `.gitignore` (bỏ qua `work/`). **Làm đầu tiên**, vì Đợt 1 cần |
+| ~~Tạo kho git~~ (đã xong: https://github.com/24122039Kien/NLP-GK-24TNT); mời 3 bạn làm collaborator | Cần làm trước Đợt 1 |
 | Gộp thay đổi của các bạn; chạy lại `pytest` và `run --work` toàn bộ sau mỗi lần gộp | |
-| Lệnh `review apply`: đọc sổ hiệu đính → `work/<MA>/patches.jsonl` → áp lại khi chạy | Kế hoạch mục 7.1 |
+| ~~Lệnh `review apply`~~ (đã xong, thay bằng app: quyết định lưu ở `hieu_dinh/` và tự áp mỗi lần xuất) | Kế hoạch mục 7.1 |
 | Bộ mẫu chuẩn khoảng 120 câu/người và đánh giá cấu hình A/B/C | Kế hoạch mục 6.4. Cần cả nhóm dóng tay phần mẫu của mình |
 
 ---
@@ -149,11 +145,12 @@ Làm trước tiên, vì đợt này lộ ra lỗi sớm nhất.
 # Kiểm tra hvalign – <tên> – <ngày>
 
 ## Kết quả chạy
-| Mã | inventory | run / kiểm định | Cặp | Mẫu đúng / 30 | Ghi chú |
+| Mã | inventory | run / kiểm định | Cặp | Cặp gắn cờ đã xem | Ghi chú |
 |---|---|---|---|---|---|
-| HCB_xx | 0 vấn đề | ĐẠT | 412 | 27/30 | |
+| HCB_xx | 0 vấn đề | ĐẠT | 412 | 21/21 | |
 
 Tổng số cặp của tôi (status): ….
+Tỷ lệ lỗi mẫu do <tên bạn chấm> chấm trong app: …% (… / 100 cặp).
 
 ## Lỗi chương trình
 | # | Lệnh | Mã truy vết | Mong đợi | Thực tế | Đã sửa? |
@@ -172,17 +169,17 @@ Tổng số cặp của tôi (status): ….
 
 | Thứ tự | Việc | Ai | Chặn việc gì |
 |---|---|---|---|
-| 1 | Kho git chung | Kiên | Mọi việc |
+| 1 | Kho git chung (đã có), mời 3 bạn vào repo | Kiên | Mọi việc |
 | 2 | Đợt 1 (mục 2) | Cả 4 | Lộ lỗi sớm; số cặp thật của từng người |
 | 3 | `fetch-sillok` | Tài | HCB_14 của Tài; kiểm tra trùng Q1381/Q1384 |
 | 3 | Bảng mã chữ, chấm câu HCB_03 | Huy | HCB_03, HCB_06, HCB_11 |
 | 3 | Luật R11 thơ | Đăng | HCB_14 của Đăng (và của người khác nếu có thơ) |
 | 4 | Cấu hình `loai_tru` các tác phẩm dịch thiếu | Người giữ tác phẩm | Số cặp chính xác |
-| 5 | `review apply`, bộ mẫu chuẩn | Kiên + cả nhóm dóng mẫu | Hiệu đính (G6) |
+| 5 | Hiệu đính + chấm chéo trong app (đã có công cụ); bộ mẫu chuẩn | Cả 4; bộ mẫu chuẩn: Kiên | Bàn giao (G6) |
 
 **Điều kiện coi là "chạy được tất cả tác phẩm của từng người":** cả 4 file `kiem_tra_hvalign_<ten>.md` đều có:
 - mọi tác phẩm **ĐẠT** kiểm định;
-- mẫu đúng ≥ 85%;
+- tỷ lệ lỗi mẫu ≤ 20%, do bạn khác chấm trong app (ngưỡng đạt của Guideline là ≤ 30%);
 - số cặp ≥ 2.000.
 
 Tác phẩm nào chưa đạt thì ghi lý do và người xử lý.

@@ -11,7 +11,6 @@ import re
 from collections import Counter
 from pathlib import Path
 
-from . import __version__
 from .readers import load_document
 from .sources import plan_sources
 from .textutil import CJK_RUN_RE, sha256_file, strip_markers, vol_label, write_tsv
@@ -95,7 +94,8 @@ def run(project, work: str, log=print) -> dict:
                 log_rows.append((vs.volume, lang, vs.member, rel.as_posix(), doc.fmt, doc.fmt_reason,
                                  doc.encoding, len(doc.blocks), tpl, other, "; ".join(doc.warnings)))
                 summary[f"{lang}:{doc.fmt}"] += 1
-            header = [f"# hvalign {__version__} | {work} quyển {vs.volume} | {lang} | thành viên: {vs.member}"]
+            # không ghi số phiên bản: tệp sinh ra phải giống hệt nhau giữa các máy để git không báo đổi
+            header = [f"# hvalign | {work} quyển {vs.volume} | {lang} | thành viên: {vs.member}"]
             path_out = out_dir / lang / f"{vl}.tsv"
             path_out.parent.mkdir(parents=True, exist_ok=True)
             with open(path_out, "w", encoding="utf-8", newline="\n") as f:

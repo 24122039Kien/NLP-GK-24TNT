@@ -12,6 +12,7 @@ Lệnh:
   run        chạy tất cả: extract → clean → segment → align → export → validate → report
   status     tóm tắt trạng thái từng tác phẩm
   mau        lấy ngẫu nhiên N cặp mỗi thành viên ra Excel để chấm Đúng/Sai (--so-cap 30)
+  app        mở giao diện web (chạy, hiệu đính, chấm mẫu, bàn giao) tại http://127.0.0.1:8765
 """
 from __future__ import annotations
 
@@ -19,9 +20,9 @@ import argparse
 import sys
 import time
 
-from . import __version__, align, clean, export, extract, inventory, report, segment
+from . import __version__, align, clean, export, extract, inventory, report, review, segment
 from .config import load_project
-from .textutil import read_jsonl
+from .textutil import SourceReadError
 
 STEPS = ["extract", "clean", "segment", "align", "export", "validate", "report"]
 
@@ -35,8 +36,7 @@ def status(project, works):
         for lang in ("han", "viet"):
             p = wd / "03_text_sach" / f"{lang}.txt"
             lines.append(sum(1 for _ in open(p, encoding="utf-8")) if p.exists() else 0)
-        al = sc / "alignment.jsonl"
-        pairs = read_jsonl(al) if al.exists() else []
+        pairs = review.final_pairs(project, w)[0]
         mem = {}
         for p in pairs:
             mem[p["member"]] = mem.get(p["member"], 0) + 1
@@ -44,28 +44,68 @@ def status(project, works):
               + ", ".join(f"{k} {v}" for k, v in sorted(mem.items())))
     totals = {}
     for w in works:
-        al = project.scratch(w) / "alignment.jsonl"
-        for p in (read_jsonl(al) if al.exists() else []):
+        for p in review.final_pairs(project, w)[0]:
             totals[p["member"]] = totals.get(p["member"], 0) + 1
     if totals:
         print("  Tổng theo thành viên: " + ", ".join(f"{k} {v} cặp" for k, v in sorted(totals.items()))
               + "  (mục tiêu ≥ 2.000 cặp/người, sau hiệu đính)")
 
 
+def run_steps(project, w: str, steps: list[str], deliver: bool, log=print) -> int:
+    validation = None
+    failed = 0
+    for st in steps:
+        if st == "extract":
+            extract.run(project, w, log=log)
+        elif st == "clean":
+            clean.run(project, w, log=log)
+        elif st == "segment":
+            segment.run(project, w, log=log)
+        elif st == "align":
+            align.run(project, w, log=log)
+        elif st == "export":
+            export.run(project, w, deliver=deliver, log=log)
+        elif st == "validate":
+            validation = export.validate(project, w, deliver=deliver, log=log)
+            failed += bool(validation[0])
+        elif st == "report":
+            report.run(project, w, validation, log=log)
+    return failed
+
+
+def friendly_error(e: Exception, w: str) -> str | None:
+    """Câu báo lỗi dễ hiểu cho các lỗi người dùng hay gặp; None nếu là lỗi lạ (lỗi chương trình)."""
+    if isinstance(e, SourceReadError):
+        return f"✗ {e}"
+    if isinstance(e, PermissionError):
+        return (f"✗ Không ghi được tệp ({e.filename or e}): tệp đang mở, thường là trong Excel. "
+                "Đóng tệp rồi chạy lại.")
+    if isinstance(e, FileNotFoundError):
+        return (f"✗ Thiếu tệp {e.filename}. "
+                f"Hãy chạy các bước trước đó, hoặc dùng: python -m hvalign run --work {w}")
+    return None
+
+
 def main(argv=None) -> int:
-    try:
-        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    except Exception:
-        pass
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
     ap = argparse.ArgumentParser(prog="hvalign", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("lenh", choices=["inventory", "status", "run", "mau"] + STEPS)
+    ap.add_argument("lenh", choices=["inventory", "status", "run", "mau", "app"] + STEPS)
     ap.add_argument("--work", nargs="+", help="mã tác phẩm (mặc định: mọi tác phẩm có trên máy)")
     ap.add_argument("--ban-giao", action="store_true", help="xuất vào <MA>/04_dong_hang (thư mục nộp)")
     ap.add_argument("--so-cap", type=int, default=30, help="số cặp mỗi thành viên cho lệnh mau")
+    ap.add_argument("--cong", type=int, default=8765, help="cổng cho lệnh app")
+    ap.add_argument("--khong-mo-trinh-duyet", action="store_true", help="lệnh app: không tự mở trình duyệt")
     ap.add_argument("--version", action="version", version=f"hvalign {__version__}")
     a = ap.parse_args(argv)
     project = load_project()
+    if a.lenh == "app":
+        from . import app
+        return app.serve(project, a.cong, not a.khong_mo_trinh_duyet)
     works = a.work or project.works()
     if a.lenh == "inventory":
         return 1 if inventory.run(project, works) else 0
@@ -81,23 +121,14 @@ def main(argv=None) -> int:
     t0 = time.time()
     for w in works:
         print(f"== {w}")
-        validation = None
-        for st in steps:
-            if st == "extract":
-                extract.run(project, w)
-            elif st == "clean":
-                clean.run(project, w)
-            elif st == "segment":
-                segment.run(project, w)
-            elif st == "align":
-                align.run(project, w)
-            elif st == "export":
-                export.run(project, w, deliver=a.ban_giao)
-            elif st == "validate":
-                validation = export.validate(project, w, deliver=a.ban_giao)
-                failed += bool(validation[0])
-            elif st == "report":
-                report.run(project, w, validation)
+        try:
+            failed += run_steps(project, w, steps, a.ban_giao)
+        except (SourceReadError, OSError) as e:
+            msg = friendly_error(e, w)
+            if msg is None:
+                raise
+            print(f"  {msg}")
+            failed += 1
     if a.lenh == "run":
         print(f"\nXong {len(works)} tác phẩm trong {time.time() - t0:.1f} giây.")
         status(project, works)

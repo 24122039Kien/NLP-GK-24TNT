@@ -44,7 +44,8 @@ def read_source(path: Path) -> tuple[str, str]:
         return raw.decode(enc), enc
     except UnicodeDecodeError as e:
         raise SourceReadError(
-            f"{path}: không đọc được bằng {enc} ({e}). Hãy lưu lại tệp ở dạng UTF-8."
+            f"{Path(path).name}: không phải {enc.upper()} (byte lỗi ở vị trí {e.start}). "
+            f"Mở tệp bằng Notepad / VS Code rồi lưu lại với mã hóa UTF-8."
         ) from None
 
 

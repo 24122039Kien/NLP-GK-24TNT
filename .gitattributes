@@ -5,3 +5,4 @@ CV02_*/01_nguon/** -text
 *.pdf binary
 *.xlsx binary
 *.png binary
+*.bat text eol=crlf

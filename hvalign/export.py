@@ -12,7 +12,8 @@ from datetime import date
 from pathlib import Path
 
 from . import __version__
-from .textutil import CJK_RE, LATIN_RE, read_jsonl
+from .review import final_pairs
+from .textutil import CJK_RE, LATIN_RE
 from .xlsxlite import Sheet, read_xlsx, write_xlsx
 
 HEADER = ["Hán", "Việt"]
@@ -28,7 +29,9 @@ def out_dir(project, work: str, deliver: bool) -> Path:
 
 def run(project, work: str, deliver: bool = False, log=print) -> dict:
     scratch = project.scratch(work)
-    pairs = read_jsonl(scratch / "alignment.jsonl")
+    if not (scratch / "alignment.jsonl").exists():
+        raise FileNotFoundError(2, "không có", str(scratch / "alignment.jsonl"))
+    pairs, hd = final_pairs(project, work)  # đã áp quyết định hiệu đính trong hieu_dinh/
     rows = [[_clean_cell(p["han"]), _clean_cell(p["viet"])] for p in pairs]
     od = out_dir(project, work, deliver)
     od.mkdir(parents=True, exist_ok=True)
@@ -46,20 +49,24 @@ def run(project, work: str, deliver: bool = False, log=print) -> dict:
              ["Số dòng han.txt", n_lines["han"], "03_text_sach/han.txt"],
              ["Số dòng viet.txt", n_lines["viet"], "03_text_sach/viet.txt"],
              ["Ngày xuất", date.today().isoformat(), ""],
-             ["Công cụ", f"hvalign {__version__}", "Lab/GK/hvalign"], ["", "", ""],
+             ["Công cụ", f"hvalign {__version__}", "Lab/GK/hvalign"],
+             ["Hiệu đính: xác nhận đúng", hd["dung"], "hieu_dinh/<MA>__<người>.tsv"],
+             ["Hiệu đính: sửa chữ", hd["sua"], ""], ["Hiệu đính: gộp cặp", hd["gop"], ""],
+             ["Hiệu đính: bỏ cặp sai", hd["sai"], ""], ["", "", ""],
              ["Thành viên", "Số cặp", ""]]
     stats += [[m, n, ""] for m, n in sorted(by_member.items())]
     stats += [["", "", ""], ["Quyển", "Số cặp", "Thành viên"]]
     stats += [[v, n, m] for (v, m), n in sorted(by_vol.items(), key=lambda x: (len(x[0][0]), x[0][0]))]
     stats += [["", "", ""], ["Kiểu ghép", "Số cặp", ""]]
     stats += [[k, n, ""] for k, n in by_kind.most_common()]
-    trace = [["STT", "Mã cặp", "Quyển", "Thành viên", "Kiểu", "Chi phí", "Cờ", "Mã câu Hán", "Mã câu Việt"]]
-    trace += [[i, p["pid"], p["vol"], p["member"], p["kieu"], p["chi_phi"], " ".join(p["co"]),
+    trace = [["STT", "Mã cặp", "Quyển", "Thành viên", "Kiểu", "Chi phí", "Cờ", "Hiệu đính",
+              "Mã câu Hán", "Mã câu Việt"]]
+    trace += [[i, p["pid"], p["vol"], p["member"], p["kieu"], p["chi_phi"], " ".join(p["co"]), p["hd"],
                " ".join(p["han_ids"]), " ".join(p["viet_ids"])] for i, p in enumerate(pairs, start=1)]
     xlsx = od / f"{work}_parallel.xlsx"
     write_xlsx(xlsx, [Sheet("DONG_HANG", [HEADER] + rows, [70, 90], wrap=True),
                       Sheet("THONG_KE", stats, [22, 16, 30]),
-                      Sheet("TRUY_VET", trace, [7, 14, 7, 11, 6, 8, 18, 40, 40])])
+                      Sheet("TRUY_VET", trace, [7, 14, 7, 11, 6, 8, 18, 9, 40, 40])])
 
     # Sổ hiệu đính: mỗi thành viên một tệp; cặp có cờ và chi phí cao lên đầu.
     review_dir = scratch / "hieu_dinh"
@@ -72,7 +79,10 @@ def run(project, work: str, deliver: bool = False, log=print) -> dict:
         write_xlsx(review_dir / f"{work}_{m}.xlsx", [Sheet("HIEU_DINH", rv, [14, 6, 8, 18, 50, 70, 10, 12, 30],
                                                            wrap=True)])
     where = "04_dong_hang (BÀN GIAO)" if deliver else f"work/{work}/xuat (xem trước)"
-    log(f"  Xuất {work}: {len(rows)} cặp → {where}; sổ hiệu đính: work/{work}/hieu_dinh/")
+    done = hd["dung"] + hd["sua"] + hd["gop"] + hd["sai"]
+    log(f"  Xuất {work}: {len(rows)} cặp → {where}"
+        + (f"; đã áp {done} quyết định hiệu đính" if done else "")
+        + (f" ({hd['khong_khop']} quyết định cũ không còn khớp cặp nào)" if hd["khong_khop"] else ""))
     return {"tsv": tsv, "xlsx": xlsx}
 
 
@@ -99,6 +109,8 @@ def validate(project, work: str, deliver: bool = False, log=print) -> tuple[list
         return _report(work, errs + ["TSV không phải UTF-8"], warns, log)
     if lines and lines[-1] == "":
         lines.pop()
+    if not lines:
+        errs.append("không có cặp nào – kiểm tra nguồn (thiếu bản Hán/Việt?) bằng: python -m hvalign inventory")
     rows = []
     for i, line in enumerate(lines, start=1):
         cols = line.split("\t")
@@ -152,7 +164,7 @@ def _report(work, errs, warns, log):
 
 def sample(project, work: str, n: int = 30, seed: int = 2026, log=print) -> Path:
     """Lấy ngẫu nhiên n cặp cho MỖI thành viên ra Excel để đánh giá tay (Đúng/Sai, nhãn lỗi §7)."""
-    pairs = read_jsonl(project.scratch(work) / "alignment.jsonl")
+    pairs = final_pairs(project, work)[0]
     rng = random.Random(seed)
     rows = [["STT", "Mã cặp", "Thành viên", "Kiểu", "Cờ", "Hán", "Việt", "Đúng/Sai", "Nhãn lỗi", "Ghi chú"]]
     for m in sorted({p["member"] for p in pairs}):

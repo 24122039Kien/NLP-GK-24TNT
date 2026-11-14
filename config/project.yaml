@@ -3,6 +3,9 @@
 
 ma_de_tai: CV02
 
+cham_mau:
+  so_cap: 100                  # số cặp ngẫu nhiên mỗi người cần được chấm chéo (Guideline §8)
+
 mac_dinh:
   # --- Bước 4 ---
   quyen_mac_dinh: "1"          # số quyển khi tên tệp không có số (tác phẩm 1 quyển)

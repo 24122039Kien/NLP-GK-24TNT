@@ -6,6 +6,7 @@ from hvalign.anchors import AnchorIndex
 from hvalign.clean import Cleaner
 from hvalign.readers import detect_format, load_document
 from hvalign.segment import split_han, split_viet
+from hvalign.textutil import SourceReadError, read_source
 from hvalign.xlsxlite import Sheet, read_xlsx, write_xlsx
 
 WIKI = """{{header|title=續資治通鑑卷第二|section=宋紀二{{*|起重光作噩正月，盡{{參|元|玄}}黓閹茂十二月。}}}}
@@ -49,6 +50,17 @@ def test_wikitext_templates_refs_headings():
     assert d.blocks[2].text == "§春，正月，丙申朔，御崇元殿受朝。⟪*:後改爲惠民河。⟫"
     assert d.blocks[3].text == "§詔浚蔡渠，開元禮也。"
     assert d.meta["title"] == "續資治通鑑卷第二"  # đầu đề → siêu dữ liệu, không vào text
+
+
+def test_non_utf8_source_gives_clear_error(tmp_path: Path):
+    p = tmp_path / "x_han.txt"
+    p.write_bytes("天子曰。".encode("big5"))
+    try:
+        read_source(p)
+    except SourceReadError as e:
+        assert "x_han.txt" in str(e) and "UTF-8" in str(e)
+    else:
+        raise AssertionError("phải báo lỗi mã hóa")
 
 
 def test_plain_text_and_bold_title(tmp_path: Path):
@@ -146,3 +158,43 @@ def test_xlsx_roundtrip_strings(tmp_path: Path):
     wb = read_xlsx(p)
     assert wb.sheets["DONG_HANG"] == rows
     assert wb.formulas["DONG_HANG"] == 0 and wb.merged["DONG_HANG"] == 0
+
+
+# ------------------------------------------------------------------ hiệu đính (app)
+def _p(i, han, viet, co=()):
+    return {"pid": f"T:{i:05d}", "vol": "1", "member": "A", "kieu": "1-1", "han": han, "viet": viet,
+            "han_ids": [f"h{i}"], "viet_ids": [f"v{i}"], "chi_phi": 1.0, "delta": 0.0, "co": list(co)}
+
+
+def test_review_apply_decisions():
+    from hvalign.review import apply, handled, key_of
+    P = [_p(1, "甲。", "Một."), _p(2, "乙", "Hai"), _p(3, "丙。", "ba."), _p(4, "丁。", "Bốn."), _p(5, "戊。", "Năm.")]
+    k = [key_of(p) for p in P]
+    dec = {k[0]: {"quyet_dinh": "dung"},
+           k[1]: {"quyet_dinh": "gop", "gop_voi": k[2]},                      # gộp 2+3
+           k[3]: {"quyet_dinh": "sai"},                                       # bỏ cặp 4
+           k[4]: {"quyet_dinh": "sua", "han_sua": "戊己。", "viet_sua": "Năm sáu."},
+           "khong|ton_tai": {"quyet_dinh": "dung"}}                           # quyết định cũ, không khớp
+    out, st = apply(P, dec)
+    assert [(p["han"], p["viet"], p["hd"]) for p in out] == [
+        ("甲。", "Một.", "dung"), ("乙丙。", "Hai ba.", "gop"), ("戊己。", "Năm sáu.", "sua")]
+    assert out[1]["kieu"] == "2-2" and out[1]["han_ids"] == ["h2", "h3"]
+    assert st == {"dung": 1, "sai": 1, "sua": 1, "gop": 1, "khong_khop": 1}
+    assert handled(dec)[k[2]]["quyet_dinh"] == "gop_tren"
+
+
+def test_review_files_roundtrip_and_undo(tmp_path: Path):
+    from hvalign import review
+    from hvalign.config import Project
+    pr = Project(tmp_path, {})
+    review.save_decision(pr, "HCB_99", "Kiên", "a|b", "sai")
+    review.save_decision(pr, "HCB_99", "Huy", "c|d", "sua", han="甲\t乙", viet="x\ny")
+    assert (tmp_path / "hieu_dinh" / "HCB_99__Kiên.tsv").exists()
+    review.save_decision(pr, "HCB_99", "Kiên", "a|b", "xoa")                  # hoàn tác
+    d = review.load_decisions(pr, "HCB_99")
+    assert list(d) == ["c|d"] and d["c|d"]["han_sua"] == "甲 乙" and d["c|d"]["nguoi"] == "Huy"
+    review.save_grade(pr, "Huy", "a|b", "HCB_99", "Kiên", "sai", "OMISSION")
+    review.save_grade(pr, "Huy", "c|d", "HCB_99", "Kiên", "dung")
+    r = review.error_rate(review.load_grades(pr), "Kiên")
+    assert r["da_cham"] == 2 and r["ty_le_loi"] == 0.5 and r["nhan"]["OMISSION"] == 1
+    assert review.sample_size(3000) == 100 and review.sample_size(40) == 40 and review.sample_size(500, 50) == 50

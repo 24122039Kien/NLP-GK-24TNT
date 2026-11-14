@@ -5,6 +5,7 @@
 - `CV02_HCB_xx/` – thư mục bàn giao theo Guideline (`01_nguon`, `02_ocr_tho`, `03_text_sach`, `04_dong_hang`)
 - `hvalign/` – chương trình dóng hàng chung (Bước 4 → 7)
 - `config/` – phân công và cấu hình từng tác phẩm
+- `hieu_dinh/` – quyết định hiệu đính và kết quả chấm mẫu do app ghi (cần commit)
 - `Docs/` – Guideline, kế hoạch, hướng dẫn, phân việc, báo cáo
 
 ## Bắt đầu
@@ -12,8 +13,10 @@
 ```
 pip install -r requirements.txt
 python -m pytest -q
-python -m hvalign run
+python -m hvalign app        # giao diện web; trên Windows có thể nhấp đúp Mo_hvalign.bat
 ```
+
+Dòng lệnh vẫn dùng được: `python -m hvalign run`, `python -m hvalign status`.
 
 Đọc tiếp: [Docs/huong_dan_hvalign.md](Docs/huong_dan_hvalign.md) (cách dùng) và
 [Docs/phan_viec_hvalign.md](Docs/phan_viec_hvalign.md) (việc của từng người).
