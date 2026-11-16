@@ -198,3 +198,43 @@ def test_review_files_roundtrip_and_undo(tmp_path: Path):
     r = review.error_rate(review.load_grades(pr), "Kiên")
     assert r["da_cham"] == 2 and r["ty_le_loi"] == 0.5 and r["nhan"]["OMISSION"] == 1
     assert review.sample_size(3000) == 100 and review.sample_size(40) == 40 and review.sample_size(500, 50) == 50
+
+
+def test_auto_notes_short_long_and_untranslated(tmp_path: Path):
+    from hvalign.config import Project
+    from hvalign.notes import notes_for
+    pr = Project(tmp_path, {})
+    P = [_p(i, "天下大事分久必合合久", "thiên hạ đại sự chia lâu tất hợp hợp lâu tất chia") for i in range(1, 6)]
+    P.append(_p(6, "天下大事分久必合合久必分天下大事分久必合合久必分", "Chia rồi hợp.", co=["rut_gon"]))
+    P.append(_p(7, "帝曰可。", "Vua nói được. (Đây là chú thích rất dài của dịch giả về nghi lễ tế trời đất "
+                               "thời xưa, không có trong bản Hán.) Rồi mọi người lui ra hết cả."))
+    (tmp_path / "work" / "HCB_99").mkdir(parents=True)
+    (tmp_path / "work" / "HCB_99" / "khong_ghep.tsv").write_text(
+        "id\tngon_ngu\tly_do\tnoi_dung\nh3x\than\ttầng 3\t此句無譯。\n", encoding="utf-8")
+    notes = notes_for(pr, "HCB_99", P, AnchorIndex({}))
+    assert notes[0] == notes[1] == "" and notes[3] == notes[4] == ""
+    assert notes[2].startswith("Câu Hán ngay sau không có bản dịch") and "此句無譯" in notes[2]
+    assert notes[5].startswith("Dịch rút gọn")
+    assert "dài gấp" in notes[6] and "chú thích của dịch giả" in notes[6]
+
+
+def test_export_note_column_and_validate(tmp_path: Path):
+    import json
+    from hvalign import export
+    from hvalign.config import Project
+    pr = Project(tmp_path, {"ma_de_tai": "CV02", "mac_dinh": {"cot_ghi_chu": True}})
+    sach = tmp_path / "CV02_HCB_99" / "03_text_sach"
+    sach.mkdir(parents=True)
+    for lang in ("han", "viet"):
+        (sach / f"{lang}.txt").write_text("x\n", encoding="utf-8")
+    sc = tmp_path / "work" / "HCB_99"
+    sc.mkdir(parents=True)
+    P = [_p(i, "天下大事分久必合合久", "thiên hạ đại sự chia lâu tất hợp hợp lâu tất chia") for i in range(1, 6)]
+    P.append(_p(6, "天下大事分久必合合久必分天下大事分久必合合久必分", "Chia rồi hợp.", co=["rut_gon"]))
+    (sc / "alignment.jsonl").write_text("".join(json.dumps(p, ensure_ascii=False) + "\n" for p in P), encoding="utf-8")
+    out = export.run(pr, "HCB_99", log=lambda *a: None)
+    rows = read_xlsx(out["xlsx"]).sheets["DONG_HANG"]
+    assert rows[0] == ["Hán", "Việt", "Ghi chú"] and rows[6][2].startswith("Dịch rút gọn") and rows[1][2:] in ([], [""])
+    assert out["tsv"].read_text(encoding="utf-8").count("\t") == 6  # TSV vẫn đúng 2 cột
+    errs, _ = export.validate(pr, "HCB_99", log=lambda *a: None)
+    assert errs == []

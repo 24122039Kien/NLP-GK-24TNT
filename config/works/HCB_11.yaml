@@ -7,3 +7,6 @@ co_rui_ro:
   - {lang: han, regex: "^永壽三年十一月", co: rut_gon}
   - {lang: han, regex: "^順帝永和元年", co: rut_gon}
   - {lang: han, regex: "^及楚子稱霸，朝貢百越", co: rut_gon}
+# Giảng viên (QA 16/11/2026): bản rút gọn vẫn dóng được, nhưng thêm cột "Ghi chú" vào .xlsx để đánh dấu
+# cặp bị lược bỏ / dịch rút gọn và nêu phần bị lược, câu không được dịch. Máy tự viết ghi chú (hvalign/notes.py).
+cot_ghi_chu: true

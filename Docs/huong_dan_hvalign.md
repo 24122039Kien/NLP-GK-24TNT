@@ -1,6 +1,6 @@
 # Hướng dẫn thực hành `hvalign`
 
-**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.2.0, ngày 2026-11-14.
+**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.3.0, ngày 2026-11-16.
 **Liên quan:** [phan_viec_hvalign.md](phan_viec_hvalign.md) (việc của từng người) · [implementation_plan.md](implementation_plan.md) (thiết kế).
 
 Mọi ví dụ đầu ra trong tài liệu này đều chép từ lần chạy thật trên dữ liệu của nhóm.
@@ -11,11 +11,13 @@ Mọi ví dụ đầu ra trong tài liệu này đều chép từ lần chạy t
 
 **Cách dễ nhất: dùng app.** Nhấp đúp `Mo_hvalign.bat` ở thư mục gốc repo, hoặc gõ `python -m hvalign app`. Trình duyệt sẽ mở `http://127.0.0.1:8765`. App chỉ chạy trên máy bạn, không cần mạng.
 
-Máy tự làm mọi bước. Bạn chỉ làm 3 việc, và trang **Tổng quan** của app luôn ghi rõ việc tiếp theo:
+Trang chính của app chỉ có 3 bước:
 
-1. **Hiệu đính** các cặp máy không chắc (máy gắn cờ). Thường chỉ khoảng 5% số cặp, mỗi cặp vài giây (mục 6).
-2. **Chấm mẫu** 100 cặp ngẫu nhiên của **một bạn khác** để đo tỷ lệ lỗi theo §8 Guideline (mục 4.4).
-3. Bấm **Bàn giao** (mục 7).
+1. **Làm tự động:** bấm **▶ Làm tự động tất cả**. Máy đọc nguồn, làm sạch, tách câu, dóng hàng, **tự viết ghi chú** cho cặp dịch rút gọn hoặc có thêm diễn giải, rồi kiểm định định dạng.
+2. **Nhìn qua (không bắt buộc):** bấm **Xem nhanh** ở một tác phẩm để lướt các cặp máy đã ghi chú. Thấy cặp sai rõ ràng thì bấm **Bỏ** (mục 6).
+3. **Tải về:** bấm **⬇ Tải về** (một tác phẩm) hoặc **⬇ Tải tất cả**. Bạn nhận một tệp `.zip` đúng cấu trúc nộp: `CV02_<MA>/01_nguon … 04_dong_hang/` + `bao_cao.md` (mục 7).
+
+Hiệu đính từng cặp bằng phím, chấm mẫu §8 và ghi vào `04_dong_hang` trong repo vẫn có, ở trang **Công cụ nâng cao** (góc phải trên).
 
 Trước đó vẫn phải đưa nguồn vào và khai báo phân công (mục 2). Muốn dùng dòng lệnh thì vẫn chạy được như cũ, mở terminal **tại thư mục gốc của repo**:
 
@@ -42,7 +44,7 @@ Sửa cấu hình xong thì bấm **Chạy** trong app, hoặc chạy lại lệ
    cd NLP-GK-24TNT
    pip install -r requirements.txt
    ```
-3. **Chạy kiểm thử.** Kết quả phải là `16 passed`:
+3. **Chạy kiểm thử.** Kết quả phải là `18 passed`:
    ```
    python -m pytest -q
    ```
@@ -340,7 +342,24 @@ Danh sách luật và giá trị mặc định nằm ở `config/project.yaml`.
 
 ## 6. Hiệu đính
 
-Mở tab **Hiệu đính** và chọn tác phẩm. App chỉ hiện các cặp **máy gắn cờ**, cặp rủi ro cao nhất ở trên cùng: với dữ liệu của Kiên là 203/3.490 cặp, khoảng 6%. Ví dụ, mục đầu hàng đợi của HCB_11 là 5 câu Hán bị ghép với một câu Việt tóm tắt. **Cặp không ai xem thì giữ nguyên kết quả máy**, nên xem được đến đâu hay đến đó, không bắt buộc xem hết.
+### 6.1. Cách nhanh: Xem nhanh trên trang chính
+
+Bấm **Xem nhanh** ở thẻ tác phẩm. Tab **Cặp có ghi chú** chỉ hiện các cặp máy đã tự ghi chú. Với dữ liệu của Kiên là 39/3.490 cặp, phần lớn ở HCB_11. Ghi chú đã nằm sẵn trong tệp tải về, nên bạn **không phải sửa gì**. Chỉ bấm **Bỏ** khi hai vế rõ ràng không nói cùng một việc; bấm **Hoàn tác** hoặc **Lấy lại** nếu bấm nhầm. Cần chọn tên ở ô **Bạn là** trước khi bấm Bỏ.
+
+Máy tự ghi chú khi:
+
+| Ghi chú | Khi nào |
+|---|---|
+| `Dịch rút gọn: vế Việt chỉ dài khoảng X% mức thường gặp; bản Việt không nhắc tới: …` | Vế Việt ngắn hơn một nửa mức thường gặp của chính tác phẩm (trong đoạn đã biết là rút gọn: ngắn hơn 70%). Kèm tên riêng, can chi chỉ có ở vế Hán |
+| `Vế Việt dài gấp khoảng X lần mức thường gặp…` | Vế Việt dài hơn 2 lần mức thường gặp: có thể có diễn giải của dịch giả |
+| `Vế Việt có chú thích của dịch giả: «(…)»` | Vế Việt có đoạn trong ngoặc dài từ 40 ký tự |
+| `Câu Hán ngay sau không có bản dịch, không đưa vào dữ liệu: «…»` | Có câu không ghép được ngay sau cặp này (cũng có dạng cho câu Việt) |
+
+Ghi chú nằm ở cột `Ghi chú` của sheet `TRUY_VET`. Riêng tác phẩm có `cot_ghi_chu: true` trong cấu hình (hiện là HCB_11, theo yêu cầu của giảng viên) thì sheet `DONG_HANG` có thêm cột thứ ba `Ghi chú`; TSV vẫn đúng 2 cột.
+
+### 6.2. Hiệu đính kỹ từng cặp (công cụ nâng cao)
+
+Mở **Công cụ nâng cao → Hiệu đính** và chọn tác phẩm. App chỉ hiện các cặp **máy gắn cờ**, cặp rủi ro cao nhất ở trên cùng: với dữ liệu của Kiên là 203/3.490 cặp, khoảng 6%. Ví dụ, mục đầu hàng đợi của HCB_11 là 5 câu Hán bị ghép với một câu Việt tóm tắt. **Cặp không ai xem thì giữ nguyên kết quả máy**, nên xem được đến đâu hay đến đó, không bắt buộc xem hết.
 
 Mỗi cặp hiện ba thứ: lý do máy nghi ngờ (ví dụ `Chỉ vế Việt có: 邵曄 (Thiệu Diệp)`), cặp ngay trên và cặp ngay dưới để đối chiếu ranh giới. Thao tác:
 
@@ -362,8 +381,6 @@ Muốn rà các lỗi giống nhau trên toàn tác phẩm (Guideline §8 yêu c
 - Quyết định được áp mỗi lần xuất. Sau khi xem xong, bấm **Cập nhật bản xuất** (vài giây, không cần chạy lại từ đầu).
 - Sheet `TRUY_VET` trong file Excel có thêm cột `Hiệu đính`. Sheet `THONG_KE` ghi số cặp đã xác nhận, sửa, gộp và bỏ.
 
-Sổ Excel `work/<MA>/hieu_dinh/<MA>_<tên>.xlsx` vẫn được tạo để xem nhanh, nhưng **sửa trong Excel không được áp**; hãy sửa trong app.
-
 Ý nghĩa các cờ:
 
 | Cờ | Nghĩa |
@@ -379,9 +396,20 @@ Sổ Excel `work/<MA>/hieu_dinh/<MA>_<tên>.xlsx` vẫn được tạo để xem
 
 ## 7. Bàn giao
 
-Chỉ làm khi tác phẩm đã hiệu đính xong và đạt kiểm tra chéo theo §8 của Guideline.
+**Cách dễ nhất: tải về.** Trên trang chính, bấm **⬇ Tải về** ở thẻ tác phẩm hoặc **⬇ Tải tất cả**. Máy tự cập nhật bản xuất, kiểm định, rồi trình duyệt tải tệp `.zip` về thư mục Downloads. Trong `.zip`, mỗi tác phẩm là một thư mục đúng cấu trúc Guideline mục 2:
 
-Trong app, bấm **Bàn giao** ở dòng tác phẩm. App hỏi xác nhận và báo còn bao nhiêu cặp gắn cờ chưa xem. Dùng dòng lệnh thì gõ:
+```
+CV02_HCB_11/
+├── 01_nguon/            (nguyên bản)
+├── 02_ocr_tho/
+├── 03_text_sach/        han.txt, viet.txt
+├── 04_dong_hang/        HCB_11_parallel.tsv, HCB_11_parallel.xlsx
+└── bao_cao.md           số cặp, số dòng, kết quả tự kiểm tra, nguồn, công cụ
+```
+
+Tải về **không ghi gì vào repo**. Nếu tác phẩm chưa đạt kiểm định, app báo lỗi và không tải.
+
+**Ghi thẳng vào `04_dong_hang` trong repo** (khi nhóm muốn commit bản nộp): vào **Công cụ nâng cao**, bấm **Bàn giao** ở dòng tác phẩm. App hỏi xác nhận và báo còn bao nhiêu cặp gắn cờ chưa xem. Dùng dòng lệnh thì gõ:
 
 ```
 python -m hvalign run --work HCB_xx --ban-giao
@@ -453,7 +481,8 @@ Tùy chọn chung:
 
 ## 11. Giới hạn hiện tại
 
-- **Hàng đợi hiệu đính chỉ gồm cặp có cờ.** Lỗi mà máy không gắn cờ chỉ lộ ra khi chấm mẫu; khi đó dùng "Tìm trong mọi cặp" để rà các cặp tương tự.
+- **Ghi chú tự động dựa trên độ dài và tên riêng**, không hiểu nghĩa câu. Nó bắt được chỗ dịch rút gọn rõ rệt, nhưng một cặp lệch ranh giới mà độ dài vẫn bình thường thì không có ghi chú. Trong vùng dịch rút gọn của HCB_11 có vài cặp lệch ranh giới như vậy (ví dụ `政不施焉，則君子不臣其人。` ↔ `Sứ giả nói:`); nên lướt tab **Cặp có ghi chú** của HCB_11 và bấm **Bỏ** những cặp đó.
+- **Hàng đợi hiệu đính (nâng cao) chỉ gồm cặp có cờ.** Lỗi mà máy không gắn cờ chỉ lộ ra khi chấm mẫu; khi đó dùng "Tìm trong mọi cặp" để rà các cặp tương tự.
 - **Câu không ghép** (`khong_ghep.tsv`) chưa ghép tay được trong app; xem bằng *Mở… → Câu không ghép*.
 - **Trọng số dóng hàng đặt tay**, chưa chỉnh trên bộ mẫu chuẩn. Tỷ lệ lỗi phải tự đo bằng chấm mẫu.
 - **Mốc dóng hàng:** chỉ dùng can chi và các cặp tên riêng thu từ chính bản Việt, chưa dùng từ điển Unihan hay embedding.

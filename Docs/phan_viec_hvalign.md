@@ -10,8 +10,9 @@
 
 | | Tình trạng |
 |---|---|
-| Đã chạy ổn | 7 tác phẩm của Kiên: 3.490 cặp tự động; 16/16 kiểm thử đạt; 7/7 qua kiểm định TSV/XLSX |
-| **Mới: app giao diện** | `Mo_hvalign.bat` hoặc `python -m hvalign app`: chạy, hiệu đính cặp máy gắn cờ, chấm mẫu §8, bàn giao. Quyết định tự áp mỗi lần xuất |
+| Đã chạy ổn | 7 tác phẩm của Kiên: 3.490 cặp tự động; 18/18 kiểm thử đạt; 7/7 qua kiểm định TSV/XLSX |
+| **App (0.3.0)** | `Mo_hvalign.bat` hoặc `python -m hvalign app`: **Làm tự động → Nhìn qua (không bắt buộc) → Tải về .zip** đúng cấu trúc nộp. Máy tự ghi chú cặp dịch rút gọn. Hiệu đính từng cặp, chấm mẫu §8 nằm ở *Công cụ nâng cao* |
+| **Giảng viên đã trả lời (QA 16/11)** | Chỉ dóng hàng phần có song ngữ; phần không có bản dịch thì không cần dóng. Bản dịch rút gọn vẫn dùng được nhưng phải đánh dấu: HCB_11 thêm cột `Ghi chú` vào `.xlsx` (máy tự điền). HCB_14: chỉ làm phần có song ngữ, được lấy bản Hán từ sillok.history.go.kr |
 | **Chưa chạy trên dữ liệu thật của Huy, Tài, Đăng** | Máy Kiên chưa có nguồn của các bạn. Kiểu tên tệp `.txt` của Huy mới được thử bằng bản giả lập |
 | Chương trình còn thiếu | (1) tải bài sillok; (2) chấm câu cho văn bản Hán không dấu (HCB_03); (3) luật bỏ phiên âm trong thơ 4 phần (HCB_14); (4) bộ mẫu chuẩn và chỉnh trọng số |
 
@@ -23,13 +24,13 @@ Mỗi phần còn thiếu được giao cho người có dữ liệu cần đế
 
 Làm trước tiên, vì đợt này lộ ra lỗi sớm nhất.
 
-1. **Lấy code:** clone kho chung https://github.com/24122039Kien/NLP-GK-24TNT.git. Chạy `pip install -r requirements.txt`, rồi `python -m pytest -q` phải ra 16 passed.
+1. **Lấy code:** clone kho chung https://github.com/24122039Kien/NLP-GK-24TNT.git. Chạy `pip install -r requirements.txt`, rồi `python -m pytest -q` phải ra 18 passed.
 2. **Chép nguồn:** chép vào `CV02_<MA>/01_nguon/` và **giữ nguyên tên và định dạng** (`.wikitext`, `.txt`, `.html` đều được). PDF cứ để đó, chương trình không đọc PDF.
 3. **Khai báo phân công:** thêm dòng của mình vào `config/phan_cong.tsv`.
 4. **Manifest:** chép manifest của mình thành `Docs/nguon_manifest_<ten>.tsv`. Cột `tep` phải là đường dẫn tính từ `Lab/GK`, ví dụ `CV02_HCB_01/01_nguon/han/x.wikitext`.
-5. **Chạy:** `python -m hvalign inventory --work <các mã của bạn>` để kiểm kê nguồn. Sau đó mở app (`Mo_hvalign.bat`), chọn tên mình và bấm **Chạy tất cả**.
-6. **Hiệu đính** các cặp máy gắn cờ của mình trong tab **Hiệu đính** ([hướng dẫn mục 6](huong_dan_hvalign.md#6-hiệu-đính)). Xong thì bấm **Cập nhật bản xuất**, rồi commit thư mục `hieu_dinh/`.
-7. **Chấm chéo** 100 cặp trong tab **Chấm mẫu**, theo vòng: **Kiên chấm Huy → Huy chấm Tài → Tài chấm Đăng → Đăng chấm Kiên.** Người chấm cần `git pull` và chạy tác phẩm của bạn mình để có cùng dữ liệu. Cặp sai thì báo người làm sửa.
+5. **Chạy:** `python -m hvalign inventory --work <các mã của bạn>` để kiểm kê nguồn. Sau đó mở app (`Mo_hvalign.bat`), chọn tên mình và bấm **▶ Làm tự động tất cả**.
+6. **Nhìn qua** (không bắt buộc): bấm **Xem nhanh**, lướt tab *Cặp có ghi chú*, bấm **Bỏ** cặp sai rõ ràng ([hướng dẫn mục 6.1](huong_dan_hvalign.md#61-cách-nhanh-xem-nhanh-trên-trang-chính)). Có bấm Bỏ thì commit thư mục `hieu_dinh/`. Sau đó bấm **⬇ Tải về** để lấy `.zip` nộp.
+7. **Chấm chéo** (không bắt buộc, nên làm nếu còn thời gian) 100 cặp trong *Công cụ nâng cao → Chấm mẫu*, theo vòng: **Kiên chấm Huy → Huy chấm Tài → Tài chấm Đăng → Đăng chấm Kiên.** Người chấm cần `git pull` và chạy tác phẩm của bạn mình để có cùng dữ liệu. Cặp sai thì báo người làm sửa.
 8. **Ghi kết quả** vào `Docs/kiem_tra_hvalign_<ten>.md` theo mẫu ở mục 5.
 
 **Tiêu chí xong Đợt 1** (cho từng tác phẩm của mình):

@@ -8,6 +8,7 @@ from pathlib import Path
 
 from . import __version__
 from . import review
+from .notes import notes_for
 
 
 def read_tsv(path: Path) -> list[dict]:
@@ -43,8 +44,9 @@ def run(project, work: str, validation=None, log=print) -> Path:
     flagged = [p for p in machine if p["co"]]
     decided = review.handled(review.load_decisions(project, work))
     seen = sum(1 for p in flagged if review.key_of(p) in decided)
-    state = (f"đã hiệu đính {seen}/{len(flagged)} cặp máy gắn cờ" if seen
-             else "bản dóng tự động, CHƯA hiệu đính")
+    notes = notes_for(project, work, pairs)
+    n_notes = sum(1 for n in notes if n)
+    state = "dóng tự động, ghi chú tự động" + (f"; người đã xem {seen}/{len(flagged)} cặp máy gắn cờ" if seen else "")
     L = [f"# Báo cáo tự sinh – {work}", "",
          f"Ngày: {date.today().isoformat()} · hvalign {__version__} · **Trạng thái: {state}**", ""]
     by_member = Counter(p["member"] for p in pairs)
@@ -78,6 +80,12 @@ def run(project, work: str, validation=None, log=print) -> Path:
     L.append(f"- Hiệu đính đã áp: xác nhận đúng {hd['dung']}, sửa chữ {hd['sua']}, gộp {hd['gop']}, "
              f"bỏ cặp sai {hd['sai']} (quyết định lưu ở `hieu_dinh/{work}__<người>.tsv`)")
     L.append(f"- Cảnh báo khi làm sạch: {len(warns)} (xem `work/{work}/canh_bao.tsv`)")
+    note_where = ("cột `Ghi chú` của sheet DONG_HANG" if project.work_cfg(work).get("cot_ghi_chu")
+                  else "cột `Ghi chú` của sheet TRUY_VET")
+    L.append(f"- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): {n_notes} cặp, "
+             f"ghi ở {note_where}")
+    L.append("- Phạm vi theo trả lời của giảng viên: chỉ dóng hàng phần có song ngữ; phần chỉ một bản có "
+             "thì không đưa vào dữ liệu (đã liệt kê ở mục Loại trừ và Câu không ghép được).")
     grades = review.load_grades(project)
     keys = {p["khoa"] for p in pairs}
     rates = {m: review.error_rate(grades, m, keys, work) for m in sorted(by_member)}
@@ -89,7 +97,7 @@ def run(project, work: str, validation=None, log=print) -> Path:
                 L.append(f"  - {m}: {r['sai']}/{r['da_cham']} cặp lỗi = **{r['ty_le_loi']:.1%}**"
                          + (f" ({lb})" if lb else ""))
     else:
-        L.append("- Tỷ lệ lỗi theo §8 Guideline: **chưa đo** – chấm mẫu trong app (`python -m hvalign app`).")
+        L.append("- Tỷ lệ lỗi theo §8 Guideline: chưa chấm mẫu (tuỳ chọn: app → Nâng cao → Chấm mẫu).")
     L.append("")
 
     L += ["## 4. Nguồn tài liệu", "", "| Quyển | Bản | Tệp | Định dạng đọc được | Nguồn trực tuyến | revid |",

@@ -27,6 +27,8 @@ mac_dinh:
   loai_tru: []        # R12: [{lang: han, muc: "大理", ly_do: "..."}] – vùng không có bản dịch
   co_rui_ro: []       # [{lang: han, regex: "^若荆", co: rut_gon}] – gắn cờ để ưu tiên hiệu đính
   van_ban_sach_gom_de_muc: false     # 03_text_sach có ghi cả dòng đề mục hay không
+  cot_ghi_chu: false   # true: sheet DONG_HANG có thêm cột "Ghi chú" (cặp dịch rút gọn, câu không được dịch…)
+                       # Guideline: DONG_HANG đúng 2 cột; GV cho phép thêm cột này riêng cho HCB_11 (QA 16/11)
 
   # --- Bước 6 ---
   tach_cau:

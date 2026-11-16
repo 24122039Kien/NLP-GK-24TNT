@@ -2,22 +2,29 @@
 
 Chỉ dùng thư viện chuẩn của Python (không cần cài thêm). Máy chủ chỉ nghe trên 127.0.0.1, nên chỉ chính máy
 mình mở được. Mọi thao tác trong giao diện đều gọi lại đúng các hàm mà dòng lệnh dùng.
+
+Trang chính (index.html) chỉ có 3 bước: Làm tự động → Nhìn qua → Tải về (.zip đúng cấu trúc nộp).
+Trang nâng cao (advanced.html, /nang-cao): hiệu đính từng cặp, chấm mẫu §8, bàn giao vào 04_dong_hang.
 """
 from __future__ import annotations
 
+import io
 import json
 import os
+import re
 import subprocess
 import sys
 import threading
 import time
 import traceback
 import webbrowser
+import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
-from . import __version__, review
+from . import __version__, export, review
+from .notes import notes_for
 from .anchors import CANCHI, AnchorIndex
 from .config import ROOT
 
@@ -41,7 +48,7 @@ class Job:
                 "failed": self.failed, "elapsed": round((self.ended or time.time()) - self.started, 1)
                 if self.started else 0}
 
-    MODES = {"run": "Chạy", "export": "Cập nhật bản xuất", "deliver": "Bàn giao"}
+    MODES = {"run": "Chạy", "export": "Cập nhật bản xuất", "deliver": "Bàn giao", "prepare": "Làm tự động"}
 
     def start(self, project, works: list[str], mode: str) -> bool:
         with self.lock:
@@ -55,12 +62,14 @@ class Job:
 
     def _work(self, project, works, mode):
         from .__main__ import STEPS, friendly_error, run_steps
-        steps = STEPS if mode == "run" else ["export", "validate", "report"]
         deliver = mode == "deliver"
         try:
             for w in works:
                 self.log.append(f"== {w}")
                 lines_before = len(self.log)
+                steps = STEPS if mode == "run" else ["export", "validate", "report"]
+                if mode == "prepare" and not (project.scratch(w) / "alignment.jsonl").exists():
+                    steps = STEPS  # chưa chạy lần nào → chạy đủ các bước
                 try:
                     bad = run_steps(project, w, steps, deliver, log=self.log.append)
                     ok = not bad
@@ -221,6 +230,122 @@ def open_path(project, rel: str) -> str:
         subprocess.Popen(["xdg-open", str(p)])
     return str(p)
 
+# ------------------------------------------------------------------ trang chính: làm tự động → nhìn qua → tải về
+_CACHE: dict[tuple, object] = {}
+
+
+def _mtime(p: Path) -> float:
+    return p.stat().st_mtime if p.exists() else 0.0
+
+
+def work_title(project, w: str) -> str:
+    """Tên tác phẩm lấy từ dòng chú thích đầu của config/works/<MA>.yaml ('# HCB_11 – 後漢書 卷86 / Hậu Hán thư …')."""
+    f = project.root / "config" / "works" / f"{w}.yaml"
+    if f.exists():
+        first = f.read_text(encoding="utf-8").splitlines()[:1]
+        m = re.search(r"/\s*([^.(]+)", first[0]) if first else None
+        if m:
+            return m.group(1).strip()
+    return ""
+
+
+def _inputs_mtime(project, w: str) -> float:
+    """Thời điểm sửa gần nhất của mọi thứ ảnh hưởng tới bản xuất."""
+    files = [project.scratch(w) / "alignment.jsonl", project.scratch(w) / "khong_ghep.tsv",
+             project.root / "config" / "project.yaml", project.root / "config" / "works" / f"{w}.yaml"]
+    files += list(review.review_dir(project).glob(f"{w}__*.tsv"))
+    return max((_mtime(f) for f in files), default=0.0)
+
+
+def annotated(project, w: str) -> tuple[list[dict], dict, list[str]]:
+    """(cặp cuối cùng, thống kê hiệu đính, ghi chú tự động) – có bộ nhớ đệm theo thời điểm sửa tệp."""
+    key = ("ann", w, _inputs_mtime(project, w))
+    if key not in _CACHE:
+        pairs, hd = review.final_pairs(project, w)
+        notes = notes_for(project, w, pairs, STATE.anchor_index()) if pairs else []
+        _CACHE[key] = (pairs, hd, notes)
+    return _CACHE[key]
+
+
+def _xuat(project, w: str) -> tuple[Path, Path]:
+    od = project.scratch(w) / "xuat"
+    return od / f"{w}_parallel.tsv", od / f"{w}_parallel.xlsx"
+
+
+def export_state(project, w: str) -> dict:
+    """Bản xuất xem trước (work/<MA>/xuat) có sẵn, mới nhất và đạt kiểm định không."""
+    tsv, xlsx = _xuat(project, w)
+    if not tsv.exists() or not xlsx.exists():
+        return {"ready": False, "fresh": False, "errors": []}
+    fresh = min(_mtime(tsv), _mtime(xlsx)) >= _inputs_mtime(project, w)
+    key = ("val", w, _mtime(tsv), _mtime(xlsx))
+    if key not in _CACHE:
+        _CACHE[key] = export.validate(project, w, log=lambda *a, **k: None)
+    errs, warns = _CACHE[key]
+    return {"ready": fresh and not errs, "fresh": fresh, "errors": errs, "warnings": warns}
+
+
+def home(project) -> dict:
+    works, totals = [], {}
+    for w in project.works():
+        has_run = (project.scratch(w) / "alignment.jsonl").exists()
+        pairs, hd, notes = annotated(project, w) if has_run else ([], {}, [])
+        by_m: dict[str, int] = {}
+        for p in pairs:
+            by_m[p["member"]] = by_m.get(p["member"], 0) + 1
+            totals[p["member"]] = totals.get(p["member"], 0) + 1
+        st = export_state(project, w) if has_run else {"ready": False, "fresh": False, "errors": []}
+        works.append({"work": w, "title": work_title(project, w), "has_run": has_run, "pairs": len(pairs),
+                      "members": by_m, "notes": sum(1 for n in notes if n),
+                      "dropped": hd.get("sai", 0) if hd else 0,
+                      "note_col": bool(project.work_cfg(w).get("cot_ghi_chu")),
+                      "last": STATE.job.last.get(w), **st})
+    return {"version": __version__, "works": works, "totals": totals, "target": TARGET,
+            "members": _members(project), "code": project.code}
+
+
+def pair_list(project, w: str, flt: str, q: str, offset: int, limit: int = 100) -> dict:
+    pairs, _, notes = annotated(project, w)
+    rows = []
+    for p, n in zip(pairs, notes):
+        if flt == "notes" and not n:
+            continue
+        if q and q not in p["han"] and q.lower() not in p["viet"].lower():
+            continue
+        rows.append({"key": p["khoa"], "pid": p["pid"], "vol": p["vol"], "member": p["member"],
+                     "han": p["han"], "viet": p["viet"], "note": n, "hd": p.get("hd", "")})
+    machine = {review.key_of(p): p for p in review.machine_pairs(project, w)}
+    dropped = []
+    for k, d in review.load_decisions(project, w).items():
+        if d["quyet_dinh"] == "sai" and k in machine:
+            m = machine[k]
+            dropped.append({"key": k, "pid": m["pid"], "han": m["han"], "viet": m["viet"],
+                            "nguoi": d.get("nguoi", "")})
+    return {"total": len(rows), "items": rows[offset:offset + limit], "offset": offset,
+            "n_all": len(pairs), "n_notes": sum(1 for n in notes if n), "dropped": dropped}
+
+
+def build_zip(project, works: list[str]) -> bytes:
+    """Gói đúng cấu trúc nộp của Guideline mục 2:  <MA_DE_TAI>_<MA>/01_nguon … 04_dong_hang + bao_cao.md.
+
+    04_dong_hang lấy từ bản xuất mới nhất (work/<MA>/xuat); thư mục 04_dong_hang trong repo không bị đụng tới.
+    """
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        for w in works:
+            top = f"{project.code}_{w}"
+            wd = project.work_dir(w)
+            for sub in ("01_nguon", "02_ocr_tho", "03_text_sach"):
+                for f in sorted((wd / sub).rglob("*")):
+                    if f.is_file():
+                        z.write(f, f"{top}/{f.relative_to(wd).as_posix()}")
+            for f in _xuat(project, w):
+                z.write(f, f"{top}/04_dong_hang/{f.name}")
+            rep = project.scratch(w) / "bao_cao.md"
+            if rep.exists():
+                z.write(rep, f"{top}/bao_cao.md")
+    return buf.getvalue()
+
 
 # ------------------------------------------------------------------ HTTP
 class Handler(BaseHTTPRequestHandler):
@@ -256,6 +381,35 @@ class Handler(BaseHTTPRequestHandler):
         try:
             if u.path in ("/", "/index.html"):
                 return self._send(200, (STATIC / "index.html").read_bytes(), "text/html; charset=utf-8")
+            if u.path in ("/nang-cao", "/advanced.html"):
+                return self._send(200, (STATIC / "advanced.html").read_bytes(), "text/html; charset=utf-8")
+            if u.path == "/api/home":
+                return self._json(home(P))
+            if u.path == "/api/pairs":
+                if qs["work"] not in P.works():
+                    return self._json({"error": "không có tác phẩm này"}, 400)
+                return self._json(pair_list(P, qs["work"], qs.get("filter", "notes"), qs.get("q", "").strip(),
+                                            max(int(qs.get("offset", 0)), 0)))
+            if u.path == "/api/download":
+                works = [w for w in qs.get("works", "").split(",") if w]
+                if not works or any(w not in P.works() for w in works):
+                    return self._json({"error": "danh sách tác phẩm không hợp lệ"}, 400)
+                if STATE.job.running:
+                    return self._json({"error": "đang chạy một việc khác, chờ xong đã"}, 409)
+                bad = [w for w in works if not export_state(P, w)["ready"]]
+                if bad:
+                    return self._json({"error": f"{', '.join(bad)} chưa sẵn sàng – bấm Tải về trong app để "
+                                                "máy tự chuẩn bị"}, 409)
+                body = build_zip(P, works)
+                name = (f"{P.code}_{works[0]}" if len(works) == 1 else f"{P.code}_{len(works)}_tac_pham") + ".zip"
+                self.send_response(200)
+                self.send_header("Content-Type", "application/zip")
+                self.send_header("Content-Disposition", f'attachment; filename="{name}"')
+                self.send_header("Content-Length", str(len(body)))
+                self.send_header("Cache-Control", "no-store")
+                self.end_headers()
+                self.wfile.write(body)
+                return None
             if u.path == "/api/overview":
                 return self._json(overview(P))
             if u.path == "/api/review":

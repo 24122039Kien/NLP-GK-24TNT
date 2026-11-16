@@ -1,7 +1,7 @@
 """Ghi / đọc .xlsx tối giản bằng thư viện chuẩn (không cần openpyxl).
 
 Ghi: mọi ô văn bản là chuỗi (inlineStr) → một câu bắt đầu bằng '=' không thành công thức;
-     không gộp ô; dòng đầu in đậm và cố định.
+     không gộp ô; dòng đầu in đậm, nền xanh như tệp mẫu example.xlsx, và cố định.
 Đọc: hiểu cả chuỗi dùng chung (sharedStrings) để đọc được tệp đã mở và lưu lại bằng Excel.
 """
 from __future__ import annotations
@@ -20,11 +20,13 @@ NS_PKG = "http://schemas.openxmlformats.org/package/2006/relationships"
 
 _STYLES = f"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <styleSheet xmlns="{NS}"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font>\
-<font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/>\
-</fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/>\
+<font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/>\
+</fill><fill><patternFill patternType="gray125"/></fill>\
+<fill><patternFill patternType="solid"><fgColor rgb="FF93C47D"/><bgColor rgb="FF93C47D"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/>\
 <bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/>\
 </cellStyleXfs><cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>\
-<xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>\
+<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" \
+applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>\
 <xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment wrapText="1" \
 vertical="top"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>\
 </styleSheet>"""

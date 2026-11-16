@@ -12,11 +12,13 @@ from datetime import date
 from pathlib import Path
 
 from . import __version__
+from .notes import notes_for
 from .review import final_pairs
 from .textutil import CJK_RE, LATIN_RE
 from .xlsxlite import Sheet, read_xlsx, write_xlsx
 
 HEADER = ["Hán", "Việt"]
+NOTE = "Ghi chú"
 
 
 def _clean_cell(s: str) -> str:
@@ -33,6 +35,8 @@ def run(project, work: str, deliver: bool = False, log=print) -> dict:
         raise FileNotFoundError(2, "không có", str(scratch / "alignment.jsonl"))
     pairs, hd = final_pairs(project, work)  # đã áp quyết định hiệu đính trong hieu_dinh/
     rows = [[_clean_cell(p["han"]), _clean_cell(p["viet"])] for p in pairs]
+    notes = [_clean_cell(n) for n in notes_for(project, work, pairs)]
+    note_col = bool(project.work_cfg(work).get("cot_ghi_chu"))  # cột "Ghi chú" theo yêu cầu GV (HCB_11)
     od = out_dir(project, work, deliver)
     od.mkdir(parents=True, exist_ok=True)
     tsv = od / f"{work}_parallel.tsv"
@@ -52,7 +56,9 @@ def run(project, work: str, deliver: bool = False, log=print) -> dict:
              ["Công cụ", f"hvalign {__version__}", "Lab/GK/hvalign"],
              ["Hiệu đính: xác nhận đúng", hd["dung"], "hieu_dinh/<MA>__<người>.tsv"],
              ["Hiệu đính: sửa chữ", hd["sua"], ""], ["Hiệu đính: gộp cặp", hd["gop"], ""],
-             ["Hiệu đính: bỏ cặp sai", hd["sai"], ""], ["", "", ""],
+             ["Hiệu đính: bỏ cặp sai", hd["sai"], ""],
+             ["Cặp có ghi chú tự động", sum(1 for n in notes if n),
+              "cột Ghi chú của DONG_HANG" if note_col else "cột Ghi chú của TRUY_VET"], ["", "", ""],
              ["Thành viên", "Số cặp", ""]]
     stats += [[m, n, ""] for m, n in sorted(by_member.items())]
     stats += [["", "", ""], ["Quyển", "Số cặp", "Thành viên"]]
@@ -60,24 +66,19 @@ def run(project, work: str, deliver: bool = False, log=print) -> dict:
     stats += [["", "", ""], ["Kiểu ghép", "Số cặp", ""]]
     stats += [[k, n, ""] for k, n in by_kind.most_common()]
     trace = [["STT", "Mã cặp", "Quyển", "Thành viên", "Kiểu", "Chi phí", "Cờ", "Hiệu đính",
-              "Mã câu Hán", "Mã câu Việt"]]
+              "Mã câu Hán", "Mã câu Việt", NOTE]]
     trace += [[i, p["pid"], p["vol"], p["member"], p["kieu"], p["chi_phi"], " ".join(p["co"]), p["hd"],
-               " ".join(p["han_ids"]), " ".join(p["viet_ids"])] for i, p in enumerate(pairs, start=1)]
+               " ".join(p["han_ids"]), " ".join(p["viet_ids"]), n]
+              for i, (p, n) in enumerate(zip(pairs, notes), start=1)]
     xlsx = od / f"{work}_parallel.xlsx"
-    write_xlsx(xlsx, [Sheet("DONG_HANG", [HEADER] + rows, [70, 90], wrap=True),
-                      Sheet("THONG_KE", stats, [22, 16, 30]),
-                      Sheet("TRUY_VET", trace, [7, 14, 7, 11, 6, 8, 18, 9, 40, 40])])
+    if note_col:
+        main = Sheet("DONG_HANG", [HEADER + [NOTE]] + [r + [n] for r, n in zip(rows, notes)], [70, 90, 45],
+                     wrap=True)
+    else:
+        main = Sheet("DONG_HANG", [HEADER] + rows, [70, 90], wrap=True)
+    write_xlsx(xlsx, [main, Sheet("THONG_KE", stats, [22, 16, 30]),
+                      Sheet("TRUY_VET", trace, [7, 14, 7, 11, 6, 8, 18, 9, 40, 40, 50])])
 
-    # Sổ hiệu đính: mỗi thành viên một tệp; cặp có cờ và chi phí cao lên đầu.
-    review_dir = scratch / "hieu_dinh"
-    for m in by_member:
-        mine = [p for p in pairs if p["member"] == m]
-        mine.sort(key=lambda p: (-len(p["co"]), -p["chi_phi"]))
-        rv = [["Mã cặp", "Kiểu", "Chi phí", "Cờ", "Hán", "Việt", "Nhãn", "Thao tác", "Ghi chú"]]
-        rv += [[p["pid"], p["kieu"], p["chi_phi"], " ".join(p["co"]), p["han"], p["viet"], "", "", ""]
-               for p in mine]
-        write_xlsx(review_dir / f"{work}_{m}.xlsx", [Sheet("HIEU_DINH", rv, [14, 6, 8, 18, 50, 70, 10, 12, 30],
-                                                           wrap=True)])
     where = "04_dong_hang (BÀN GIAO)" if deliver else f"work/{work}/xuat (xem trước)"
     done = hd["dung"] + hd["sua"] + hd["gop"] + hd["sai"]
     log(f"  Xuất {work}: {len(rows)} cặp → {where}"
@@ -125,8 +126,9 @@ def validate(project, work: str, deliver: bool = False, log=print) -> tuple[list
         errs.append("XLSX không có sheet DONG_HANG")
     else:
         data = wb.sheets["DONG_HANG"]
-        if not data or data[0][:2] != HEADER:
-            errs.append(f"XLSX: dòng tiêu đề phải là {HEADER}, đang là {data[0][:2] if data else '(trống)'}")
+        head = data[0] if data else []
+        if head not in (HEADER, HEADER + [NOTE]):
+            errs.append(f"XLSX: dòng tiêu đề phải là {HEADER} (có thể thêm cột '{NOTE}'), đang là {head or '(trống)'}")
         body = [r[:2] + [""] * (2 - len(r[:2])) for r in data[1:]]
         if len(body) != len(rows):
             errs.append(f"XLSX có {len(body)} cặp, TSV có {len(rows)} cặp")

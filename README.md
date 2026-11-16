@@ -13,7 +13,7 @@
 ```
 pip install -r requirements.txt
 python -m pytest -q
-python -m hvalign app        # giao diện web; trên Windows có thể nhấp đúp Mo_hvalign.bat
+python -m hvalign app        # giao diện web: Làm tự động → Nhìn qua → Tải về (.zip); Windows: nhấp đúp Mo_hvalign.bat
 ```
 
 Dòng lệnh vẫn dùng được: `python -m hvalign run`, `python -m hvalign status`.

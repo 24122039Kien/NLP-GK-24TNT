@@ -128,8 +128,10 @@ def apply(pairs: list[dict], decisions: dict[str, dict]) -> tuple[list[dict], di
     stats["khong_khop"] = sum(1 for k in decisions if k not in pos)
     out, i = [], 0
     while i < len(pairs):
-        p = dict(pairs[i], khoa=keys[i], hd="")
+        p = dict(pairs[i], khoa=keys[i], hd="", co_may=list(pairs[i].get("co", [])))
         d = decisions.get(keys[i])
+        if d and d.get("ghi_chu"):
+            p["ghi_chu_hd"] = d["ghi_chu"]
         # gộp: cặp i + cặp ngay sau (có thể nối chuỗi i → i+1 → i+2 …)
         j = i
         while d and d["quyet_dinh"] == "gop":
@@ -140,7 +142,7 @@ def apply(pairs: list[dict], decisions: dict[str, dict]) -> tuple[list[dict], di
             q = pairs[j]
             p.update(han=p["han"] + q["han"], viet=f'{p["viet"]} {q["viet"]}',
                      han_ids=p["han_ids"] + q["han_ids"], viet_ids=p["viet_ids"] + q["viet_ids"],
-                     co=[], hd="gop")
+                     co=[], hd="gop", co_may=sorted(set(p["co_may"]) | set(q.get("co", []))))
             p["kieu"] = f'{len(p["han_ids"])}-{len(p["viet_ids"])}'
             stats["gop"] += 1
             d = decisions.get(keys[j])
