@@ -53,6 +53,18 @@ _WIKI_SIGNS = {
     "magic": re.compile(r"__(?:NO)?TOC__"),
 }
 _HTML_SIGN = re.compile(r"<!DOCTYPE\s+html|<html[\s>]|<body[\s>]|<p\s+class=", re.I)
+_SURR_PAIR = re.compile(r"&#(x[0-9a-fA-F]+|\d+);&#(x[0-9a-fA-F]+|\d+);")
+
+
+def _unescape(s: str) -> str:
+    """html.unescape, có ghép cặp thực thể surrogate: sillok viết chữ ngoài BMP (vd. 𠇶) thành
+    &#55360;&#56822;, còn html.unescape đổi từng nửa thành U+FFFD."""
+    def pair(m: re.Match) -> str:
+        hi, lo = (int(t[1:], 16) if t[0] in "xX" else int(t) for t in m.groups())
+        if 0xD800 <= hi <= 0xDBFF and 0xDC00 <= lo <= 0xDFFF:
+            return chr(0x10000 + ((hi - 0xD800) << 10) + (lo - 0xDC00))
+        return m.group(0)
+    return htmlmod.unescape(_SURR_PAIR.sub(pair, s))
 
 
 def detect_format(text: str, ext: str) -> tuple[str, str]:
@@ -293,7 +305,7 @@ def read_wikitext(text: str, doc: Doc, han: bool) -> None:
         if kind == "para" and re.fullmatch(r"'''(?!')(.+?)'''", s):
             kind = "title"
         s = re.sub(r"'{2,5}", "", s)
-        s = htmlmod.unescape(s)
+        s = _unescape(s)
         s = re.sub(r"[ ]{2,}", " ", s).strip()
         if not s:
             continue
@@ -322,7 +334,7 @@ def read_html(text: str, doc: Doc, han: bool) -> None:
         paras = re.findall(r'<p class="paragraph">(.*?)</p>', seg, flags=re.S)
         m = re.search(r'data-title="([^"]+)"', text)
         if m:
-            title = htmlmod.unescape(m.group(1)).strip()
+            title = _unescape(m.group(1)).strip()
             doc.meta["title"] = title
             doc.blocks.append(Block("heading", title, 3, 0, {"sillok": True}))
         m = re.search(r'data-id="(qsilok_[0-9_]+)"', text)
@@ -337,7 +349,7 @@ def read_html(text: str, doc: Doc, han: bool) -> None:
     for p in paras:
         p = re.sub(r"<a\b[^>]*>.*?</a>", "", p, flags=re.S)  # link tra cứu nhân vật (chỉ có ảnh)
         p = re.sub(r"<[^>]+>", "", p)
-        p = htmlmod.unescape(p)
+        p = _unescape(p)
         p = normalize_text(p, nfc=not han)
         p = re.sub(r"\s+", "" if han else " ", p).strip()
         if not p:

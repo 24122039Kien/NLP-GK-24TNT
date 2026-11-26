@@ -1,6 +1,6 @@
 # Báo cáo tự sinh – HCB_04
 
-Ngày: 2026-11-26 · hvalign 0.3.3 · **Trạng thái: dóng tự động, ghi chú tự động**
+Ngày: 2026-11-26 · hvalign 0.3.4 · **Trạng thái: dóng tự động, ghi chú tự động**
 
 ## 1. Số cặp
 
@@ -47,7 +47,7 @@ Kiểu ghép: `1-1` 64, `1-2` 2, `1-3` 1, `2-2` 1
 
 ## 5. Công cụ
 
-- `hvalign` 0.3.3 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
+- `hvalign` 0.3.4 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
 - Bước 4: tự nhận dạng định dạng nguồn (wikitext / text thuần / HTML sillok) và chuẩn hóa về một dạng.
 - Bước 7: dóng 3 tầng (mục → đoạn → câu), chi phí Gale–Church + mốc can chi và tên riêng Hán Việt.
 - Cấu hình: `config/project.yaml`, `config/works/HCB_04.yaml`, `config/phan_cong.tsv`.

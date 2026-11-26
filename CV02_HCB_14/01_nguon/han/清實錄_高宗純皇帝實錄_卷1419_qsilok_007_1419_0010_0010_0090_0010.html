@@ -1,0 +1,2827 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<!-- 검색 관련 메타태그 -->
+	<meta name="author" content="제작자(개발자)" />
+	<meta name="keywords" content="검색 키워드" />
+	<meta name="copyright" content="저작권자(개발자 또는 업체명)" />
+	<meta name="description" content="홈페이지 설명 문구">
+	<meta name="subject" content="주제">
+	<!--오픈그래프-->
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="명청실록">
+	<meta property="og:description" content="명청실록">
+	<meta property="og:site_name" content="명청실록">
+	<meta property="og:url" content="https://sillok.history.go.kr/mc/main.do" />
+	<!-- 사파리 전화번호 링크 제거-->
+	<meta name="format-detection" content="telephone=no" />
+
+	<title>명·청실록</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+	<script type="text/javascript" src="/js/libs/jquery-3.7.1.min.js"></script>
+	<script type="text/javascript" src="/js/libs/jquery-1.14.0.ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="/js/libs/jquery-1.14.0.ui.css" />
+	<script type="text/javascript" src="/js/mcsilok/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.treeview.js"></script>
+	<script type="text/javascript" src="/js/jquery.switchButton.js"></script>
+	<script type="text/javascript" src="/js/jquery.simplemodal.js"></script>
+	<script type="text/javascript" src="/js/modal.basic.js"></script>
+	<script type="text/javascript" src="/js/makePCookie.js"></script>
+	
+	<link rel="stylesheet" href="/js/libs/vakata-jstree/themes/default/style.min.css" />
+	<script src="/js/libs/vakata-jstree/jstree.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="/css/mcsilok/sub.css" />
+	<script type="text/javascript" src="/js/mcsilok/sub.js"></script>
+	
+<script type="text/javascript">
+<!--
+	$(function(){
+		//트리
+		$("#tree_menulist1, #tree_menulist2").treeview({
+			animated:"fast",
+			collapsed: true
+		});
+
+		//left_slide_on();
+
+		//툴팁
+		/* $('.tooltip').poshytip({
+			className: 'tip-yellowsimple',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			offsetY: 8,
+			alignY: 'top',
+			allowTipHover: false
+		}); */
+
+	});
+
+//-->
+	function getContextPath(){
+		return '';
+		/*
+	    var offset=location.href.indexOf(location.host)+location.host.length;
+	    var ctxPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
+	    return ctxPath;
+	    */
+	}
+
+</script>
+<script type="text/javascript" src="/js/webime/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/webime/tiny_mce_src.js"></script>
+<script type="text/javascript" src="/js/webime/common.js"></script>
+<script type="text/javascript" src="/js/webime/search.js"></script>
+<script type="text/javascript" src="/js/webime/webime_util.js"></script>
+</head>
+<body>
+<div id="skipnavi">
+	<ul>
+	<li><a href="#search_area">통합검색 바로가기</a></li>
+	<li><a href="#util_menu">메뉴 바로가기</a></li>
+	<li><a href="#cont_area">본문 바로가기</a></li>
+	</ul>
+</div>
+<div id="wrapper">
+	<!-- header start -->
+	
+
+
+
+
+
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		hInitPage();
+	});
+	
+	function notice() {
+		alert("사이트 긴급 점검중입니다.(15:00~18:00)\n검색 및 자료열람 기능에 제한이 있습니다.");
+	}
+	
+	var hf;
+	function hInitPage() {
+		hf = document.topSearchForm;
+		
+		//setImevar("topSearchWord_ime", '', "http://www.koreanhistory.or.kr");
+	}
+	
+	function searchResult(sillokType) {
+		hf.topSearchWord.value = getImevar("topSearchWord_ime").replace(/(\s+)/g," ");
+		
+		if(hf.topSearchWord.value == '') {
+			alert("검색어를 입력해주십시오.");
+			f.topSearchWord.focus();
+			return;
+		} else if(hf.topSearchWord.value.length > 100) {
+			alert("검색질의어가 100자를 초과했습니다.\n최초 100자에 대해서만 검색을 요청합니다.");
+		}
+		
+		if(sillokType == undefined) {
+			hf.sillokType.value = "S";	
+		} else {
+			hf.sillokType.value = sillokType;
+		}
+		hf.action = "/mc/searchResultList.do";
+		hf.pageIndex.value = 1;
+		hf.submit();
+	}
+	
+	function goDetailSearch() {
+		notice();
+		
+		return;
+		
+		hf.action = "/mc/detailSearch.do";
+		hf.submit();
+	}
+	
+	function goMenu(url,type,id,dist) {
+		setLog(url,type,id,dist);
+	}
+</script>
+
+<div id="wrap">
+	<header>
+		<div class="header-wrap">
+			<div class="top-bar">
+				<div class="wide-wrap">
+					<a href="https://www.history.go.kr/" target="_blank" class="top-link"><img src="/images/common/top-link-logo01.svg" alt="국사편찬위원회"></a>
+					<div class="top-link-wrap">
+						<button type="button" class="top-link-toggle" onclick="location.href='/mc/main.do'">명·청실록</button>
+						<div class="toggle-wrap">
+							<div class="item">
+								<a href="/main.do">조선왕조실록</a>
+							</div>
+							<div class="item">
+								<a href="https://sillok.history.go.kr/eslk/">영문 세종실록</a>
+							</div>
+							<div class="item">
+								<a href="https://sjw.history.go.kr/">승정원일기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="bot-area">
+				<div class="wide-wrap">
+					<div class="logo-box">
+						<h1 class="logo">
+							<a href="/mc/main.do">명·청실록</a>
+						</h1>
+						<div class="related-wrap">
+							<button type="button" class="related-toggle"><span class="blind">열기/닫기</span></button>
+							<div class="toggle-wrap">
+								<a href="/main.do">조선왕조실록</a>
+								<a href="https://sillok.history.go.kr/eslk/">영문 세종실록</a>
+								<a href="https://sjw.history.go.kr/">승정원일기</a>
+							</div>
+						</div>
+					</div>
+					
+					<div class="gnb">
+						<div class="mobile-utils">
+							<a href="/mc/help/inspection.do" class="util-anchor info">도움말</a>
+						</div>
+						<ul class="gnb-list">
+							<li class="gnb-item">
+								<a href="/mc/inspectionList.do" class="gnb-anchor">자료열람</a>
+							</li>
+							<li class="gnb-item">
+								<a href="/mc/intro/intro.do" class="gnb-anchor">명실록·청실록 소개</a>
+								<ul class="depth2-list">
+									<li><a href="/mc/intro/intro.do">소개</a></li>
+									<li><a href="/mc/intro/notes.do">일러 두기</a></li>
+									<li><a href="/mc/intro/haejae.do">해제</a></li>
+									<li><a href="/mc/intro/sitemap.do">사이트맵</a></li>
+								</ul>
+							</li>
+							<li class="gnb-item">
+								<a href="javascript:setLog('/mc/board/errorReportList.do','MD','','13');" class="gnb-anchor">오류신고</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="util-area">
+						<a href="/mc/help/inspection.do" class="util-anchor info mobile-hide">도움말</a>
+						<button type="button" class="util-anchor search">통합검색</button>
+						<a href="/mc/intro/sitemap.do" class="util-anchor sitemap">사이트맵</a>
+						<button type="button" class="util-anchor menu">메뉴열기</button>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<!-- 통합검색 영역 -->
+		<div class="search-panel">
+			<form id="topSearchForm" name="topSearchForm" action="/mc/id/qsilok_007_1419_0010_0010_0090_0010" method="post">
+				<input type="hidden" id="topSearchWord" name="topSearchWord" value=""/>
+				<input type="hidden" id="sillokType" name="sillokType" value=""/>
+				<input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
+				<input type="hidden" id="initPageUnit" name="initPageUnit" value="0"/>
+				
+				<div class="search-area">
+					<div class="input-item">
+						<div class="search-input">
+							<input type="text" title="검색어 입력" id="topSearchWord_ime" name="topSearchWord_ime" onkeydown="onEnter(event, searchResult);" autocomplete="off"/>
+							<script type="text/javascript" >
+								$(document).ready(function() { embedIme("topSearchWord_ime"); });
+							</script>
+						</div>
+
+						<!-- 자동완성 -->
+						<div class="auto-completion" id="auto_complete">
+							<ul id="autoComplete">
+							</ul>
+						</div>
+						<!-- //자동완성 -->
+					</div>
+
+					<div class="search-btns">
+						<button type="button" class="item submit" onclick="searchResult('MC')">검색</button>
+						<button type="button" class="item keywords" onclick="imeOpen('topSearchWord_ime')">문자입력기</button>
+						<a href="/mc/detailSearch.do" class="item more-search">상세검색</a>
+					</div>
+
+					<button type="button" class="search-close">닫기</button>
+				</div>
+			</form>
+		</div>
+		<!-- //통합검색 영역 -->
+	</header>
+
+
+	<!--// header end -->
+	
+	<!-- content start -->
+	<div id="content" class="clear2">
+	
+		<!-- 왼쪽영역 start : 활성 메뉴 a 에 class="on" 삽입 -->
+		
+		<!--// 왼쪽영역 end -->
+		
+		<!-- 본문영역 start -->
+		
+
+
+
+
+
+
+<script type="text/javascript" src="/js/viewer/html5_viewer.config.js"></script>
+<script type="text/javascript" src="/js/viewer/html5_viewer.js"></script>
+
+<script type="text/javascript">
+
+	var g_contextPath = "/";
+	if (g_contextPath.length > 1 && g_contextPath.endsWith('/')) {
+	    g_contextPath = g_contextPath.slice(0, -1);
+	}
+	if (g_contextPath === '/') {
+	    g_contextPath = '';
+	}
+
+	var isLoading = false;
+    var curTreeType = '';
+    var logType = "MSLK";
+    var mobileViewer = null; // [추가] 모바일 '원본' 탭을 위한 뷰어 인스턴스
+    var currentMobileImageId = null; // [추가] 현재 로드된 이미지 ID (중복 로드 방지)
+
+	$(document).ready(function(){
+        initPage();
+		$('title').text("자료열람 | "+$('title').text());
+		$('#bookmarkBtn').attr("data-type", logType);
+
+        // 모바일 '원본' 탭 클릭 핸들러
+        $('#dmvControl02').on('click', function() {
+            var currentId = 'qsilok_007_1419_0010_0010_0090_0010';
+            // 탭이 클릭되었고, 현재 ID가 이전에 로드된 ID와 다를 경우에만 로드
+            if (currentId && currentId !== currentMobileImageId) {
+                loadMobileOriginViewer(currentId);
+            }
+        });
+        
+		// '원문' 탭(모바일) 클릭 핸들러
+        $('#dmvControl01').on('click', function() {
+            // '원문' 탭으로 돌아갈 때, PC 팝업이 정상 동작하도록 전역 viewerConfig의 ID를 PC 기본값으로 복원합니다.
+            if (typeof viewerConfig !== 'undefined' && viewerConfig !== null) {
+                viewerConfig.canvasAreaId = 'canvas_area'; // PC 팝업용 ID
+                viewerConfig.canvasId = 'img_canvas';     // PC 팝업용 ID
+            }
+            
+            // '원본' 탭의 뷰어 인스턴스가 있다면 파괴 (메모리 정리)
+            if (mobileViewer && typeof mobileViewer.destroy === 'function') {
+                mobileViewer.destroy();
+            }
+            mobileViewer = null;
+            currentMobileImageId = null; // '원본' 탭에 다시 올 수 있도록 ID 초기화
+        });
+
+    	// 모바일 확대/축소 버튼 기능 전환
+    	var dataViewContainer = document.getElementById('dataView');
+    	
+    	if (dataViewContainer) {
+    		// 'click' 이벤트를 캡처 단계(마지막 인자가 true)에서 리스닝. 이 핸들러는 sub.js의 jQuery 핸들러(버블 단계)보다 반드시 먼저 실행됨
+    		dataViewContainer.addEventListener('click', function(e) {
+    			
+    			var buttonTarget = e.target.closest('.font-resize');
+    			
+    			// 버튼이 아니라면(null) 종료
+    			if (!buttonTarget) {
+    				return;
+    			}
+    			
+    			// 원본 탭이 활성화 상태인지 확인
+    			if ($('#dmvControl02').hasClass('active')) {
+    				
+    				// 원본 탭이 맞다면 이벤트가 버블 단계로 진행되는 것을 막고, sub.js에 있는 다른 핸들러의 실행도 즉시 중단
+    				e.stopImmediatePropagation();
+    				e.preventDefault();
+
+    				// 뷰어가 초기화되었는지 확인하고, 클릭된 버튼에 따라 적절한 뷰어 함수를 호출
+    				if (mobileViewer) {
+    					if ($(buttonTarget).hasClass('zoom')) {
+    						mobileViewer.zoomIn();
+    					} else if ($(buttonTarget).hasClass('reduction')) {
+    						mobileViewer.zoomOut();
+    					}
+    				}
+    			}
+    			
+    			// 원본 탭이 아니라면 (국역/원문) 아무것도 하지 않고, 이벤트는 정상적으로 버블 단계로 진행되어 sub.js의 핸들러가 폰트 크기를 조절
+    			
+    		}, true);
+    	}
+    	
+    	// 저장된 모바일 탭 활성화
+        var activeMobileTab = getCookie('mobileTab');
+        
+        if (activeMobileTab && $('#' + activeMobileTab).length) {
+            var $activeTabButton = $('#' + activeMobileTab);
+            var panelId = $activeTabButton.attr('aria-controls');
+
+            // 모든 탭 비활성화 -> 저장된 탭 활성화
+            $('.detail-tab-head .btn-tab').removeClass('active');
+            $('.view-area .view-item').removeClass('active');
+
+            $activeTabButton.addClass('active');
+            $('#' + panelId).addClass('active');
+
+            // 원본 탭이 선택된 상태라면 뷰어 로드 함수 호출
+            // ID가 dmvControl02이고, mobileViewer 객체가 아직 없을 때 실행
+            if (activeMobileTab === 'dmvControl02' && !mobileViewer) {
+                var currentId = 'qsilok_007_1419_0010_0010_0090_0010';
+                if(currentId) {
+                    // 약간의 딜레이를 주어 DOM 렌더링 후 실행
+                    setTimeout(function() {
+                        loadMobileOriginViewer(currentId);
+                    }, 100);
+                }
+            }
+        }
+
+        // 모바일 탭 클릭 시 쿠키 저장
+        $(document).on('click', '.detail-tab-head .btn-tab', function() {
+            var tabId = $(this).attr('id');
+            if (tabId) {
+                setCookie('mobileTab', tabId, 1); 
+            }
+        });
+		
+    });
+	
+	$(window).on('load', function() {
+		isLoading = true;
+	});
+    
+	function initPage() {
+    	if('C' == 'C'){
+    		logType = 'CSLK'
+    	}
+        
+		// 세션에 저장된 트리(MC_TREE)가 있는지 확인
+    	
+		
+			deleteCookie("MC_TREE_SLIDE_BTN");
+			deleteCookie("MC_TREE_TYPE");
+			initTree('M');
+		
+    }
+	
+	function popErrorReport(title, id, target) {
+		$.ajax({
+			type: "get",
+			url : "/mc/popup/errorReport.do?title="+encodeURI(title)+"&id="+id,
+			async: false,
+			success: function(result) {
+				var r = $.trim(result);
+				if ( r != "" ) {
+					$("#report-lp").html( r );
+					$("#report-lp").scrollTop(0);
+					lpHeight();
+				}
+				else {
+					alert("조회 결과가 없습니다.");
+				}
+				
+				// 레이어 팝업 표시
+			    var $target = $(target);
+			    if ($target.length) {
+			        $target.addClass('active');
+			        lpHeight();
+			    }
+			},
+			error:function(request,status,error){
+				//alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function popPrint(id) {
+		window.open('',"popPrint","toolbar=no,status=no,width=1150,height=700,directories=no,scrollbars=yes,location=no,resizable=yes,menubar=no");
+		var url = "/mc/popup/print.do";
+		
+		  var form = document.searchMonth;
+          form.id.value = id;
+          form.treeType.value = 'C';
+            if(id.indexOf("msilok_$") != -1){
+                form.level.value = '1';
+            } else {
+                form.level.value = '6';
+            }
+            
+            form.kingName.value = '高宗純皇帝';
+            form.silokName.value = '高宗純皇帝實錄';
+            form.dateInfo.value = '1792년 12월 24일';
+            form.action = url;
+            form.target="popPrint"
+            form.submit();
+	}
+	
+	function popCompare(id) {
+		var url = "/mc/popup/compare.do?id="+id;
+		window.open(url,"popPrint","toolbar=no,status=no,width=1200,height=900,directories=no,scrollbars=yes,location=no,resizable=yes,menubar=no");
+	}
+	
+	function insetViewLog(url,type,id,dist) {
+	    $.ajax({
+	        type: "post",
+	        url : getContextPath()+"/insertLog.do?e_log_type="+type+"&dist="+dist+"&id="+id,
+	        success: function(result) {
+	        },
+	        error:function(request,status,error){
+	            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	        },complete:function(){
+	        	  var form = document.searchMonth;
+	              form.id.value = id;
+	              form.treeType.value = 'C';
+	                if(id.indexOf("msilok_$") != -1){
+	                    form.level.value = '1';
+	                } else {
+	                    form.level.value = '6';
+	                }
+	                
+	                form.kingName.value = '高宗純皇帝';
+	                form.silokName.value = '高宗純皇帝實錄';
+	                form.dateInfo.value = '1792년 12월 24일';
+	                form.action = "/mc/id/"+encodeURIComponent(id);
+	                form.target="_self"
+	                form.submit();
+	        }
+	    });
+	}
+	
+	function goArticle(id) {
+		if(!isLoading) {
+			alert("로딩중입니다. 잠시 후에 다시 눌러주시기 바랍니다.");
+			return;
+		} else {
+			isLoading = false;
+		}
+		
+		insetViewLog('',logType,id,'');
+	}
+	
+    var hIndex = 0;
+    function goHighlight() {
+         var cnt = $('.search_keyword_bd').length;
+         if(hIndex < cnt) {
+            $('.search_keyword_bd').get(hIndex).scrollIntoView(true); 
+         }
+         $('.search_keyword_bd').each(function(index){
+             if(index == hIndex) {
+                 $(this).css("border","2px solid #0000ff");
+             } else {
+            	 $(this).css("border","2px solid #f06c49");
+             }
+         });
+         
+         if(hIndex < cnt) {
+             hIndex++;
+         } else {
+             hIndex = 0;         
+         }
+     }
+     
+     $(this).click(function() {
+ 		$('.search_keyword_bd').each(function(index){
+ 			$(this).css("border","");	
+ 		});
+ 	});
+	
+	function goUp(id) {
+		var form = document.searchMonth;
+		form.id.value = 'qsilok_007_1419_0010_0010_0090';
+		form.treeType.value = 'C';
+		form.level.value = '5';
+		form.kingName.value = '高宗純皇帝';
+		form.silokName.value = '高宗純皇帝實錄';
+		form.dateInfo.value = '1792년 12월 24일';
+		form.target="_self"
+		form.action = "/mc/inspectionDayList.do";
+		form.submit();
+	}
+	
+	function goUp2(id) {
+		if(id.length == 35) {
+			window.location = "/mc/id/"+id.substring(0, 25);
+		} else if(id.length == 30) {
+			window.location = "/mc/id/"+id.substring(0, 25);
+		} else if(id.length == 25) {
+			window.location = "/mc/id/"+id.substring(0, 20);
+		} else if(id.length == 20) {
+
+		} else if(id.length == 15) {
+
+		}
+	}
+	
+	function goUp3(id) {
+		window.location = "/mc/id/"+id;
+	}
+	
+	function searchView(seq) {
+		if(!isLoading) {
+			alert("로딩중입니다. 잠시 후에 다시 눌러주시기 바랍니다.");
+			return;
+		} else {
+			isLoading = false;
+		}
+		
+		var f = document.searchForm;
+		f.seq.value = seq;
+        f.searchType.value = "view";
+        f.target="_self"
+		$.ajax({
+            type :'post',
+            data : $('form[name=searchForm]').serialize(),
+            url : "/mc/getDetailViewID.do",
+            success : function(data){            	
+                data = $.trim(data)
+                if(data.length < 1){
+                    alert('검색된 ID가 존재하지 않습니다.');
+                } else {
+                	var logType = 'MSLK'
+                	if(f.treeType.value == 'C'){
+                		 logType = 'CSLK'
+                	}
+                	var id = data;
+                    $.ajax({
+                        type:'post',
+                        url : '/insertLog.do',
+                        data : { e_log_type : logType, dist : '', id : data },
+                        success : function(data){
+                        	  f.action = "/mc/id/"+encodeURIComponent(id);
+                        	  f.target="_self"
+                              f.submit();
+                        }, error:function(){
+                        }
+                   });
+                }
+            }
+        });
+		
+	}
+	
+	function listView(id) {
+		window.location = "/mc/id/"+encodeURIComponent(id); 
+	}
+	
+	function goSearch() {
+		var f = document.searchForm;
+		f.searchType.value = "view";
+		f.action = "/mc/searchResultList.do";
+		f.submit();
+	}
+	
+	function idclipboard(silid) {
+	    var cliptext = silid;
+	    var message = '기사 ID가 복사되었습니다.\nCtrl + V 또는 붙여 넣기를 선택하여 이용하시기 바랍니다.';
+	    copyToClipboard(cliptext, message);
+	}
+	
+	function urlclipboard(silid) {
+	    // location.origin + contextPath + /mc/id/ + ID 조합
+	    var cliptext = location.origin + g_contextPath + "/mc/id/" + silid;
+	    var message = '주소가 복사되었습니다.\nCtrl + V 또는 붙여 넣기를 선택하여 이용하시기 바랍니다.';
+	    copyToClipboard(cliptext, message);
+	}
+	
+	function copyToClipboard(text, successMessage) {
+	    // 1. Clipboard API (Async) - HTTPS 또는 localhost
+	    if (navigator.clipboard && window.isSecureContext) {
+	        navigator.clipboard.writeText(text).then(function() {
+	            alert(successMessage);
+	        }, function(err) {
+	            console.error('클립보드 복사 실패 (Async):', err);
+	            alert('복사에 실패했습니다. 브라우저 설정을 확인해주세요.');
+	        });
+	    } else {
+	        // 2. document.execCommand (Fallback) - HTTP 또는 구형 브라우저
+	        try {
+	            const textarea = document.createElement('textarea');
+	            textarea.value = text;
+	            textarea.style.position = 'fixed';
+	            textarea.style.top = '-9999px';
+	            textarea.style.left = '-9999px';
+	            textarea.style.opacity = 0;
+
+	            document.body.appendChild(textarea);
+	            textarea.focus();
+	            textarea.select();
+	            document.execCommand('copy');
+	            document.body.removeChild(textarea);
+	            alert(successMessage);
+	        } catch (err) {
+	            console.error('클립보드 복사 실패 (Fallback):', err);
+	            alert('복사에 실패했습니다.');
+	        }
+	    }
+	}
+	
+	function popViewImage(src) {
+		var url = "/images/mcimg/"+src+".jpg";
+		window.open(url,"popViewImage","toolbar=no,status=no,width=1200,height=768,directories=no,scrollbars=yes,location=no,resizable=yes,menubar=no");
+	}
+
+	function checkBookmark(){
+	    const $btn = $('.bookmark-btn').eq(0);
+	    const type = $btn.data("type");
+	    const id   = $btn.data("id");
+	    let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks") || "[]");
+
+	    if(bookmarks.some(b => b.type === type && b.id === id)){
+	        $btn.addClass('active');
+	    } else {
+	        $btn.removeClass('active');
+	    }
+	}
+	$(function(){
+		checkBookmark()
+	})
+	
+	// 책갈피 저장
+	$(document).on("click", ".bookmark-btn", function(){
+		const $btn = $(this);
+	    const type = $(this).data("type");
+	    const id   = $(this).data("id");
+	    const title = $(this).data("title");
+
+	    // sessionStorage 저장 구조: [{type:'SLK', id:'abc123', title:'기사제목'}, ...]
+	    let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks") || "[]");
+	    const idx = bookmarks.findIndex(b => b.type === type && b.id === id);
+
+	    if (idx === -1) {
+	        // 신규 저장
+	        bookmarks.unshift({
+	            type: type,
+	            id: id,
+	            title: title,
+	            date: new Date().toISOString()
+	        });
+	        sessionStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+
+	        $btn.addClass('active');
+	        alert("책갈피가 저장되었습니다.");
+	    } else {
+	        // 이미 존재 → 해제(삭제)
+	        bookmarks.splice(idx, 1);
+	        sessionStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+
+	        $btn.removeClass('active');
+	        alert("책갈피가 해제되었습니다.");
+	    }
+
+	});
+
+    /**
+     * 모바일 '원본' 탭을 위한 이미지 뷰어를 로드합니다.
+     * imageViewerLoader() 호출 직전에 전역 viewerConfig의 canvas ID를 모바일용으로 변경합니다.
+     * 이 설정은 '원문' 탭이 클릭될 때까지 유지됩니다.
+     * @param {string} levelId - 현재 기사 ID (CURRENT_DOCUMENT_ARTICLE.id)
+     */
+    function loadMobileOriginViewer(levelId) {
+        if (!levelId) {
+            console.error("모바일 뷰어를 위한 levelId가 없습니다.");
+            $("#dmv02 #mobile_canvas_area").html("<p style='padding: 20px; text-align: center;'>이미지 ID가 없습니다.</p>");
+            return;
+        }
+
+        // 명청실록용 URL 생성
+        var isQing = levelId.indexOf('qsilok') === 0;
+        var viewerUrl = getContextPath() + (isQing ? "/qImageViewer" : "/mImageViewer") + "?levelId=" + levelId;
+
+        currentMobileImageId = levelId; 
+
+        // 명청실록용 AJAX 호출
+        $.ajax({
+            type: "GET",
+            url: viewerUrl,
+            dataType: "html", 
+            success: function(responseHtml) {
+                
+                // 탭 전환(DOM 렌더링)을 기다리기 위해 폴링(polling) 방식 사용
+                var pollCount = 0;
+                var maxPolls = 50; // 최대 5초간 시도
+
+                var initViewerInterval = setInterval(function() {
+                    
+                    var $container = $('#mobile_canvas_area');
+                    
+                    // 모바일 캔버스 영역이 DOM에 존재하고 'visible' 상태인지 확인
+                    if ($container.length > 0 && $container.is(':visible')) {
+                        clearInterval(initViewerInterval);
+                        
+                        try {
+                            // 명청실록용 imgArr 파싱
+                            var imgArrMatch = responseHtml.match(/imgArr\s*=\s*(\[.*?\]);/);
+                            if (imgArrMatch && imgArrMatch[1]) {
+                                var imgArr = new Function('return ' + imgArrMatch[1])();
+
+                                if (imgArr && imgArr.length > 0) {
+                                    
+                                    if (typeof imageViewerLoader !== 'function') {
+                                        console.error("html5_viewer.js가 로드되지 않았습니다.");
+                                        $("#dmv02 #mobile_canvas_area").html("<p style='padding: 20px; text-align: center;'>이미지 뷰어 로드에 실패했습니다. (loader)</p>");
+                                        return;
+                                    }
+                                    if (typeof viewerConfig === 'undefined') {
+                                        console.error("html5_viewer.config.js가 로드되지 않았거나 viewerConfig 전역 변수가 없습니다.");
+                                        $("#dmv02 #mobile_canvas_area").html("<p style='padding: 20px; text-align: center;'>이미지 뷰어 로드에 실패했습니다. (config)</p>");
+                                        return;
+                                    }
+
+                                    if (mobileViewer && typeof mobileViewer.destroy === 'function') {
+                                        mobileViewer.destroy();
+                                        mobileViewer = null;
+                                    }
+                                    
+                                    // 전역 'viewerConfig'의 ID를 모바일용으로 변경
+                                    viewerConfig.canvasAreaId = 'mobile_canvas_area';
+                                    viewerConfig.canvasId = 'mobile_img_canvas';
+                                    
+                                    viewerConfig.highLightingUse = false; 
+                                    
+                                    // (중요) 캔버스 높이가 100%로 강제되는 것을 방지
+                                    //    기본 설정(viewerConfig 덤프)에 포함된 style 속성을 'height:100%'가 없는 값으로 덮어씁니다.
+                                    viewerConfig.style = "background-color:FFFFFF;";
+                                    
+                                    // (중요) 높이 관련 설정을 비워 뷰어가 자동 계산하도록 함
+                                    viewerConfig.height = 0; // 0 또는 빈 값
+                                    viewerConfig.viewerHeight = ""; // 100%가 아니도록
+                                    viewerConfig.heightMargin = 0;
+                                    
+                        			// 모바일 UI에 맞게 버튼 기능 활성화
+                        			viewerConfig.next = [true, 'mobile_next_btn'];
+                        			viewerConfig.before = [true, 'mobile_prev_btn'];
+                        			viewerConfig.goFirst = [true, 'mobile_first_btn'];
+                        			viewerConfig.goEnd = [true, 'mobile_last_btn'];
+                        			
+                        			// 모바일 UI에 없는 PC 버튼/기능 비활성화
+/*                         			viewerConfig.zoomSlider = [false, ''];
+                        			viewerConfig.angleLeft = [false, ''];
+                        			viewerConfig.angleRight = [false, ''];
+                        			viewerConfig.dualMode = [false, ''];
+                        			viewerConfig.imageSave = [false, ''];
+                        			viewerConfig.imagePrint = [false, ''];
+                        			viewerConfig.zoomIn = [false, ''];
+                        			viewerConfig.zoomOut = [false, ''];
+                        			viewerConfig.webBookTypeUse = false; // 웹북 스타일 비활성화 */
+                                    
+                                    // 뷰어 생성 (변경된 전역 config를 참조)
+                                    mobileViewer = imageViewerLoader(); 
+                                    
+                                    // 뷰어 초기화
+                                    mobileViewer.addFile(imgArr);
+                                    mobileViewer.eventAdd();
+                                    mobileViewer.goPage();
+                                    mobileViewer.reDrawDiv();
+
+                                } else {
+                                    $("#dmv02 #mobile_canvas_area").html("<p style='padding: 20px; text-align: center;'>원본 이미지를 불러올 수 없습니다.</p>");
+                                }
+                            } else {
+                                $("#dmv02 #mobile_canvas_area").html("<p style='padding: 20px; text-align: center;'>원본 이미지 정보가 없습니다.</p>");
+                            }
+                        } catch (e) {
+                            console.error("모바일 뷰어 HTML 처리 중 오류:", e, e.stack);
+                            $("#dmv02 #mobile_canvas_area").html("<p style='padding: 20px; text-align: center;'>오류가 발생했습니다.</p>");
+                            
+                            // 오류 발생 시 즉시 PC용으로 복원
+                            if (typeof viewerConfig !== 'undefined' && viewerConfig !== null) {
+                                viewerConfig.canvasAreaId = 'canvas_area';
+                                viewerConfig.canvasId = 'img_canvas';
+                            }
+                        }
+                    
+                    } else if (pollCount > maxPolls) {
+                        // 타임아웃
+                        clearInterval(initViewerInterval);
+                        console.error("모바일 뷰어 타임아웃: #mobile_canvas_area 요소를 찾거나 'visible' 상태가 아님.");
+                        $("#dmv02 #mobile_canvas_area").html("<p style='padding: 20px; text-align: center;'>뷰어 로드에 실패했습니다. (timeout)</p>");
+                    
+                    } else {
+                        // DOM 렌더링 대기
+                        pollCount++;
+                    }
+                    
+                }, 100); // 100ms 마다 캔버스 컨테이너가 렌더링되었는지 확인
+
+            },
+            error: function(request, status, error) {
+                console.error("모바일 뷰어 HTML 로드 실패:", status, error);
+                currentMobileImageId = null; 
+                $("#dmv02 #mobile_canvas_area").html("<p style='padding: 20px; text-align: center;'>원본 이미지를 불러오는 데 실패했습니다.</p>");
+            }
+        });
+    }
+</script>
+
+	  <form id="searchMonth" name="searchMonth" action="/mc/id/qsilok_007_1419_0010_0010_0090_0010" method="post">
+            <input type="hidden" id="id" name="id"/>
+            <input type="hidden" id="level" name="level"/>
+            <input type="hidden" id="treeType" name="treeType"/>
+            <input type="hidden" id="kingName" name="kingName"/>
+            <input type="hidden" id="silokName" name="silokName"/>
+            <input type="hidden" id="dateInfo" name="dateInfo"/>
+            <input type="hidden" id="index" name="index"/>
+       </form>
+       
+	<form id="searchForm" name="searchForm" action="/mc/id/qsilok_007_1419_0010_0010_0090_0010" method="post">
+        <input type="hidden" id="id" name="id" value=""/>
+        <input type="hidden" id="seq" name="seq" value=""/>
+        <input type="hidden" id="did" name="did" value=""/>
+        <input type="hidden" id="level" name="level" value=""/>
+        <input type="hidden" id="treeType" name="treeType" value=""/>
+        <input type="hidden" id="type" name="type" value=""/>
+        <input type="hidden" id="sillokType" name="sillokType" value=""/>
+        <input type="hidden" id="searchType" name="searchType" value=""/>
+        <input type="hidden" id="endIndex" name="endIndex" value=""/>
+        <input type="hidden" id="kingHg" name="kingHg" value=""/>
+        <input type="hidden" id="topSearchWord" name="topSearchWord" value=''/>
+        <input type="hidden" id="topSearchWord_ime" name="topSearchWord_ime" value=''/>
+        <input type="hidden" id="reSearchWords" name="reSearchWords" value=''/>
+        <input type="hidden" id="reSearchWords_ime" name="reSearchWords_ime" value=''/>
+        
+        <input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
+        
+        <input type="hidden" id="title" name="title" value=""/>
+        <input type="hidden" id="contents" name="contents" value=""/>
+        <input type="hidden" id="person" name="person" value=""/>
+        <input type="hidden" id="place" name="place" value=""/>
+        <input type="hidden" id="book" name="book" value=""/>
+        <input type="hidden" id="annotation" name="annotation" value=""/>
+        <input type="hidden" id="titleRadio" name="titleRadio" value=""/>
+        <input type="hidden" id="contentsRadio" name="contentsRadio" value=""/>
+        <input type="hidden" id="personRadio" name="personRadio" value=""/>
+        <input type="hidden" id="placeRadio" name="placeRadio" value=""/>
+        <input type="hidden" id="bookRadio" name="bookRadio" value=""/>
+        <input type="hidden" id="annotationRadio" name="annotationRadio" value=""/>
+        <input type="hidden" id="criticismRadio" name="criticismRadio" value=""/>
+        <input type="hidden" id="date" name="date" value=""/>
+        <input type="hidden" id="startDate" name="startDate" value=""/>
+		<input type="hidden" id="endDate" name="endDate" value=""/>
+		<input type="hidden" id="synType" name="synType" value=""/>
+		<input type="hidden" id="transType" name="transType" value=""/>
+    </form>
+    
+    
+
+        <main>
+			<!-- 네비게이션 -->
+			<div id="breadcrumbs">
+				<div class="wide-wrap">
+					<ul class="list">
+						<li class="item home">
+							<a href="/mc/main.do" class="anchor">HOME</a>
+						</li>
+						<li class="item">
+							<a href="/mc/inspectionList.do" class="anchor">자료열람</a>
+						</li>
+						
+						
+							<li class="item"><a href="javascript:searchTree('qsilok_007', '1', 'C','高宗純皇帝', '高宗純皇帝實錄');" class="anchor">高宗純皇帝實錄</a></li>
+							<li class="item"><a href="javascript:searchTree('qsilok_007_1419', '2', 'C','高宗純皇帝', '高宗純皇帝實錄');" class="anchor">乾隆五十七年</a></li>
+							<li class="item"><a href="javascript:searchTree('qsilok_007_1419_0010_0010', '5', 'C','高宗純皇帝', '高宗純皇帝實錄', '1792년 12월');" class="anchor">乾隆五十七年 十二月</a></li>
+							<li class="item"><a href="javascript:searchTree('qsilok_007_1419_0010_0010_0090', '5', 'C','高宗純皇帝', '高宗純皇帝實錄', '1792년 12월 24일');" class="anchor">乾隆五十七年 十二月 二十四日</a></li>
+						
+					</ul>
+				</div>
+			</div>
+			<!-- //네비게이션 -->
+
+			<div id="content">
+				<div class="wide-wrap">
+					<!-- 자료열람 -->
+					<div id="dataView">
+						<div id="left-menu" class="hide">
+							<button type="button" class="left-toggle">접기</button>
+							<div class="left-menu-inner">
+								<h2 class="sub-title">자료열람</h2>
+								<div class="left-tab">
+						        	<button type="button" class="item active" onclick="initTree('M');">명실록</button>
+						            <button type="button" class="item" onclick="initTree('C');">청실록</button>
+								</div>
+
+								<div class="view-left">
+									<ul class="view-list">
+										<li class="depth1-item">
+											<div class="tree-wrap tree_wrap">
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+						<!-- 우측 컨텐츠 -->
+						<div class="content-wrap wide">
+							<h3 class="content-title"> 
+								<div class="utils mobile-show">
+									<div class="inner">
+										<button type="button" id="dynastyOpen" class="btn-dynasty">전체왕대</button>
+										<button type="button" class="btn-item share" title="주소복사" onclick="urlclipboard('qsilok_007_1419_0010_0010_0090_0010')"></button>
+										
+										
+						                     <button type="button" class="btn-item error" title="오류신고" onclick="popErrorReport('高宗純皇帝實錄 > 1419권 > 1792년 > 1792년 12월 > 1792년 12월 24일 > 高宗純皇帝實錄 卷之一千四百十九 乾隆五十七年 十二月 二十四日 (1 / 1 기사)','qsilok_007_1419_0010_0010_0090_0010', '#report-lp')"><span class="blind">오류신고</span></button>
+						                
+									</div>
+								</div>
+							</h3>
+						
+						
+							<div class="detail-view">
+								<div class="title-head">
+									<div class="title">
+										<!-- <p class="date">미상 / 1번째기사1352년</p> -->
+										<h3>
+										
+											
+											
+											
+												
+													
+													
+													
+													
+														高宗純皇帝實錄 卷之一千四百十九 乾隆五十七年 十二月 二十四日 / 1/1 기사 <span>1792년</span>
+													
+												
+											
+											
+											
+											
+										
+										</h3>
+										<!-- <h3>太祖高皇帝實錄 卷一 壬辰歲 九月</h3> -->
+									</div>
+
+									<div class="right-area">
+										<div class="detail-tab-head">
+											<button type="button" class="btn-tab active" id="dmvControl01" aria-controls="dmv01">원문</button>
+											<button type="button" class="btn-tab" id="dmvControl02" aria-controls="dmv02">원본</button>
+										</div>
+										
+										<div class="btn-area mobile-hide">
+											<button type="button" class="origin-btn" onclick="viewerChk('qsilok_007_1419_0010_0010_0090_0010')">원본</button>
+											<button type="button" class="bookmark-btn" id="bookmarkBtn" data-id="qsilok_007_1419_0010_0010_0090_0010" data-title="高宗純皇帝實錄 卷之一千四百十九 乾隆五十七年 十二月 二十四日" data-type="CSLK" title="책갈피">책갈피</button>
+										</div>
+									</div>
+									<!-- 모바일 버튼 -->
+									<div class="view-btns">
+										<div class="inner">
+											<div class="btn-wrap">
+												<button type="button" class="btn-item color" title="본문색상 on/off"></button>
+												<button type="button" class="btn-item bookmark bookmark-btn" data-id="qsilok_007_1419_0010_0010_0090_0010" data-title="高宗純皇帝實錄 卷之一千四百十九 乾隆五十七年 十二月 二十四日" data-type="CSLK" title="책갈피"></button>
+												<button type="button" class="btn-item font-resize zoom" title="확대"></button>
+												<button type="button" class="btn-item font-resize reduction" title="축소"></button>
+											</div>
+										</div>
+									</div>
+									<!-- //모바일 버튼 -->
+								</div>
+
+								<div class="view-btns">
+									<button type="button" class="btn-mo-utils"><span>열기/닫기</span></button>
+									<div class="inner">
+										<div class="btn-wrap">
+											
+												
+												
+											
+										</div>
+		
+										<div class="btn-wrap">
+											
+												
+												<a href="#" onclick="goArticle('qsilok_007_1419_0010_0010_0080_0020'); return false;" class="btn-item prev2" title="내용 중 앞문서"></a>
+											
+							                
+							                    
+							                    <a href="#" onclick="goArticle('qsilok_007_1419_0010_0010_0100_0010'); return false;" class="btn-item next2" title="내용 중 뒷문서"></a>
+							                
+							                
+											
+							                
+												
+													
+								                    
+								                    <a href="#" onclick="goUp('qsilok_007_1419_0010_0010_0090'); return false;" class="btn-item parent" title="내용 중 상위문서"></a>
+							                    
+											
+											
+											<button type="button" class="btn-item font-resize zoom" title="확대"></button>
+											<button type="button" class="btn-item font-resize reduction" title="축소"></button>
+											<button type="button" class="btn-item print" title="인쇄" onclick="popPrint('qsilok_007_1419_0010_0010_0090_0010')"></button>
+		
+											<div class="absolute-wrap">
+												<button type="button" class="btn-item share" title="주소복사"></button>
+		
+												<div class="absolute-item">
+													<button type="button" class="absolute-btn" onclick="idclipboard('qsilok_007_1419_0010_0010_0090_0010')">기사ID</button>
+													<button type="button" class="absolute-btn" onclick="urlclipboard('qsilok_007_1419_0010_0010_0090_0010')">URL</button>
+												</div>
+											</div>
+		
+											<button type="button" class="btn-item color" title="본문색상 on/off"></button>
+											<!-- <button type="button" class="btn-item error" title="오류신고" onclick="layerpopupOpen('#report-lp')">오류신고</button> -->
+											
+											
+							                     <button type="button" class="btn-item error" title="오류신고" onclick="popErrorReport('高宗純皇帝實錄 > 1419권 > 1792년 > 1792년 12월 > 1792년 12월 24일 > 高宗純皇帝實錄 卷之一千四百十九 乾隆五十七年 十二月 二十四日 (1 / 1 기사)','qsilok_007_1419_0010_0010_0090_0010', '#report-lp')">오류신고</button>
+							                
+										</div>
+									</div>
+								</div>
+
+								<div class="view-area">
+									<!-- PC 원문 -->
+									<div class="view-item active" id="dmv01" aria-labelledby="dmvControl01">
+										<div class="view-text">
+											
+											
+											<p class="paragraph">○戊子。</p><p class="paragraph">上幸瀛臺。朝鮮國正使朴宗岳、副使徐龍輔等六人。安南國陪臣武永城、陳玉視等四人。暹羅國正使帕史滑。理遜通亞排那赤突、副使朗喎汶悉呢霞喔撫突等四人。並廓爾喀貢使噶箕第烏達特塔巴等四人。於西苑門外瞻覲。</p>
+
+										</div>
+									</div>
+									<!-- //PC 원문 -->
+									<!-- 모바일 원본 -->
+									<div class="view-item mobile" id="dmv02" aria-labelledby="dmvControl02">
+										<div class="origin-area" id="mobile_canvas_area" style="min-height: 400px; position: relative; width: 100%; overflow: hidden;">
+                                            <canvas class="view-canvas" id="mobile_img_canvas"></canvas>
+                                        </div>
+                                        
+										<div class="origin-control">
+											<div class="btn-wrap">
+												<button type="button" id="mobile_first_btn" class="btn-item start">첫 페이지</button>
+												<button type="button" id="mobile_prev_btn" class="btn-item prev">이전 페이지</button>
+												<button type="button" id="mobile_next_btn" class="btn-item next">다음 페이지</button>
+												<button type="button" id="mobile_last_btn" class="btn-item end">마지막 페이지</button>
+											</div>
+										</div>
+									</div>
+									<!-- //모바일 원본 -->
+
+								
+									<button type="button" class="view-toggle">일별 목록</button>
+									<div class="view-panel">
+										<div class="panel-inner">
+											<p class="day-title">
+												乾隆五十七年 十二月 二十四日 (1792)
+											</p>
+
+											<ul class="day-list">
+												
+													<li>
+														<a href="javascript:goArticle('qsilok_007_1419_0010_0010_0090_0010');">
+															
+																
+																	제목없음
+																
+																
+															
+														</a>
+													</li>
+												
+											</ul>
+										</div>
+									</div>
+								
+									
+									<div class="controls">
+										<button type="button" class="btn_control prev"><!-- disabled 클래스 적용시 숨김 처리 -->
+											<span class="blind">이전</span>
+										</button>
+										<button type="button" class="btn_control next"><!-- disabled 클래스 적용시 숨김 처리 -->
+											<span class="blind">다음</span>
+										</button>
+										
+											
+											
+												<button type="button" class="btn_control prev" onclick="goArticle('qsilok_007_1419_0010_0010_0080_0020'); return false;"><!-- disabled 클래스 적용시 숨김 처리 -->
+													<span class="blind">내용 중 앞문서</span>
+												</button>
+											
+										
+						                
+						                    
+						                    
+							                    <button type="button" class="btn_control next" onclick="goArticle('qsilok_007_1419_0010_0010_0100_0010'); return false;"><!-- disabled 클래스 적용시 숨김 처리 -->
+													<span class="blind">내용 중 뒷문서</span>
+												</button>
+						                    
+						                
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 오류신고 팝업 - 활성화시 class active  -->
+			<div class="temp-lp small" id="report-lp">
+			</div>
+			<!-- //오류신고 팝업 -->
+
+			<!-- 원본보기 팝업 - 활성화시 class active  -->
+			<div class="temp-lp" id="origin-lp"></div>
+			<!-- //원본보기 팝업 -->
+
+			<script>
+				// 원본보기 팝업 좌측메뉴 반응형
+				$(function(){
+					if($(window).width() <= 1230) {
+						$('.origin-left').addClass('hide');
+						$('.origin-wrap').addClass('wide');
+						
+					}else {
+						$('.origin-left').removeClass('hide');
+						$('.origin-wrap').removeClass('wide');
+					}
+				})
+			</script>
+
+			<!-- 전체왕대 모바일 팝업 -->
+			<div class="dynasty-popup">
+				<div class="pop-hd">
+					<ul class="tab-hd">
+						<li><button type="button" class="btn-tab active" id="dynastyControl01" aria-controls="dynasty01">명실록</button></li>
+						<li><button type="button" class="btn-tab" id="dynastyControl02" aria-controls="dynasty02">청실록</button></li>
+					</ul>
+					<button type="button" id="dynastyClose" class="btn-close"><span class="blind">닫기</span></button>
+				</div>
+				<div class="pop-bd">
+					<!-- 명실록 -->
+					<div id="dynasty01" class="tab-pannel active" aria-labelledby="dynastyControl01">
+						<div class="dynasty-sc">
+							<ul class="list"></ul>
+						</div>
+					</div>
+					<!-- //명실록 -->
+					<!-- 청실록 -->
+					<div id="dynasty02" class="tab-pannel" aria-labelledby="dynastyControl02">
+						<div class="dynasty-sc">
+							<ul class="list"></ul>
+						</div>
+					</div>
+					<!-- //청실록 -->
+				</div>
+			</div>
+			<!-- //전체왕대 모바일 팝업 -->
+			
+		
+
+
+
+
+
+
+
+<script type="text/javascript">
+	function getContextPath(){
+		return '';
+	}
+</script>
+
+<script type="text/javascript">
+
+var currentImeTarget = ''; // 목표 에디터 ID 저장
+var originalImeAreaHtml = ''; // 초기 HTML 코드 저장
+
+imeOpen = function(target) { // 문자입력기 버튼 클릭
+	currentImeTarget = target; // 문자입력기를 새로 열 때 선택한 문자입력기가 어디인지 알려주는 target 값 저장
+	
+
+	var str = getImevar(target);
+	if(str.trim() == ''){
+		Wime.embedIme( { imeid:"ime_str", skin:"webime", value:"" } );
+
+		setImevar("ime_str", " ", "http://www.koreanhistory.or.kr");
+		$(".keywords-box #listUnicodeByKsnd").empty();
+	}else{		
+		Wime.embedIme( { imeid:"ime_str", skin:"webime", value:str, init_instance_callback:selectWordSearch, url:"http://www.koreanhistory.or.kr" } );
+	}
+	
+	Wime.setFocus("ime_str");
+
+	
+	
+    //var $target = $(target);
+    var $target = $('#keywords-lp');
+    if ($target.length) {
+        $target.addClass('active');
+    }
+    lpHeight();
+}
+
+function ime_confirm(btn) // 팝업창 확인 버튼 클릭
+{
+		var str = Wime.getText("ime_str");
+		setImevar(currentImeTarget, str.trim() , "http://www.koreanhistory.or.kr" );
+		$(btn).closest('.temp-lp').removeClass('active');
+		ime_destroy();
+}
+function ime_close(btn) // 팝업창 취소 버튼 클릭
+{
+	$(btn).closest('.temp-lp').removeClass('active');
+	ime_destroy();
+}
+function ime_clickX(btn, event) { // 팝업창 X 버튼 클릭
+	if(event && event.stopPropagation) {
+		event.stopPropagation();
+	}
+	ime_close(btn);
+}
+/* function go_cfocus( p ) // 한어병음 영문INDEX onclick 함수
+{
+	var alphaid = "#csnd_" + p.innerHTML;
+	$( alphaid ).focus();
+}
+function go_jfocus( p ) // 일본어 음독 영문INDEX onclick 함수
+{
+	var alphaid = "#jsnd_" + p.innerHTML;
+	$( alphaid ).focus();
+} */
+
+// 병음 / 음독 영문INDEX 클릭 이벤트
+function go_focus( p, idName ) {
+	let wordList = ".keywords-list" + idName;
+	$(wordList).find('button').removeClass('active');
+	
+	var alphaid = "#" + idName + "_" + p.innerHTML;
+	$( alphaid ).focus();
+	$( alphaid ).addClass('active');
+}
+
+//레이어팝업 최대 높이
+/* lpHeight = function() {
+    $('.temp-lp .lp-inner').each(function(index, element) {
+        var lpTitleHeight = $(element).closest('.temp-lp').find('.lp-title').innerHeight();
+        var lpTabHeight = $(element).closest('.temp-lp').find('.lp-tab').innerHeight();
+        
+        $(element).css('max-height', 'calc(94dvh - ' + (lpTitleHeight + lpTabHeight) + 'px)');
+    });
+} */
+
+function ime_destroy() { // TinyMCE 에디터 인스턴스 제거
+    var editor = tinymce.get('ime_str');
+    if (editor) {
+        editor.remove();
+    }
+	
+    if (originalImeAreaHtml) { // 이전에 저장해 둔 초기 HTML 코드로 입력 영역 복원
+        $('#ime_input_container').html(originalImeAreaHtml);
+    }
+}
+
+$(document).ready(function()
+{
+	if (document.getElementById('ime_input_container')) { // 페이지 로드 시, 입력 영역의 초기 HTML을 변수에 저장
+		originalImeAreaHtml = $('#ime_input_container').html();
+	}
+	
+	//var tabs = $( "#container" ).tabs();
+	//loadKsndPart("");
+	loadRadicalPart();
+	loadTotstrokePart();
+	loadNewcharRadPart();
+	loadUnicodeRangePart( "00" );
+	
+	$("button").hover(
+		function () {
+			//$("#hanjainfo").html("" + this.innerHTML );
+		}
+	);
+});
+
+</script>
+	<form name="imeform" id="imeform" action="#" onsubmit="return false;">
+			<!-- 문자입력기 팝업 활성화시 class active  -->
+			<div class="temp-lp" id="keywords-lp">
+				<div class="lp-box">
+					<button type="button" class="lp-close" onclick="ime_clickX(this, event)">닫기</button>
+					<p class="lp-title">문자입력기</p>
+					<div class="lp-cont">
+						<div class="lp-tab-wrap">
+							<div class="lp-tab">
+								<button type="button" class="tab-item active">음가로 입력</button>
+								<button type="button" class="tab-item">코드로 입력</button>
+								<button type="button" class="tab-item">부수로 입력</button>
+								<button type="button" class="tab-item">총획수로 입력</button>
+								<button type="button" class="tab-item">신출한자 입력</button>
+								<button type="button" class="tab-item">한어병음 입력</button>
+								<button type="button" class="tab-item">일본어 음독 입력</button>
+							</div>
+						</div>
+
+						<div class="lp-inner">
+							<div class="keywords-input-area">
+								<label for="keywords-input" class="label">입력문자</label>
+								<!-- <input type="text" id="keywords-input" class="keywords-input"> -->
+								<div class="keywords-input">
+									<input id="ime_str" name="ime_str" />
+								</div>
+								<button type="button" class="keywords-btn apply" onclick="ime_confirm(this)">확인</button>
+								<button type="button" class="keywords-btn close" onclick="ime_close(this)">취소</button>
+							</div>
+							
+							<!-- 음가로 입력 -->
+							<div class="lp-tabpanel">
+								<p class="lp-title2">한자목록</p>
+								<div class="keywords-box">
+									<div id="listUnicodeByKsnd" class="keywords-list">
+									</div>
+								</div>
+							</div>
+							<!-- //음가로 입력 -->
+
+							<!-- 코드로 입력 -->
+							<div class="lp-tabpanel">
+								<div class="keywords-box">
+									<div class="code-input">
+										<div class="item n1">
+											<span class="item-label">문자영역</span>
+											<select id="coderangelist" name="coderangelist" class="temp-select item-input" onchange="loadUnicodeRangePart(this.value);">
+												<option value="0" selected >라틴</option>
+												<option value="1" >라틴확장-A  </option>
+												<option value="2" >라틴확장-B  </option>
+												<option value="3" >국제 음성기호 확장  </option>
+												<option value="4" >조정문자  </option>
+												<option value="5" >조합 분음 기호(악센트)  </option>
+												<option value="6" >그리스 와 콥트  </option>
+												<option value="7" >키릴 자모   </option>
+												<option value="8" >아르메니아  </option>
+												<option value="9" >히브리  </option>
+												<option value="10" >아라비아  </option>
+												<option value="11" >Syriac  </option>
+												<option value="12" >Thaana  </option>
+												<option value="13" >데바나가리  </option>
+												<option value="14" >뱅골  </option>
+												<option value="15" >굴묵키어  </option>
+												<option value="16" >구자라트  </option>
+												<option value="17" >오리야  </option>
+												<option value="18" >타밀  </option>
+												<option value="19" >텔루구  </option>
+												<option value="20" >칸나다  </option>
+												<option value="21" >말라얄람  </option>
+												<option value="22" >Sinhala  </option>
+												<option value="23" >타이  </option>
+												<option value="24" >라오스  </option>
+												<option value="25" >티벳  </option>
+												<option value="26" >미얀마(버마)  </option>
+												<option value="27" >그루지아  </option>
+												<option value="28" >한글자모   </option>
+												<option value="29" >Ethiopic  </option>
+												<option value="30" >Cherokee  </option>
+												<option value="31" >Unified Canadian Aborignal Syllabics  </option>
+												<option value="32" >Ogham  </option>
+												<option value="33" >Runic  </option>
+												<option value="34" >크메르(캄보디아)  </option>
+												<option value="35" >몽고어  </option>
+												<option value="36" >라틴 추가 확장  </option>
+												<option value="37" >그리스 확장  </option>
+												<option value="38" >일반 구두점  </option>
+												<option value="39" >위 첨자 및 아래 첨자  </option>
+												<option value="40" >화폐 기호  </option>
+												<option value="41" >조합 분음 부호(기호)  </option>
+												<option value="42" >글자꼴 기호  </option>
+												<option value="43" >여러 가지 수  </option>
+												<option value="44" >화살표  </option>
+												<option value="45" >수학 연산자  </option>
+												<option value="46" >여러 가지 기술기호  </option>
+												<option value="47" >제어문자 기호  </option>
+												<option value="48" >문자 인식(OCR)기호  </option>
+												<option value="49" >괄호 문자  </option>
+												<option value="50" >상자 그리기 기호  </option>
+												<option value="51" >네모 기호  </option>
+												<option value="52" >도형 기호  </option>
+												<option value="53" >여러 가지 기호  </option>
+												<option value="54" >장식(DingBats) 기호  </option>
+												<option value="55" >Braille Patterns  </option>
+												<option value="56" >한중일 부수 보충  </option>
+												<option value="57" >Kangxi 부수  </option>
+												<option value="58" >한중일 기호 및 구두점  </option>
+												<option value="59" >히라가나  </option>
+												<option value="60" >가타가나  </option>
+												<option value="61" >주음부호  </option>
+												<option value="62" >호환용 한글 자모   </option>
+												<option value="63" >Kanbun  </option>
+												<option value="64" >주음부호 확장  </option>
+												<option value="65" >한중일 괄호 문자  </option>
+												<option value="66" >한중일 호환용  </option>
+												<option value="67" >한중일 통합 한자 확장-A  </option>
+												<option value="68" >한중일 통합 한자 확장-B  </option>
+												<option value="69" >한중일 통합 한자  </option>
+												<option value="70" >Yi Syllables  </option>
+												<option value="71" >Yi Radicals  </option>
+												<option value="72" >한/글 호환 영역  </option>
+												<option value="73" >한글  </option>
+												<option value="74" >특수문자  </option>
+												<option value="75" >사용자 영역(고어 포함)  </option>
+												<option value="76" >한중일 호환용 한자  </option>
+												<option value="77" >Alphabetic Presentation Forms  </option>
+												<option value="78" >Arabic Presentation Forms-A  </option>
+												<option value="79" >Combing Half Marks  </option>
+												<option value="80" >CJK Compatibility Forms  </option>
+												<option value="81" >Small Form Variants  </option>
+												<option value="82" >Arabic Presentation Forms-B  </option>
+												<option value="83" >전각/반각 모양  </option>
+											</select>
+										</div>
+
+										<div class="item n2">
+											<span class="item-label">한자목록</span>
+											<input type="text" id="codestend" class="temp-input item-input" readonly>
+											<input type="text" id="searchcode" class="temp-input item-input">
+											<a href="javascript:goSearchCode();" class="temp-btn primary">바로가기</a>
+										</div>
+									</div>
+
+									<div id="listUnicodeRange" class="keywords-list y-scroll">
+									</div>
+								</div>
+							</div>
+							<!-- //코드로 입력 -->
+
+							<!-- 부수로 입력 -->
+							<div class="lp-tabpanel">
+								<div class="keywords-box">
+									<div class="keywords-title">
+										<p class="title">부수</p>
+										<span id="listRadStroke"></span>
+									</div>
+									<div id="listRadicalByStroke" class="keywords-list">
+									</div>
+
+									<div class="keywords-title">
+										<p class="title">획수</p>
+									</div>
+									<div id="listStrokeByRadical" class="keywords-list">
+									</div>
+
+									<div class="keywords-title">
+										<p class="title">한자목록</p>
+									</div>
+									<div id="listUnicodeByRadicalStroke" class="keywords-list">
+									</div>
+								</div>
+							</div>
+							<!-- //부수로 입력 -->
+
+							<!-- 총획수로 입력 -->
+							<div class="lp-tabpanel">
+								<div class="keywords-box">
+									<div class="keywords-title">
+										<p class="title">획수</p>
+									</div>
+									<div id="listTotstroke" class="keywords-list">
+									</div>
+
+									<div class="keywords-title">
+										<p class="title">한자목록</p>
+									</div>
+									<div id="listUnicodeByTotstroke" class="keywords-list">
+									</div>
+								</div>
+							</div>
+							<!-- //총획수로 입력 -->
+
+							<!-- 신출한자 입력 -->
+							<div class="lp-tabpanel">
+								<div class="keywords-box">
+									<div class="keywords-title">
+										<p class="title">부수</p>
+										<span id="listRadStrokeNC"></span>
+									</div>
+									<div id="listRadicalByStrokeNC" class="keywords-list">
+									</div>
+
+									<div class="keywords-title">
+										<p class="title">획수</p>
+									</div>
+									<div id="listStrokeByRadicalNC" class="keywords-list">
+									</div>
+
+									<div class="keywords-title">
+										<p class="title">한자목록</p>
+									</div>
+									<div id="listUnicodeByRadicalStrokeNC" class="keywords-list">
+									</div>
+								</div>
+							</div>
+							<!-- //신출한자 입력 -->
+
+							<!-- 한어병음 입력 -->
+							<div class="lp-tabpanel">
+								<div class="keywords-box">
+									<div class="keywords-title">
+										<p class="title">영문INDEX</p>
+									</div>
+									<div class="keywords-list">
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">A</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">B</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">C</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">D</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">E</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">F</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">G</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">H</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">I</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">J</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">K</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">L</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">M</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">N</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">O</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">P</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">Q</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">R</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">S</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">T</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">U</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">V</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">W</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">X</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">Y</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'csnd')">Z</button>
+									</div>
+
+									<div class="keywords-title">
+										<p class="title">한어 병음</p>
+									</div>
+									<div class="keywords-list">
+										<button class="keywords-item no-input" id="csnd_A" onclick="loadCsndPart(this)">A</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">AI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">AN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">AO</button>
+										<button class="keywords-item no-input" id="csnd_B" onclick="loadCsndPart(this)">BA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BIN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">BU</button>
+										<button class="keywords-item no-input" id="csnd_C" onclick="loadCsndPart(this)">CA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHUA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHUAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHUANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CHUO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">COU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">CUO</button>
+										<button class="keywords-item no-input" id="csnd_D" onclick="loadCsndPart(this)">DA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DIA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DIU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">DUO</button>
+										<button class="keywords-item no-input" id="csnd_E" onclick="loadCsndPart(this)">E</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">EI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">EN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ER</button>
+										<button class="keywords-item no-input" id="csnd_F" onclick="loadCsndPart(this)">FA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">FAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">FANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">FE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">FEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">FEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">FENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">FO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">FOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">FU</button>
+										<button class="keywords-item no-input" id="csnd_G" onclick="loadCsndPart(this)">GA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GUA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GUAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GUANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">GUO</button>
+										<button class="keywords-item no-input" id="csnd_H" onclick="loadCsndPart(this)">HA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HUA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HUAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HUANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">HUO</button>
+										<button class="keywords-item no-input" id="csnd_J" onclick="loadCsndPart(this)">JI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JIA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JIANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JIN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JIONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JIU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">JUE</button>
+										<button class="keywords-item no-input" id="csnd_K" onclick="loadCsndPart(this)">KA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KUA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KUAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KUANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">KUO</button>
+										<button class="keywords-item no-input" id="csnd_L" onclick="loadCsndPart(this)">LA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LIA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LIANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LIN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LIU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">LUO</button>
+										<button class="keywords-item no-input" id="csnd_M" onclick="loadCsndPart(this)">MA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ME</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MIN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MIU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">MU</button>
+										<button class="keywords-item no-input" id="csnd_N" onclick="loadCsndPart(this)">NA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NIANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NIN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NIU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">NUO</button>
+										<button class="keywords-item no-input" id="csnd_O" onclick="loadCsndPart(this)">O</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">OU</button>
+										<button class="keywords-item no-input" id="csnd_P" onclick="loadCsndPart(this)">PA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PIN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">POU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">PU</button>
+										<button class="keywords-item no-input" id="csnd_Q" onclick="loadCsndPart(this)">QI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QIA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QIANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QIN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QIONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QIU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QUE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">QUN</button>
+										<button class="keywords-item no-input" id="csnd_R" onclick="loadCsndPart(this)">RAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">REN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ROU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">RUO</button>
+										<button class="keywords-item no-input" id="csnd_S" onclick="loadCsndPart(this)">SA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHUA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHUAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHUANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SHUO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">SUO</button>
+										<button class="keywords-item no-input" id="csnd_T" onclick="loadCsndPart(this)">TA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">TUO</button>
+										<button class="keywords-item no-input" id="csnd_W" onclick="loadCsndPart(this)">WA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">WAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">WAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">WANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">WEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">WEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">WENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">WO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">WU</button>
+										<button class="keywords-item no-input" id="csnd_X" onclick="loadCsndPart(this)">XI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XIA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XIAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XIANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XIAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XIE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XIN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XIONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XIU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XUE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">XUN</button>
+										<button class="keywords-item no-input" id="csnd_Y" onclick="loadCsndPart(this)">YA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YIN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YING</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YUE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">YUN</button>
+										<button class="keywords-item no-input" id="csnd_Z" onclick="loadCsndPart(this)">ZA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHAO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHE</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHEI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHEN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHENG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHUA</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHUAI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHUANG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZHUO</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZONG</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZOU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZU</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZUAN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZUI</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZUN</button>
+										<button class="keywords-item no-input" onclick="loadCsndPart(this)">ZUO</button>
+									</div>
+
+									<div class="keywords-title">
+										<p class="title">한자목록</p>
+									</div>
+									<div id="listUnicodeByCsnd" class="keywords-list">
+									</div>
+								</div>
+							</div>
+							<!-- //한어병음 입력 -->
+
+							<!-- 일본어 음독 입력 -->
+							<div class="lp-tabpanel">
+								<div class="keywords-box">
+									<div class="keywords-title">
+										<p class="title">영문INDEX</p>
+									</div>
+									<div class="keywords-list">
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">A</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">B</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">C</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">D</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">E</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">F</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">G</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">H</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">I</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">J</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">K</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">L</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">M</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">N</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">O</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">P</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">Q</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">R</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">S</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">T</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">U</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">V</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">W</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">X</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">Y</button>
+										<button class="keywords-item no-input" onclick="go_focus(this, 'jsnd')">Z</button>
+									</div>
+
+									<div class="keywords-title">
+										<p class="title">일본어 음독</p>
+									</div>
+									<div class="keywords-list">
+										<button class="keywords-item no-input" id="jsnd_A" onclick="loadJsndPart(this)">A</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">AHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">AI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">AKA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">AKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">AN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ANI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">AU</button>
+										<button class="keywords-item no-input" id="jsnd_B" onclick="loadJsndPart(this)">BA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BEKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BII</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BIKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BIU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BOCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BORA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BOTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BUTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BYOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">BYUU</button>
+										<button class="keywords-item no-input" id="jsnd_C" onclick="loadJsndPart(this)">CHA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHAWA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHII</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHIKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHIKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHIU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHUTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHYU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">CHYUU</button>
+										<button class="keywords-item no-input" id="jsnd_D" onclick="loadJsndPart(this)">DA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DAM</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DDAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DEKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DOCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DOTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">DYOU</button>
+										<button class="keywords-item no-input" id="jsnd_E" onclick="loadJsndPart(this)">E</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">EHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">EI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">EKE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">EKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">EN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">EU</button>
+										<button class="keywords-item no-input" id="jsnd_F" onclick="loadJsndPart(this)">FAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">FGIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">FU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">FUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">FUKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">FUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">FUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">FUTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">FUU</button>
+										<button class="keywords-item no-input" id="jsnd_G" onclick="loadJsndPart(this)">GA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GAHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GEKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GEYO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GIKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GIKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GOCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GOHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GOKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GOTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GUTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GUWACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GUWAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GUWAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GYAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GYO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GYOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GYOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">GYUU</button>
+										<button class="keywords-item no-input" id="jsnd_H" onclick="loadJsndPart(this)">HA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HABAKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HABI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HAE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HATCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HAYA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HEKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HII</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HIKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HIKUI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HIYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HIYOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HIYOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HOCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HOERU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HOI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HOTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HUTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HYKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HYKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HYOI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HYOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HYOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HYU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">HYUU</button>
+										<button class="keywords-item no-input" id="jsnd_I" onclick="loadJsndPart(this)">I</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">IKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">IKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">IN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">IU</button>
+										<button class="keywords-item no-input" id="jsnd_J" onclick="loadJsndPart(this)">JA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JIAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JIIYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JIKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JIKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JIU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JIUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JIYU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JIYUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JOTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JUTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">JYUU</button>
+										<button class="keywords-item no-input" id="jsnd_K" onclick="loadJsndPart(this)">KA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KAHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KAIE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KAKUYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KAMU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KATSUKACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KAZARU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KEHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KEKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KIHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KII</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KIKE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KIKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KIU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KOCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KOHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KOKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KOTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUSARU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUUI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUWA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUWAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUWAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUWAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUWATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KUWAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KYA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KYAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KYO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KYOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KYOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KYUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">KYUU</button>
+										<button class="keywords-item no-input" id="jsnd_M" onclick="loadJsndPart(this)">MA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ME</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">METSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MIU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MOCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MOTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MYAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MYOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MYUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">MYUU</button>
+										<button class="keywords-item no-input" id="jsnd_N" onclick="loadJsndPart(this)">NA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NAMAZU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NANDNON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NIKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NIKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NIYO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NIYU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NYA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NYAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NYO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NYOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NYOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NYU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">NYUU</button>
+										<button class="keywords-item no-input" id="jsnd_O" onclick="loadJsndPart(this)">O</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">OCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">OKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">OTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">OU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">OUCHOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">OUU</button>
+										<button class="keywords-item no-input" id="jsnd_R" onclick="loadJsndPart(this)">RA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RAHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RAUROU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">REHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">REI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">REKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">REN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">REU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RII</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RIKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RIKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RIU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RIWA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ROCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ROKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ROO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ROTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ROU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ROWA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RUI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RYAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RYAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RYO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RYOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RYOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RYU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">RYUU</button>
+										<button class="keywords-item no-input" id="jsnd_S" onclick="loadJsndPart(this)">SA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SAB</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SAHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SAKA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SAWA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SEB</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SEHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SEKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SEKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHIA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHICHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHIHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHII</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHIJI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHIKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHIN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHITSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHIU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHIYU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHUCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHUHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHUTS</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHUTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHYOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SHYUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SOCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SOI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SOTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SUI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SUN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">SYOU</button>
+										<button class="keywords-item no-input" id="jsnd_T" onclick="loadJsndPart(this)">TA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TAHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TAWAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TEHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TEKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TEWA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TOCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TOSHOKAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TOTSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TS</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TSUI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TSUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">TYOU</button>
+										<button class="keywords-item no-input" id="jsnd_U" onclick="loadJsndPart(this)">U</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">UCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">UI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">UN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">UTSU</button>
+										<button class="keywords-item no-input" id="jsnd_W" onclick="loadJsndPart(this)">WA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">WACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">WAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">WAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">WAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">WATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">WAU</button>
+										<button class="keywords-item no-input" id="jsnd_Y" onclick="loadJsndPart(this)">YA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YOI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YOKI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YOUU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YUI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YUKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">YUU</button>
+										<button class="keywords-item no-input" id="jsnd_Z" onclick="loadJsndPart(this)">ZA</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZACHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZAI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZAKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZAN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZATSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZAU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZE</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZECHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZEHU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZEI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZEN</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZETSU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZEU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZO</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZOCHI</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZOKU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZON</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZOU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZU</button>
+										<button class="keywords-item no-input" onclick="loadJsndPart(this)">ZUI</button>
+									</div>
+
+									<div class="keywords-title">
+										<p class="title">한자목록</p>
+									</div>
+									<div id="listUnicodeByJsnd" class="keywords-list">
+									</div>
+								</div>
+							</div>
+							<!-- //일본어 음독 입력 -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //문자입력기 팝업 -->
+	</form>
+        </main>
+<input type="hidden" id="now_page" />
+<span id="total_page" style="display:none;"></span>
+		<!--// cont_area 본문영역 end -->
+		
+	</div>  
+	<!--// content end -->
+</div>
+<!--// wrapper end -->
+	
+<!-- Footer start -->
+
+
+
+
+
+
+<script type="text/javascript">
+function bookmarkList() {
+	$("#bookmark-popup").addClass('active');
+	renderBookmarkList(1);
+}
+
+</script>
+
+        <!-- footer -->
+        <footer>
+			<div class="footer-wrap">
+				<a href="http://www.history.go.kr" class="logo"><img src="/images/common/footer-logo.svg" alt="국사편찬위원회"></a>
+
+				<div class="link-list">
+					<a href="http://www.history.go.kr/contents/contentsPage.do?groupId=000000000571&amp;menuId=000000000572&amp;pageId=000000000211&amp;itemId=&amp;action=&amp;itemIndex=&amp;condition=&amp;keyword=&amp;category=&amp;totalCount=0&amp;page=1&amp;rowPerPage=10&amp;searchKeyword=" target="_blank" class="anchor on">개인정보처리방침</a>
+					<a href="/mc/board/errorReportList.do" class="anchor">오류신고 확인</a>
+				</div>
+
+				<p class="copy">Copyright © National Institute of Korean History. All Rights Reserved.</p>
+
+				<div class="family-site">
+					<button type="button" class="toggle-btn">관련사이트 바로가기</button>
+					<ul class="list">
+						<li class="item">
+							<a href="http://db.history.go.kr" target="_blank" class="anchor">한국사데이터베이스</a>
+						</li>
+						<li class="item">
+							<a href="http://sjw.history.go.kr" target="_blank" class="anchor">승정원일기</a>
+						</li>
+						<li class="item">
+							<a href="http://db.history.go.kr/item/level.do?itemId=bb" target="_blank" class="anchor">비변사등록</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+        </footer>
+        <!-- // footer -->
+
+		<!-- 책갈피 -->
+		<div class="fixed-item">
+			<a href="javascript:bookmarkList();" class="bookmark"><span>책갈피목록</span></a>
+			<button type="button" class="top-btn">TOP</button>
+		</div>
+		
+
+<div class="temp-lp" id="bookmark-popup">
+	<div class="lp-box">
+		<button type="button" class="lp-close" onclick="$('#bookmark-popup').removeClass('active')">닫기</button>
+		<p class="lp-title">책갈피 목록</p>
+		<button type="button" class="btn-download" onclick="downloadBookmarkTxt()" title="다운로드"><span class="blind">다운로드</span></button>
+		<div class="lp-cont">
+			<div class="lp-inner">
+				<div class="temp-card-table">
+					<ul id="bookmark-list" class="card-list">
+						<li class="card-item">
+							<span class="date">2025-00-00</span>
+							<a href="#" class="tit">태백성이 낮에 나타나다</a>
+							<button type="button" class="btn-close"><span>책갈피 삭제</span></button>
+						</li>
+					</ul>
+				</div>
+				<div id="bookmark-pagination" class="pagination"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+const typeNames = {
+	    "SLK": "조선왕조실록"
+	    ,"MSLK": "명실록"
+	    ,"CSLK": "청실록"
+	    ,"SJW": "승정원일기"
+	    ,"ESLK": "영문실록"
+	};
+
+function renderBookmarkList(page){
+    let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks") || "[]");
+    const perPage = 10;
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    const totalPage = Math.ceil(bookmarks.length / perPage);
+
+    let html = "";
+    bookmarks.slice(start,end).forEach((b,i) => {
+        const idx = start + i;
+        let displayTitle = (b.title && b.title.trim().length > 0) ? b.title : "(제목 없음)";
+        
+        html += '<li class="card-item">'+
+			'<span class="date">'+ typeNames[b.type] +'</span>'+'<span class="date">'+ b.id +'</span>'+
+			'<a href="javascript:goDetail(\'' + b.type + '\',\'' + b.id + '\')" class="tit">'+ displayTitle +'</a>'+
+			'<button type="button" class="btn-close" onclick="deleteBookmark(' + idx + ')"><span>책갈피 삭제</span></button>'+
+		'</li>';
+    });
+    $("#bookmark-list").html(html);
+
+    // 페이지네이션
+    let phtml = "";
+    for(let i=1 ; i <= totalPage ; i++){
+    	phtml += '<a href="javascript:renderBookmarkList(' + i + ')" class="num '+ (i===page ? 'active':'') +'">'+ i + '</a>';
+//         phtml += '<a href="javascript:renderBookmarkList(' + i + ')" ' +
+//                  'style="margin:0 5px;' + (i===page ? 'font-weight:bold;' : '') + '">' +
+//                  i + '</a>';
+    }
+    $("#bookmark-pagination").html(phtml);
+}
+
+function deleteBookmark(idx){
+	if(confirm("책갈피를 삭제하시겠습니까?")) {
+	    let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks") || "[]");
+	    bookmarks.splice(idx, 1);
+	    sessionStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+	    renderBookmarkList(1);
+	}
+}
+
+// 로그 저장, 상세조회 이동
+function goDetail(type, id){
+    if(type === "SLK"){
+        setLog(type, id);
+        location.href = "/id/" + id;
+    }
+    else if(type === "MSLK" || type === "CSLK"){
+    	setLog(type, id);
+    	location.href = "/mc/id/" + id;
+    }
+    /*
+    else if(type==="SJW"){
+        setLog("SJW", id); // sjw.common.js
+        location.href = "/id/"+id;
+    } else if(type==="ESLK"){
+        fnInsertLog("ESLK", id, ""); // defaultLayout.jsp
+        location.href = "/record/recordView.do?id="+id;
+    }
+    */
+}
+
+function downloadBookmarkTxt() {
+    let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks") || "[]");
+
+    if (bookmarks.length === 0) {
+        alert("저장된 책갈피가 없습니다.");
+        return;
+    }
+    
+    if(confirm("책갈피 목록을 다운로드 하시겠습니까?")) {
+	    let content = "구분^기사ID^제목\n";
+	
+	    bookmarks.forEach(b => {
+	        const typeName = typeNames[b.type] || b.type;
+	        content += typeName + "^" + b.id + "^" + b.title + "\n";
+	    });
+	
+	    // Blob으로 텍스트 파일 생성
+	    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+	    const url = URL.createObjectURL(blob);
+	
+	    // 다운로드 링크 생성
+	    const a = document.createElement("a");
+	    a.href = url;
+	    const today = new Date().toISOString().slice(0,10).replace(/-/g,"");
+	    a.download = "책갈피 목록 " + today + ".txt";
+	    a.click();
+	
+	    // 메모리 해제
+	    URL.revokeObjectURL(url);
+    }
+
+}
+</script>
+	</div>
+<!--// Footer end -->
+
+</body>
+</html>

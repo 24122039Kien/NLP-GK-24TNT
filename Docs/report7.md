@@ -117,3 +117,28 @@ Câu trả lời gợi ý cho giảng viên về HCB_11: *"Bản demo em chỉ t
 - Dấu vân tay TSV mới: `5abc170b74b6ee51`. TSV của 12 tác phẩm còn lại giống hệt trước; chỉ HCB_02 và 3 cặp HCB_12 đổi.
 
 **Số cặp sau đợt 3:** Kiên 3.463, Huy 3.498, Đăng 2.637, **Tài 2.137** (+22).
+
+## G. Kiểm tra toàn bộ – Đợt 4 (HCB_14 – 26 quyển của cả 4 người): XONG
+
+Đã đọc **mọi cặp** (912 cặp sau khi sửa). Chi tiết ở `Docs/kiem_tra_toan_bo/HCB_14.md`.
+
+**Lỗi hệ thống tìm thấy và đã sửa:**
+- **Bản Hán `.txt` của Huy** (6 quyển) là bản chép tay, bị ngắt đoạn ở mỗi chữ tôn kính nâng đầu dòng. Đã thay bằng 15 bài sillok HTML gốc; chữ trùng khớp.
+- **Thiếu 4 bài sillok** mà bản Việt có dịch: Q1358 có thơ ngự chế và dụ tông thất; Q1360 có tế cáo và yến cung Trùng Hoa. Đã tải bổ sung.
+- **Chữ ngoài BMP bị hỏng thành `��`** (𠇶, 𥙔): sillok mã hóa bằng cặp thực thể surrogate. Đã sửa trong **hvalign 0.3.4** (`readers._unescape`), có kiểm thử, 24/24 kiểm thử đạt.
+- **Thơ ngự chế:** trang Việt chép cả chữ Hán và phiên âm. Đã dùng `loai_tru`, chỉ giữ phần dịch, nên mỗi câu thơ Hán giờ ứng với đúng 1 câu dịch.
+- **Q1346:** chiếu ân xá 22 điều có 1 đoạn Hán ứng với 24 đoạn Việt. Đã đặt `tang2_max: 30`.
+- **Manifest:** bổ sung bản Việt của Tài, toàn bộ nguồn HCB_14 của Đăng, revid và URL từng bài sillok của Huy. 141/141 tệp khớp SHA.
+
+**Sửa tay (human in the loop):**
+- Sillok dùng 。 cả ở chỗ ngắt nhỏ, nên máy trượt 1 vế ở hầu hết các quyển. Mọi quyển đã được chia lại ranh giới bằng công cụ mới `cong_cu/chia_lai.py`. Công cụ bắt buộc chữ Hán và chữ Việt của khúc giữ nguyên tuyệt đối.
+- Tổng cộng 544 `sua` và 22 `sai`; `sai` là các cặp số thứ tự "1.", "2."… của Q1346, đã ghép vào nội dung từng điều.
+- Đưa 3 câu bị bỏ rơi vào cặp, bỏ 2 cụm chữ Hán sót ở vế Việt, ghi chú 2 lỗi dịch.
+- Chỗ lệch đã biết ở Q1421 và Q1445 (「批、所見是。」 ↔ "Lại tâu:") đã hết.
+
+**Kiểm chứng:**
+- Chạy từ đầu trên bản sao sạch (32db2ae, chép đè code, cấu hình, nguồn, manifest và tệp hiệu đính): **70/70 tệp nộp giống hệt repo**.
+- 14/14 kiểm định ĐẠT, `khong_khop = 0` ở mọi tác phẩm. Dấu vân tay TSV: `904a47c9d0bec7a3`.
+- TSV của 13 tác phẩm khác giữ nguyên; `.xlsx` và `bao_cao.md` của các tác phẩm này chỉ đổi số phiên bản 0.3.3 → 0.3.4.
+
+**Số cặp sau đợt 4:** Kiên 3.463 (HCB_14: 124), Huy 3.504 (225), **Tài 2.149** (279), **Đăng 2.663** (284).

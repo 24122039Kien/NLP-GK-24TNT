@@ -118,7 +118,9 @@ Sau đó: ghi bản nộp vào `04_dong_hang` + `bao_cao.md`, cập nhật `Docs
 - Nguồn Hán chấm câu thưa (cả đoạn nối bằng ，) làm cặp rất dài: dùng chấm câu thủ công R13 như HCB_02 (đợt 3), chỉ đổi dấu ở chỗ bản Việt hết câu.
 - Manifest: HCB_02, 10, 12 đã bổ sung ở đợt 3; nguồn của Đăng (HCB_01, HCB_14) hầu như chưa có trong manifest, thêm vào `Docs/nguon_manifest_Dang.tsv` khi kiểm.
 - HCB_10: bản Hán zh.wikisource là giản thể, không có bản phồn thể dùng được; đã ghi hạn chế, không chuyển bằng máy.
-- HCB_14 Q1421, Q1445: vài cặp lệch ranh giới, ví dụ `批、所見是。` ↔ `Lại tâu:`.
+- ~~HCB_14 Q1421, Q1445 lệch ranh giới~~ → đợt 4 đã chia lại toàn bộ HCB_14.
+- Sillok dùng 。 cả ở chỗ ngắt nhỏ: máy hay trượt 1 vế suốt quyển → chia lại bằng `cong_cu/chia_lai.py` (giữ nguyên chữ). Câu Việt không có vế Hán thường là do **thiếu bài sillok cùng ngày** → tải thêm (id `…_<ngày×10>_<số bài>`), đừng bỏ.
+- Quyết định `sua`/`sai` gắn với cặp máy: sửa code/cấu hình làm máy dóng lại thì kiểm `khong_khop`, lệch thì xóa quyết định của quyển đó và áp lại tệp khúc.
 - HCB_01 phần của Kiên là 1.958 cặp (< 2.000 nếu tính riêng HCB_01; tổng của Kiên là 3.483).
 
 ## 6. Lệnh hay dùng

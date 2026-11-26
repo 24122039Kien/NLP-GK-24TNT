@@ -1,6 +1,6 @@
 # Hướng dẫn thực hành `hvalign`
 
-**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.3.3, ngày 2026-11-26.
+**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.3.4, ngày 2026-11-26.
 **Liên quan:** [phan_viec_hvalign.md](phan_viec_hvalign.md) (việc của từng người) · [implementation_plan.md](implementation_plan.md) (thiết kế).
 
 Mọi ví dụ đầu ra trong tài liệu này đều chép từ lần chạy thật trên dữ liệu của nhóm.
@@ -314,6 +314,12 @@ dong_hang:
 ```
 
 Từ bản 0.3.2, mặc định bên Việt **không** tách câu sau dấu hai chấm. Bên Hán 曰：「…」 vốn là một câu, nên bên Việt "X nói: «…»" cũng phải là một câu. Nếu tách, "X nói:" hay bị ghép nhầm vào câu đứng trước (kiểm tra ngày 26/11 tìm thấy khoảng 90 chỗ như vậy ở HCB_01). Chỉ HCB_14 (sillok) bật lại tùy chọn này.
+
+Lưu ý với sillok (rút ra khi kiểm tra toàn bộ, đợt 4):
+- **Lấy bản Hán bằng tệp HTML gốc**, đừng chép tay. Sillok nâng chữ tôn kính (天, 上…) lên đầu dòng. Chép tay thì câu bị cắt đôi, còn bộ đọc HTML tự nối lại.
+- Từ bản 0.3.4, chữ ngoài BMP mà sillok viết bằng cặp thực thể surrogate (`&#55360;&#56822;` = 𠇶) được đọc đúng. Bản cũ ra `��`.
+- Một ngày có thể có nhiều bài (id `…_<ngày×10>_<số bài>`). Nếu câu Việt không có vế Hán, hãy tìm và tải thêm bài cùng ngày.
+- Bản Việt hay ngắt câu khác dấu 。, nên máy có thể trượt 1 vế. Trường hợp này sửa tay bằng `Docs/kiem_tra_toan_bo/cong_cu/chia_lai.py`.
 
 ### 5F. Chương trình nhận sai định dạng tệp
 

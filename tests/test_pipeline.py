@@ -90,6 +90,15 @@ def test_sillok_html_joins_taitou(tmp_path: Path):
     assert [b.text for b in d.blocks if b.kind == "para"] == ["○諭曰、福康安等奏。是天心已厭棄黎氏。"]
 
 
+def test_sillok_html_surrogate_pair_entities(tmp_path: Path):
+    # sillok viết chữ ngoài BMP 𠇶 (U+201F6) thành cặp thực thể surrogate; không được thành U+FFFD
+    html = '<div id="dmv01"><div class="view-text"><p class="paragraph">○前以黎&#55360;&#56822;曾經臣事黎氏。</p></div></div>'
+    p = tmp_path / "b.html"
+    p.write_text(html, encoding="utf-8")
+    d = load_document(p, "han")
+    assert [b.text for b in d.blocks if b.kind == "para"] == ["○前以黎\U000201f6曾經臣事黎氏。"]
+
+
 # ------------------------------------------------------------------ Bước 5: làm sạch
 def _cleaner(**rules):
     base = {k: True for k in ["R03_bo_ref", "R04_bo_chu_nho", "R05_bo_dan_nguon", "R06_bo_chu_han_trong_viet",
