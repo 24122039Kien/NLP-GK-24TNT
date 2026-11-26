@@ -42,8 +42,8 @@ Kiểu ghép: `1-1` 37, `1-2` 1
 
 | Quyển | Bản | Tệp | Định dạng đọc được | Nguồn trực tuyến | revid |
 |---|---|---|---|---|---|
-| 81 | han | `後漢書_卷81.wikitext` | wikitext | (không có trong manifest) |  |
-| 81 | viet | `Biên_dịch_Hậu_Hán_thư_Quyển_81.wikitext` | wikitext | (không có trong manifest) |  |
+| 81 | han | `後漢書_卷81.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E5%BE%8C%E6%BC%A2%E6%9B%B8/%E5%8D%B781 | 2319542 |
+| 81 | viet | `Biên_dịch_Hậu_Hán_thư_Quyển_81.wikitext` | wikitext | https://vi.wikisource.org/wiki/Bi%C3%AAn_d%E1%BB%8Bch:H%E1%BA%ADu_H%C3%A1n_th%C6%B0/Quy%E1%BB%83n_81 | 204353 |
 
 ## 5. Công cụ
 

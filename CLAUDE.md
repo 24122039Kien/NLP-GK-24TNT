@@ -114,6 +114,9 @@ Sau đó: ghi bản nộp vào `04_dong_hang` + `bao_cao.md`, cập nhật `Docs
 **Điểm đã biết, cần xem kỹ:**
 - ~~HCB_03: chỉ 8 cặp là đoạn dài~~ → đã sửa ở đợt 2 (chấm câu thủ công R13, 59 cặp).
 - Bản Việt do thành viên chép tay (`.txt` không có `{{đầu đề…}}`) có thể mất khối `<div>`, `<poem>`, `{{quote}}`; đợt 2 gặp ở HCB_06, 08, 09. Mỗi đợt phải so với wikitext tải qua API (xem `TIEN_DO.md`).
+- Nguồn Hán chấm câu thưa (cả đoạn nối bằng ，) làm cặp rất dài: dùng chấm câu thủ công R13 như HCB_02 (đợt 3), chỉ đổi dấu ở chỗ bản Việt hết câu.
+- Manifest: HCB_02, 10, 12 đã bổ sung ở đợt 3; nguồn của Đăng (HCB_01, HCB_14) hầu như chưa có trong manifest, thêm vào `Docs/nguon_manifest_Dang.tsv` khi kiểm.
+- HCB_10: bản Hán zh.wikisource là giản thể, không có bản phồn thể dùng được; đã ghi hạn chế, không chuyển bằng máy.
 - HCB_14 Q1421, Q1445: vài cặp lệch ranh giới, ví dụ `批、所見是。` ↔ `Lại tâu:`.
 - HCB_01 phần của Kiên là 1.958 cặp (< 2.000 nếu tính riêng HCB_01; tổng của Kiên là 3.483).
 

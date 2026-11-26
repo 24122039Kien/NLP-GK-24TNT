@@ -42,8 +42,8 @@ Kiểu ghép: `1-1` 136, `1-2` 13
 
 | Quyển | Bản | Tệp | Định dạng đọc được | Nguồn trực tuyến | revid |
 |---|---|---|---|---|---|
-| 113 | han | `史記_卷113.wikitext` | wikitext | (không có trong manifest) |  |
-| 113 | viet | `Biên_dịch_Sử_ký_tam_gia_chú_Quyển_113.wikitext` | wikitext | (không có trong manifest) |  |
+| 113 | han | `史記_卷113.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E5%8F%B2%E8%A8%98/%E5%8D%B7113 | 8735632 |
+| 113 | viet | `Biên_dịch_Sử_ký_tam_gia_chú_Quyển_113.wikitext` | wikitext | https://vi.wikisource.org/wiki/Bi%C3%AAn_d%E1%BB%8Bch:S%E1%BB%AD_k%C3%BD_tam_gia_ch%C3%BA/Quy%E1%BB%83n_113 | 204266 |
 
 ## 5. Công cụ
 

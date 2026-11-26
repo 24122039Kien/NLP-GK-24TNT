@@ -94,3 +94,24 @@ Câu trả lời gợi ý cho giảng viên về HCB_11: *"Bản demo em chỉ t
 - `bao_cao.md` của HCB_01, 04, 11, 13 chỉ đổi số cặp gắn cờ `lech_moc`, vì bộ mốc tên dùng chung đã có thêm tên từ các bản Việt mới tải.
 
 **Số cặp sau đợt 2:** Kiên 3.463, **Huy 3.498** (+242), Đăng 2.637, Tài 2.115.
+
+## F. Kiểm tra toàn bộ – Đợt 3 (HCB_02, 12 – Tài; HCB_10 – Đăng): XONG
+
+Đã đọc **mọi cặp** của 3 tác phẩm (236 cặp sau khi sửa). Chi tiết ở `Docs/kiem_tra_toan_bo/HCB_xx.md`.
+
+| Tác phẩm | Cặp trước → sau | Lỗi / điểm chính | Cách sửa |
+|---|---|---|---|
+| HCB_02 | 27 → 49 | Nguồn Hán nối cả chiếu văn bằng ，/；: một câu Hán ~500 chữ ghép với 15 câu Việt (2-15), thêm 4 cặp 1-2/1-3, 2 quyết định `gop` | Chấm câu thủ công R13 `resources/cham_cau/HCB_02.txt`: chỉ đổi 20 dấu ，/； ở chỗ bản Việt hết câu, chữ giữ nguyên. Kết quả 49 cặp đều 1-1. Bỏ `hieu_dinh/HCB_02__Tai.tsv` (2 `gop` cũ không còn cần) |
+| HCB_10 | 38 → 38 | Đúng hết. **Bản Hán là giản thể** (trang zh.wikisource gắn `{{zth}}` = cần chuyển phồn thể); không có bản phồn thể dùng được | Giữ nguyên, ghi hạn chế vào `HCB_10.md`; không chuyển phồn thể bằng máy |
+| HCB_12 | 149 → 149 | Đúng hết. Trang Hán 史記/卷113 vừa bị đổi tên (24/11) thành 史記 (維基文庫點校本)/卷113, nội dung không đổi | Không cần sửa |
+
+**Nguồn:** cả 6 tệp .wikitext giống hệt bản hiện hành tải qua API, không có tệp chép tay nên không bị lỗi mất khối như đợt 2. Cả 3 tác phẩm **chưa có trong manifest**: đã thêm 8 dòng (wikitext + pdf) vào `Docs/nguon_manifest_Tai.tsv` và tạo `Docs/nguon_manifest_Dang.tsv` (2 dòng), có revid, SHA-256; ngày tải lấy theo ngày commit nguồn (24/11 Tài, 26/11 Đăng). Nhờ vậy bảng nguồn trong `bao_cao.md` của 3 tác phẩm có URL và revid thay cho "(không có trong manifest)".
+
+**Chương trình:** không đổi code (vẫn 0.3.3).
+
+**Kiểm chứng:**
+- Bản sao sạch từ git (587a97a), chép đè 4 tệp (cấu hình, chấm câu, 2 manifest) và bỏ tệp hiệu đính HCB_02, chạy từ đầu: **70/70 tệp nộp giống hệt repo**.
+- 14/14 kiểm định ĐẠT, `khong_khop = 0` ở mọi tác phẩm, kiểm thử 23/23. Manifest Tài + Đăng khớp SHA 58/58.
+- Dấu vân tay TSV mới: `a16d2e1e586709fe`. TSV của 13 tác phẩm còn lại giống hệt trước; chỉ HCB_02 đổi.
+
+**Số cặp sau đợt 3:** Kiên 3.463, Huy 3.498, Đăng 2.637, **Tài 2.137** (+22).
