@@ -1,6 +1,6 @@
 # Báo cáo tự sinh – HCB_12
 
-Ngày: 2026-11-26 · hvalign 0.3.1 · **Trạng thái: dóng tự động, ghi chú tự động**
+Ngày: 2026-11-26 · hvalign 0.3.2 · **Trạng thái: dóng tự động, ghi chú tự động**
 
 ## 1. Số cặp
 
@@ -14,7 +14,7 @@ Tổng: **149** cặp.
 |---|---|---|
 | 113 | Tai | 149 |
 
-Kiểu ghép: `1-1` 120, `1-2` 27, `1-3` 2
+Kiểu ghép: `1-1` 136, `1-2` 13
 
 - Phạm vi được giao (`config/phan_cong.tsv`): 1 quyển; đã dóng **1/1** (đủ).
 - Độ phủ: các cặp chứa **100.0%** số chữ Hán và **100.0%** số âm tiết Việt của `03_text_sach` (phần chưa phủ là câu không ghép được hoặc cặp bỏ khi hiệu đính; phần chỉ một bản có đã bị loại trừ từ Bước 5, không tính ở đây).
@@ -47,7 +47,7 @@ Kiểu ghép: `1-1` 120, `1-2` 27, `1-3` 2
 
 ## 5. Công cụ
 
-- `hvalign` 0.3.1 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
+- `hvalign` 0.3.2 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
 - Bước 4: tự nhận dạng định dạng nguồn (wikitext / text thuần / HTML sillok) và chuẩn hóa về một dạng.
 - Bước 7: dóng 3 tầng (mục → đoạn → câu), chi phí Gale–Church + mốc can chi và tên riêng Hán Việt.
 - Cấu hình: `config/project.yaml`, `config/works/HCB_12.yaml`, `config/phan_cong.tsv`.

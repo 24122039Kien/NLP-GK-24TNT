@@ -1,20 +1,20 @@
 # Báo cáo tự sinh – HCB_13
 
-Ngày: 2026-11-26 · hvalign 0.3.1 · **Trạng thái: dóng tự động, ghi chú tự động**
+Ngày: 2026-11-26 · hvalign 0.3.2 · **Trạng thái: dóng tự động, ghi chú tự động**
 
 ## 1. Số cặp
 
-Tổng: **340** cặp.
+Tổng: **338** cặp.
 
 | Thành viên | Số cặp |
 |---|---|
-| Kien | 340 |
+| Kien | 338 |
 
 | Quyển | Thành viên | Số cặp |
 |---|---|---|
-| 488 | Kien | 340 |
+| 488 | Kien | 338 |
 
-Kiểu ghép: `1-1` 306, `1-2` 29, `1-3` 3, `2-1` 1, `1-4` 1
+Kiểu ghép: `1-1` 318, `1-2` 18, `3-3` 1, `2-1` 1
 
 - Phạm vi được giao (`config/phan_cong.tsv`): **cả tác phẩm** (Kien); quyển có trong nguồn và đã dóng: 488.
 - Độ phủ: các cặp chứa **100.0%** số chữ Hán và **100.0%** số âm tiết Việt của `03_text_sach` (phần chưa phủ là câu không ghép được hoặc cặp bỏ khi hiệu đính; phần chỉ một bản có đã bị loại trừ từ Bước 5, không tính ở đây).
@@ -32,9 +32,9 @@ Kiểu ghép: `1-1` 306, `1-2` 29, `1-3` 3, `2-1` 1, `1-4` 1
 - Loại trừ (không có bản dịch / không phải chính văn): 7 khối – Bản Việt không dịch mục 大理 (7)
 - Câu không ghép được (ghi ở `work/HCB_13/khong_ghep.tsv`, không đưa vào TSV): 0
 - Cặp máy gắn cờ: 35 (`lech_moc` 35); người đã xem 0
-- Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 0, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_13__<người>.tsv`)
+- Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 2, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_13__<người>.tsv`)
 - Cảnh báo khi làm sạch: 10 (xem `work/HCB_13/canh_bao.tsv`)
-- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 0 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
+- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 1 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
 - Phạm vi theo trả lời của giảng viên: chỉ dóng hàng phần có song ngữ; phần chỉ một bản có thì không đưa vào dữ liệu (đã liệt kê ở mục Loại trừ và Câu không ghép được).
 - Tỷ lệ lỗi theo §8 Guideline: chưa chấm mẫu (tuỳ chọn: app → Nâng cao → Chấm mẫu).
 
@@ -47,7 +47,7 @@ Kiểu ghép: `1-1` 306, `1-2` 29, `1-3` 3, `2-1` 1, `1-4` 1
 
 ## 5. Công cụ
 
-- `hvalign` 0.3.1 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
+- `hvalign` 0.3.2 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
 - Bước 4: tự nhận dạng định dạng nguồn (wikitext / text thuần / HTML sillok) và chuẩn hóa về một dạng.
 - Bước 7: dóng 3 tầng (mục → đoạn → câu), chi phí Gale–Church + mốc can chi và tên riêng Hán Việt.
 - Cấu hình: `config/project.yaml`, `config/works/HCB_13.yaml`, `config/phan_cong.tsv`.

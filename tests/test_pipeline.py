@@ -133,9 +133,18 @@ def test_split_han_quotes_soft():
 
 def test_split_viet_protections():
     u = split_viet("Quân hơn 10.000 người, năm 112 TCN. Mùa xuân, Dụ rằng: Trẫm nghĩ vậy. hết")
-    assert [t for t, _ in u] == ["Quân hơn 10.000 người, năm 112 TCN.", "Mùa xuân, Dụ rằng:",
-                                 "Trẫm nghĩ vậy. hết"]
-    assert [k for _, k in u] == ["hard", "soft", "end"]
+    # "Dụ rằng: …" là một câu, giống bên Hán 曰：「…」 (không tách ở dấu hai chấm)
+    assert [t for t, _ in u] == ["Quân hơn 10.000 người, năm 112 TCN.", "Mùa xuân, Dụ rằng: Trẫm nghĩ vậy. hết"]
+    assert [k for _, k in u] == ["hard", "end"]
+    u = split_viet("Mùa xuân, Dụ rằng: Trẫm nghĩ vậy. hết", colon_cut=True)  # tùy chọn cũ
+    assert [t for t, _ in u] == ["Mùa xuân, Dụ rằng:", "Trẫm nghĩ vậy. hết"]
+
+
+def test_split_viet_speaker_and_quote_together():
+    """Kiểm tra 26/11 (HCB_13 #144, #255): "X nói:" tách riêng thì bị ghép nhầm vào câu trước."""
+    u = split_viet("Để Giao Quảng không còn hậu hoạn. Hoàng thượng nói: “Chưa thể khinh suất cử binh.” Hết.")
+    assert [t for t, _ in u] == ["Để Giao Quảng không còn hậu hoạn.",
+                                 "Hoàng thượng nói: “Chưa thể khinh suất cử binh.”", "Hết."]
 
 
 # ------------------------------------------------------------------ Bước 7: dóng hàng

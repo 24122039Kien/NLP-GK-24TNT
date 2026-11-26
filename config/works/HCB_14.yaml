@@ -1,5 +1,7 @@
 # HCB_14 – 清實錄 高宗純皇帝實錄 / Thanh thực lục. Bản Hán là các bài sillok (HTML), bản Việt chỉ dịch các bài này.
 tach_cau:
   han_cham_la_ranh_gioi_mem: true      # sillok dùng 。 cả ở chỗ ngắt nhỏ → nhiều kiểu ghép n–1
+  viet_tach_sau_hai_cham: true         # giữ tách sau ':' – vế Hán sillok chia rất mịn (。 mềm) nên bên Việt cần
+                                       # đơn vị mịn để bám; thử bỏ (26/11) thì lệch ranh giới nhiều hơn
 dong_hang:
   gop_toi_da: 10                       # một câu Việt thường ứng với 4–8 vế Hán ngắt bằng 。

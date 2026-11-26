@@ -34,6 +34,8 @@ mac_dinh:
   tach_cau:
     han_cham_la_ranh_gioi_mem: false   # true cho sillok (HCB_14): 。 dùng cả ở chỗ ngắt nhỏ
     trong_ngoac_kep_la_mem: true       # dấu câu bên trong 「…」 / “…” chỉ là ranh giới mềm
+    viet_tach_sau_hai_cham: false      # false: "X nói: «…»" là MỘT đơn vị, giống bên Hán (曰：「…」 không tách ở ：).
+                                       # Nếu tách, "X nói:" hay bị ghép nhầm vào câu trước (kiểm tra 26/11).
 
   # --- Bước 7 ---
   dong_hang:

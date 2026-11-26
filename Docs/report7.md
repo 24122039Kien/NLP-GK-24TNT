@@ -36,8 +36,32 @@ Câu trả lời gợi ý cho giảng viên về HCB_11: *"Bản demo em chỉ t
 - Bản sao sạch từ git, còn `02_ocr_tho` cũ như máy chưa cập nhật: chạy xong tự dọn 14 thư mục `02_ocr_tho`, và 70/70 tệp nộp giống hệt repo.
 - Số cặp không đổi: Kiên 3.483, Huy 3.265, Đăng 2.640, Tài 2.114. Kiểm định 14/14 ĐẠT.
 
-## D. Kiểm tra toàn bộ (chưa bắt đầu)
+## D. Kiểm tra toàn bộ – Đợt 1 (HCB_04, 05, 07, 11, 13 – phần của Kiên): XONG
 
-Kế hoạch 6 đợt và quy trình ở `CLAUDE.md`, mục 5. Tiến độ ở `Docs/kiem_tra_toan_bo/TIEN_DO.md`.
+Đã đọc **mọi cặp** của 5 tác phẩm (khoảng 1.400 cặp), đối chiếu Hán ↔ Việt. Chi tiết từng tác phẩm ở `Docs/kiem_tra_toan_bo/HCB_xx.md`.
 
-Phát hiện mới: HCB_03 chỉ phủ 73,8% âm tiết Việt. Sẽ xem ở đợt 2.
+| Tác phẩm | Tài liệu, nguồn, text | Cặp trước → sau | Lỗi tìm thấy | Cách sửa |
+|---|---|---|---|---|
+| HCB_04 | Đủ, SHA khớp, trọn bài | 68 → 68 | 0 | – |
+| HCB_05 | Đủ, SHA khớp | 70 → 68 | 2 chỗ lệch ranh giới (59–60; 8–9 sau khi đổi Bước 6) | gộp |
+| HCB_07 | Đủ, SHA khớp | 411 → 411 | 1 (386–387, "Toại đến, Tả tướng quân nói:") | sửa tận gốc ở Bước 6 |
+| HCB_11 | Đủ, SHA khớp; bản Việt rút gọn | 512 → 499 | 5 chỗ lệch ranh giới ở lời tâu dài (Lý Cố, Trình Bao, Chu Phủ) | gộp, kèm ghi chú phần bị lược |
+| HCB_13 | Đủ, SHA khớp | 340 → 338 | 1 (22–24, chiếu phong Bộ Lĩnh) | gộp, kèm ghi chú |
+
+**Sửa tận gốc (hvalign 0.3.2):** bên Việt không còn tách câu sau dấu ':'.
+- Bên Hán 曰：「…」 vốn là một câu. Bên Việt mà tách "X nói:" ra thì phần này hay bị ghép nhầm vào câu đứng trước.
+- Đã so từng khối thay đổi trên cả 14 tác phẩm. Sửa đúng khoảng 90 chỗ ở HCB_01, cùng HCB_07 #386, HCB_11 (4 chỗ), HCB_13 (2 chỗ).
+- Riêng HCB_14 (sillok), cách mới làm lệch nhiều hơn, nên giữ cách cũ (`viet_tach_sau_hai_cham: true` trong `config/works/HCB_14.yaml`). HCB_14 vẫn giữ nguyên 868 cặp như trước.
+- Đã thêm kiểm thử `test_split_viet_speaker_and_quote_together`.
+- Các quyết định hiệu đính bị đổi mã câu (HCB_02 của Tài, HCB_11) đã được ghi lại theo mã mới, mã cũ rút bằng `xoa`.
+
+**Kiểm chứng:**
+- Bản sao sạch từ git, áp code, cấu hình và hiệu đính mới, chạy từ đầu: **56/56 tệp nộp giống hệt repo**.
+- `khong_khop = 0` ở mọi tác phẩm; 14/14 kiểm định ĐẠT; kiểm thử 21/21 đạt.
+- Dấu vân tay TSV mới: `5cc1173362968165`.
+
+**Số cặp sau đợt 1:** Kiên 3.463, Huy 3.256, Đăng 2.637, Tài 2.115 (ai cũng ≥ 2.000).
+
+**Ảnh hưởng tới các đợt sau:** thay đổi ở Bước 6 đã làm đổi một số cặp của HCB_01 (97 khối), HCB_06 (5), HCB_08 (6), HCB_03, HCB_09, HCB_12. Các cặp này sẽ được đọc lại khi tới đợt của từng tác phẩm.
+
+**Công cụ:** `Docs/kiem_tra_toan_bo/cong_cu/` gồm `dump.py` (in cặp theo khúc) và `hd.py` (ghi quyết định hiệu đính theo số cặp).

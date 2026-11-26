@@ -2,7 +2,9 @@
 
 Nguyên tắc (Guideline Bước 6): tách MỊN rồi để Bước 7 GỘP lại khi cần.
   hard : ranh giới câu rõ ràng (。！？ / . ? ! trước chữ hoa) – gộp qua đây bị phạt
-  soft : ranh giới phụ (；, ：, dấu câu nằm trong 「…」/“…”, 。 của sillok) – gộp qua đây không bị phạt
+  soft : ranh giới phụ (；/;, dấu câu nằm trong 「…」/“…”, 。 của sillok) – gộp qua đây không bị phạt
+Dấu hai chấm KHÔNG tách ở cả hai bên: bên Hán 曰：「…」 là một câu, nên bên Việt "X nói: “…”" cũng là một
+(tùy chọn tach_cau.viet_tach_sau_hai_cham để bật lại).
   end  : hết đoạn
 Đầu vào : work/<MA>/clean.jsonl   Đầu ra : work/<MA>/segments.jsonl
 """
@@ -43,12 +45,13 @@ def split_han(text: str, soft_period: bool = False, quote_soft: bool = True) -> 
 
 
 _VI_END = re.compile(r"[.?!…]+[”\"’')\]]*(?=\s)")
-_VI_SOFT = re.compile(r"[;:](?=\s)")
+_VI_SOFT = re.compile(r";(?=\s)")
+_VI_SOFT_COLON = re.compile(r"[;:](?=\s)")
 _VI_NEXT_START = re.compile(r"\s+[“\"‘(\[]?[A-ZÀ-ỸĐ0-9]")
 _ABBR = re.compile(r"(?:\b(?:Tp|TP|St|Th|Q)\.)$")  # viết tắt thường đứng ngay trước tên riêng
 
 
-def split_viet(text: str, quote_soft: bool = True) -> list[tuple[str, str]]:
+def split_viet(text: str, quote_soft: bool = True, colon_cut: bool = False) -> list[tuple[str, str]]:
     cuts: list[tuple[int, str]] = []
     for m in _VI_END.finditer(text):
         end = m.end()
@@ -57,7 +60,7 @@ def split_viet(text: str, quote_soft: bool = True) -> list[tuple[str, str]]:
         if _ABBR.search(text[:m.start() + 1]) and not text[m.start():end].startswith("?"):
             continue
         cuts.append((end, "hard"))
-    for m in _VI_SOFT.finditer(text):
+    for m in (_VI_SOFT_COLON if colon_cut else _VI_SOFT).finditer(text):
         cuts.append((m.end(), "soft"))
     cuts.sort()
     # dấu câu nằm trong ngoặc kép → ranh giới mềm
@@ -102,7 +105,8 @@ def run(project, work: str, log=print) -> dict:
             units = split_han(r["text"], tc.get("han_cham_la_ranh_gioi_mem", False),
                               tc.get("trong_ngoac_kep_la_mem", True))
         else:
-            units = split_viet(r["text"], tc.get("trong_ngoac_kep_la_mem", True))
+            units = split_viet(r["text"], tc.get("trong_ngoac_kep_la_mem", True),
+                               tc.get("viet_tach_sau_hai_cham", False))
         for k, (t, b) in enumerate(units, start=1):
             out.append({"id": f"{r['id']}/u{k:02d}", "block": r["id"], "vol": r["vol"], "lang": r["lang"],
                         "member": r["member"], "sec": r["sec"], "text": t, "end": b,

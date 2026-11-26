@@ -1,6 +1,6 @@
 # Hướng dẫn thực hành `hvalign`
 
-**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.3.1, ngày 2026-11-26.
+**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.3.2, ngày 2026-11-26.
 **Liên quan:** [phan_viec_hvalign.md](phan_viec_hvalign.md) (việc của từng người) · [implementation_plan.md](implementation_plan.md) (thiết kế).
 
 Mọi ví dụ đầu ra trong tài liệu này đều chép từ lần chạy thật trên dữ liệu của nhóm.
@@ -308,9 +308,12 @@ co_rui_ro:
 ```yaml
 tach_cau:
   han_cham_la_ranh_gioi_mem: true   # 。 của sillok chỉ là ngắt nhỏ
+  viet_tach_sau_hai_cham: true      # sillok: giữ tách câu Việt sau ':' để bám vế Hán chia mịn
 dong_hang:
   gop_toi_da: 10                    # cho phép ghép đến 10–1
 ```
+
+Từ bản 0.3.2, mặc định bên Việt **không** tách câu sau dấu hai chấm. Bên Hán 曰：「…」 vốn là một câu, nên bên Việt "X nói: «…»" cũng phải là một câu. Nếu tách, "X nói:" hay bị ghép nhầm vào câu đứng trước (kiểm tra ngày 26/11 tìm thấy khoảng 90 chỗ như vậy ở HCB_01). Chỉ HCB_14 (sillok) bật lại tùy chọn này.
 
 ### 5F. Chương trình nhận sai định dạng tệp
 
