@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import platform
+import re
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -9,6 +10,44 @@ from pathlib import Path
 from . import __version__
 from . import review
 from .notes import notes_for
+from .textutil import CJK_RUN_RE
+
+
+def _han_chars(text: str) -> int:
+    return sum(len(m.group(0)) for m in CJK_RUN_RE.finditer(text))
+
+
+def _viet_syll(text: str) -> int:
+    return len(re.findall(r"[^\W\d_]+", CJK_RUN_RE.sub(" ", text)))
+
+
+def scope_lines(project, work: str, pairs: list[dict], sach: Path) -> list[str]:
+    """Phạm vi được giao, quyển đã dóng và độ phủ – để người đọc thấy ngay tác phẩm đã làm trọn hay mới một phần."""
+    assigned = project.assignments().get(work, {})
+    done = sorted({str(p["vol"]) for p in pairs}, key=lambda v: (len(v), v))
+    vols = sorted((v for v in assigned if v != "*"), key=lambda v: (len(v), v))
+    L = []
+    if "*" in assigned and not vols:
+        L.append(f"- Phạm vi được giao (`config/phan_cong.tsv`): **cả tác phẩm** ({assigned['*']}); "
+                 f"quyển có trong nguồn và đã dóng: {', '.join(done) or 'chưa có'}.")
+    else:
+        miss = [v for v in vols if v not in done]
+        L.append(f"- Phạm vi được giao (`config/phan_cong.tsv`): {len(vols)} quyển; đã dóng "
+                 f"**{len(vols) - len(miss)}/{len(vols)}**" + (f" – còn thiếu: {', '.join(miss)}" if miss else
+                                                                 " (đủ)") + ".")
+        extra = [v for v in done if v not in vols]
+        if extra:
+            L.append(f"- Quyển có cặp nhưng không nằm trong phân công: {', '.join(extra)}.")
+    text = {lang: (sach / f"{lang}.txt").read_text(encoding="utf-8") if (sach / f"{lang}.txt").exists() else ""
+            for lang in ("han", "viet")}
+    tot_h, tot_v = _han_chars(text["han"]), _viet_syll(text["viet"])
+    in_h = sum(_han_chars(p["han"]) for p in pairs)
+    in_v = sum(_viet_syll(p["viet"]) for p in pairs)
+    if tot_h and tot_v:
+        L.append(f"- Độ phủ: các cặp chứa **{min(in_h / tot_h, 1):.1%}** số chữ Hán và **{min(in_v / tot_v, 1):.1%}** "
+                 "số âm tiết Việt của `03_text_sach` (phần chưa phủ là câu không ghép được hoặc cặp bỏ khi hiệu đính; "
+                 "phần chỉ một bản có đã bị loại trừ từ Bước 5, không tính ở đây).")
+    return L
 
 
 def read_tsv(path: Path) -> list[dict]:
@@ -57,9 +96,14 @@ def run(project, work: str, validation=None, log=print) -> Path:
     L += [f"| {v} | {m} | {n} |" for (v, m), n in sorted(vols.items(), key=lambda x: (len(x[0][0]), x[0][0]))]
     kinds = Counter(p["kieu"] for p in pairs)
     L += ["", "Kiểu ghép: " + ", ".join(f"`{k}` {n}" for k, n in kinds.most_common()), ""]
+    L += scope_lines(project, work, pairs, sach) + [""]
 
     L += ["## 2. Số dòng văn bản sạch", "", f"- `03_text_sach/han.txt`: {n_lines['han']} dòng",
-          f"- `03_text_sach/viet.txt`: {n_lines['viet']} dòng", ""]
+          f"- `03_text_sach/viet.txt`: {n_lines['viet']} dòng",
+          "- Thư mục nộp: `01_nguon` (dữ liệu đã tải/crawl), `03_text_sach` (text Hán và Việt đã trích xuất và làm "
+          "sạch), `04_dong_hang` (TSV + XLSX), `bao_cao.md`. Không có `02_ocr_tho`: nguồn là text số "
+          "(wikitext/HTML/txt), không phải ảnh/PDF scan, nên không OCR (theo nhận xét của giảng viên 18/11). "
+          "Tệp `.pdf` trong `01_nguon` là bản in của trang nguồn, lưu để đối chiếu.", ""]
 
     L += ["## 3. Kết quả tự kiểm tra", ""]
     if validation is not None:

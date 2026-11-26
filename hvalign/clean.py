@@ -1,6 +1,6 @@
 """Bước 5 – làm sạch text thô bằng bộ luật R01–R12; mọi luật đều ghi log số lần áp dụng.
 
-Đầu vào : <MA>/02_ocr_tho/{han,viet}/<quyển>.tsv
+Đầu vào : work/<MA>/02_ocr_tho/{han,viet}/<quyển>.tsv  (text thô Bước 4, không nộp)
 Đầu ra  : <MA>/03_text_sach/han.txt, viet.txt   (mỗi dòng một đoạn, không mã)
           work/<MA>/clean.jsonl                   (cùng nội dung, có mã truy vết)
           work/<MA>/clean_log.tsv, loai_tru.tsv, canh_bao.tsv
@@ -215,7 +215,7 @@ def run(project, work: str, log=print) -> dict:
     risk_rules = wcfg.get("co_rui_ro") or []
     rows_out, excluded, log_rows = [], [], []
     text_lines = {"han": [], "viet": []}
-    raw_dir = wdir / "02_ocr_tho"
+    raw_dir = project.raw_dir(work)
     vol_files = sorted({p.stem for p in raw_dir.glob("*/*.tsv")}, key=lambda s: vol_sort_key(s[1:].lstrip("0") or "0"))
     for vl in vol_files:
         for lang in ("han", "viet"):

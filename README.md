@@ -2,7 +2,7 @@
 
 Đồ án giữa kỳ môn Nhập môn NLP, nhóm 4 người (Kiên, Huy, Tài, Đăng).
 
-- `CV02_HCB_xx/` – thư mục bàn giao theo Guideline (`01_nguon`, `02_ocr_tho`, `03_text_sach`, `04_dong_hang`)
+- `CV02_HCB_xx/` – thư mục bàn giao (`01_nguon`, `03_text_sach`, `04_dong_hang`, `bao_cao.md`). Không có `02_ocr_tho`: nguồn là text số, không phải ảnh/PDF scan (nhận xét của giảng viên 18/11); text thô trung gian nằm ở `work/<MA>/02_ocr_tho`, không nộp
 - `hvalign/` – chương trình dóng hàng chung (Bước 4 → 7)
 - `config/` – phân công và cấu hình từng tác phẩm
 - `hieu_dinh/` – quyết định hiệu đính và kết quả chấm mẫu do app ghi (cần commit)

@@ -43,6 +43,11 @@ class Project:
     def scratch(self, work: str) -> Path:
         return self.root / "work" / work
 
+    def raw_dir(self, work: str) -> Path:
+        """Text thô Bước 4. Để trong work/ (không nộp): nguồn là text số, không phải ảnh/PDF scan, nên theo
+        nhận xét của giảng viên (18/11) thư mục nộp không cần 02_ocr_tho."""
+        return self.scratch(work) / "02_ocr_tho"
+
     def work_cfg(self, work: str) -> dict:
         defaults = self.cfg.get("mac_dinh", {})
         return _deep_merge(defaults, load_yaml(CONFIG_DIR / "works" / f"{work}.yaml"))

@@ -1,4 +1,7 @@
-"""Bước 4 – trích text thô có mã truy vết vào <MA>/02_ocr_tho/{han,viet}/<quyển>.tsv.
+"""Bước 4 – trích text thô có mã truy vết vào work/<MA>/02_ocr_tho/{han,viet}/<quyển>.tsv.
+
+Text thô là tệp trung gian, không nộp: nguồn của nhóm là text số (wikitext/HTML/txt), không phải ảnh/PDF scan,
+nên theo nhận xét của giảng viên (18/11) thư mục nộp chỉ cần 01_nguon, 03_text_sach, 04_dong_hang.
 
 Khuôn tệp (giống nhau cho mọi định dạng nguồn):
     # dòng chú thích: nguồn, định dạng nhận dạng được, mã hóa, sha256
@@ -52,6 +55,21 @@ def _harvest(text: str, bid: str, acc: dict) -> None:
         rec["n"] += 1
 
 
+def harvest_sources(project, work: str, acc: dict) -> None:
+    """Thu cặp tên Việt–Hán thẳng từ bản Việt trong 01_nguon (cùng cách đọc với Bước 4, kể cả dòng đề mục).
+
+    Dùng cho mốc dóng hàng (anchors.py): chỉ dựa vào 01_nguon nằm trong git, nên mọi máy ra cùng bộ mốc,
+    không phụ thuộc máy đó đã chạy Bước 4 cho những tác phẩm nào.
+    """
+    wcfg = project.work_cfg(work)
+    vols, _ = plan_sources(project, work, wcfg)
+    force = (wcfg.get("dinh_dang_nguon") or {}).get("viet")
+    for vs in vols:
+        for path in vs.viet:
+            for i, b in enumerate(load_document(path, "viet", force).blocks):
+                _harvest(strip_markers(b.text.replace("\t", " ")), f"{work}/{path.name}#{i}", acc)
+
+
 def run(project, work: str, log=print) -> dict:
     wcfg = project.work_cfg(work)
     wdir = project.work_dir(work)
@@ -59,7 +77,7 @@ def run(project, work: str, log=print) -> dict:
     vols, warnings = plan_sources(project, work, wcfg)
     for w in warnings:
         log(f"  ! {w}")
-    out_dir = wdir / "02_ocr_tho"
+    out_dir = project.raw_dir(work)
     force = wcfg.get("dinh_dang_nguon") or {}
     log_rows, pairs, summary = [], {}, Counter()
     written: set[Path] = set()
@@ -120,7 +138,22 @@ def run(project, work: str, log=print) -> dict:
             first = f.readline()
         if first.startswith(f"# hvalign | {work} "):
             old.unlink()
-            log(f"  · xóa text thô cũ không còn nguồn: 02_ocr_tho/{old.parent.name}/{old.name}")
+            log(f"  · xóa text thô cũ không còn nguồn: work/{work}/02_ocr_tho/{old.parent.name}/{old.name}")
+
+    # Phiên bản cũ ghi text thô vào thư mục nộp <MA_DE_TAI>_<MA>/02_ocr_tho → dọn tệp do chương trình sinh ra
+    # (giữ nguyên tệp người tự đặt vào), xóa thư mục nếu rỗng.
+    legacy = wdir / "02_ocr_tho"
+    if legacy.is_dir():
+        for old in sorted(legacy.glob("*/*.tsv")):
+            with open(old, encoding="utf-8", errors="replace") as f:
+                first = f.readline()
+            if first.startswith(f"# hvalign | {work} "):
+                old.unlink()
+        for d in sorted(legacy.rglob("*"), key=lambda p: -len(p.parts)) + [legacy]:
+            if d.is_dir() and not any(d.iterdir()):
+                d.rmdir()
+        if not legacy.exists():
+            log(f"  · đã bỏ {wdir.name}/02_ocr_tho (text thô nay để ở work/{work}/02_ocr_tho, không nộp)")
 
     write_tsv(scratch / "extract_log.tsv",
               ["quyen", "ngon_ngu", "thanh_vien", "tep", "dinh_dang", "ly_do_nhan_dang", "ma_hoa",

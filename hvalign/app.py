@@ -326,7 +326,11 @@ def pair_list(project, w: str, flt: str, q: str, offset: int, limit: int = 100) 
 
 
 def build_zip(project, works: list[str]) -> bytes:
-    """Gói đúng cấu trúc nộp của Guideline mục 2:  <MA_DE_TAI>_<MA>/01_nguon … 04_dong_hang + bao_cao.md.
+    """Gói cấu trúc nộp: <MA_DE_TAI>_<MA>/01_nguon, 03_text_sach, 04_dong_hang + bao_cao.md.
+
+    Không có 02_ocr_tho: nguồn là text số (wikitext/HTML/txt), không phải ảnh/PDF scan – theo nhận xét của
+    giảng viên (18/11), thư mục nộp cần 03_text_sach (text Hán và Việt đã trích và làm sạch), không cần 02,
+    có thể kèm 01_nguon (dữ liệu đã tải/crawl).
 
     04_dong_hang lấy từ bản xuất mới nhất (work/<MA>/xuat); thư mục 04_dong_hang trong repo không bị đụng tới.
     """
@@ -335,7 +339,7 @@ def build_zip(project, works: list[str]) -> bytes:
         for w in works:
             top = f"{project.code}_{w}"
             wd = project.work_dir(w)
-            for sub in ("01_nguon", "02_ocr_tho", "03_text_sach"):
+            for sub in ("01_nguon", "03_text_sach"):
                 for f in sorted((wd / sub).rglob("*")):
                     if f.is_file():
                         z.write(f, f"{top}/{f.relative_to(wd).as_posix()}")

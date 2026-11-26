@@ -32,6 +32,14 @@ vertical="top"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xf
 </styleSheet>"""
 
 
+
+def _put(z: zipfile.ZipFile, name: str, data: str) -> None:
+    """Ghi một phần của gói .xlsx với thời điểm cố định → cùng dữ liệu thì tệp giống hệt nhau từng byte
+    (git không báo đổi giả mỗi lần chạy lại)."""
+    info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+    info.compress_type = zipfile.ZIP_DEFLATED
+    z.writestr(info, data)
+
 def col_letter(i: int) -> str:
     s, i = "", i + 1
     while i:
@@ -87,19 +95,19 @@ def write_xlsx(path: Path, sheets: list[Sheet]) -> None:
     rels = [f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="{NS_PKG}">']
     with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
         for i, sh in enumerate(sheets, start=1):
-            z.writestr(f"xl/worksheets/sheet{i}.xml", _sheet_xml(sh))
+            _put(z, f"xl/worksheets/sheet{i}.xml", _sheet_xml(sh))
             ct.append(f'<Override PartName="/xl/worksheets/sheet{i}.xml" '
                       'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>')
             wb.append(f'<sheet name="{escape(sh.name)}" sheetId="{i}" r:id="rId{i}"/>')
             rels.append(f'<Relationship Id="rId{i}" Type="{NS_R}/worksheet" Target="worksheets/sheet{i}.xml"/>')
         rels.append(f'<Relationship Id="rId{len(sheets) + 1}" Type="{NS_R}/styles" Target="styles.xml"/>')
-        z.writestr("[Content_Types].xml", "".join(ct) + "</Types>")
-        z.writestr("_rels/.rels", f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        _put(z, "[Content_Types].xml", "".join(ct) + "</Types>")
+        _put(z, "_rels/.rels", f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
                                   f'<Relationships xmlns="{NS_PKG}"><Relationship Id="rId1" '
                                   f'Type="{NS_R}/officeDocument" Target="xl/workbook.xml"/></Relationships>')
-        z.writestr("xl/workbook.xml", "".join(wb) + "</sheets></workbook>")
-        z.writestr("xl/_rels/workbook.xml.rels", "".join(rels) + "</Relationships>")
-        z.writestr("xl/styles.xml", _STYLES)
+        _put(z, "xl/workbook.xml", "".join(wb) + "</sheets></workbook>")
+        _put(z, "xl/_rels/workbook.xml.rels", "".join(rels) + "</Relationships>")
+        _put(z, "xl/styles.xml", _STYLES)
 
 
 @dataclass

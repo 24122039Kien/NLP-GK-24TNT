@@ -1,6 +1,6 @@
 # Hướng dẫn thực hành `hvalign`
 
-**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.3.0, ngày 2026-11-16.
+**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.3.1, ngày 2026-11-26.
 **Liên quan:** [phan_viec_hvalign.md](phan_viec_hvalign.md) (việc của từng người) · [implementation_plan.md](implementation_plan.md) (thiết kế).
 
 Mọi ví dụ đầu ra trong tài liệu này đều chép từ lần chạy thật trên dữ liệu của nhóm.
@@ -15,7 +15,7 @@ Trang chính của app chỉ có 3 bước:
 
 1. **Làm tự động:** bấm **▶ Làm tự động tất cả**. Máy đọc nguồn, làm sạch, tách câu, dóng hàng, **tự viết ghi chú** cho cặp dịch rút gọn hoặc có thêm diễn giải, rồi kiểm định định dạng.
 2. **Nhìn qua (không bắt buộc):** bấm **Xem nhanh** ở một tác phẩm để lướt các cặp máy đã ghi chú. Thấy cặp sai rõ ràng thì bấm **Bỏ** (mục 6).
-3. **Tải về:** bấm **⬇ Tải về** (một tác phẩm) hoặc **⬇ Tải tất cả**. Bạn nhận một tệp `.zip` đúng cấu trúc nộp: `CV02_<MA>/01_nguon … 04_dong_hang/` + `bao_cao.md` (mục 7).
+3. **Tải về:** bấm **⬇ Tải về** (một tác phẩm) hoặc **⬇ Tải tất cả**. Bạn nhận một tệp `.zip` đúng cấu trúc nộp: `CV02_<MA>/01_nguon`, `03_text_sach`, `04_dong_hang/` + `bao_cao.md` (mục 7).
 
 Hiệu đính từng cặp bằng phím, chấm mẫu §8 và ghi vào `04_dong_hang` trong repo vẫn có, ở trang **Công cụ nâng cao** (góc phải trên).
 
@@ -165,7 +165,9 @@ Không ghi `--work` thì chương trình chạy **mọi** tác phẩm có trên 
 
 ## 4. Kiểm tra kết quả, theo đúng thứ tự các bước
 
-### 4.1. Bước 4 – text thô: `CV02_<MA>/02_ocr_tho/{han,viet}/<quyển>.tsv`
+### 4.1. Bước 4 – text thô: `work/<MA>/02_ocr_tho/{han,viet}/<quyển>.tsv`
+
+Đây là tệp trung gian, **không nộp**. Nguồn của nhóm là text số (wikitext/HTML/txt), không phải ảnh hay PDF scan, nên theo nhận xét của giảng viên (18/11) thư mục nộp không cần `02_ocr_tho`. Từ bản 0.3.1, chạy `extract` sẽ tự dọn `CV02_<MA>/02_ocr_tho` cũ.
 
 ```
 HCB_01/q002/han/s01/h	h2	建隆二年⟪*:遼應歴十一年。⟫⟪ref:建隆二年︰辛酉，公元九六一年⟫
@@ -396,16 +398,17 @@ Muốn rà các lỗi giống nhau trên toàn tác phẩm (Guideline §8 yêu c
 
 ## 7. Bàn giao
 
-**Cách dễ nhất: tải về.** Trên trang chính, bấm **⬇ Tải về** ở thẻ tác phẩm hoặc **⬇ Tải tất cả**. Máy tự cập nhật bản xuất, kiểm định, rồi trình duyệt tải tệp `.zip` về thư mục Downloads. Trong `.zip`, mỗi tác phẩm là một thư mục đúng cấu trúc Guideline mục 2:
+**Cách dễ nhất: tải về.** Trên trang chính, bấm **⬇ Tải về** ở thẻ tác phẩm hoặc **⬇ Tải tất cả**. Máy tự cập nhật bản xuất, kiểm định, rồi trình duyệt tải tệp `.zip` về thư mục Downloads. Trong `.zip`, mỗi tác phẩm là một thư mục theo Guideline mục 2 và nhận xét của giảng viên (18/11):
 
 ```
 CV02_HCB_11/
-├── 01_nguon/            (nguyên bản)
-├── 02_ocr_tho/
-├── 03_text_sach/        han.txt, viet.txt
+├── 01_nguon/            dữ liệu đã tải/crawl (nguyên bản; .pdf là bản in trang nguồn để đối chiếu)
+├── 03_text_sach/        han.txt, viet.txt – text Hán và Việt đã trích xuất và làm sạch
 ├── 04_dong_hang/        HCB_11_parallel.tsv, HCB_11_parallel.xlsx
-└── bao_cao.md           số cặp, số dòng, kết quả tự kiểm tra, nguồn, công cụ
+└── bao_cao.md           số cặp, phạm vi và độ phủ, số dòng, kết quả tự kiểm tra, nguồn, công cụ
 ```
+
+Không có `02_ocr_tho`: nguồn là text số, không phải ảnh/PDF scan, nên không có bước OCR. Trong `03_text_sach` chỉ có hai tệp `han.txt` và `viet.txt` do chương trình sinh ra; không đặt thêm tệp text tự làm vào đây.
 
 Tải về **không ghi gì vào repo**. Nếu tác phẩm chưa đạt kiểm định, app báo lỗi và không tải.
 
@@ -454,7 +457,7 @@ git push
 **Quy tắc:**
 - `work/` không đưa lên git (đã có trong `.gitignore`), vì chạy lại là có.
 - **Không** dùng `git push --force`.
-- **Xung đột ở tệp sinh ra** (`02_ocr_tho/`, `03_text_sach/`): không sửa tay. Chọn một bên rồi chạy lại `run`, rồi commit kết quả.
+- **Xung đột ở tệp sinh ra** (`03_text_sach/`, `04_dong_hang/`, `bao_cao.md`): không sửa tay. Chọn một bên rồi chạy lại `run`, rồi commit kết quả.
 - **Xung đột ở `config/phan_cong.tsv`:** giữ dòng của cả hai bên.
 - Sửa code trong `hvalign/` thì phải chạy `python -m pytest -q` và chạy lại `run` cho mọi tác phẩm trước khi push (xem [phan_viec_hvalign.md](phan_viec_hvalign.md), mục 4).
 

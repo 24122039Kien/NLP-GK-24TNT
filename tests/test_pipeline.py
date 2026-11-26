@@ -238,3 +238,45 @@ def test_export_note_column_and_validate(tmp_path: Path):
     assert out["tsv"].read_text(encoding="utf-8").count("\t") == 6  # TSV vẫn đúng 2 cột
     errs, _ = export.validate(pr, "HCB_99", log=lambda *a: None)
     assert errs == []
+
+
+# ------------------------------------------------------------------ cấu trúc nộp (nhận xét GV 18/11)
+def test_xlsx_same_bytes_every_run(tmp_path: Path):
+    sheets = [Sheet("DONG_HANG", [["Hán", "Việt"], ["天下", "thiên hạ"]])]
+    write_xlsx(tmp_path / "a.xlsx", sheets)
+    write_xlsx(tmp_path / "b.xlsx", sheets)
+    assert (tmp_path / "a.xlsx").read_bytes() == (tmp_path / "b.xlsx").read_bytes()
+
+
+def test_raw_text_not_in_submission_and_zip_layout(tmp_path: Path):
+    """Text thô ở work/<MA>/02_ocr_tho; thư mục nộp và gói .zip chỉ có 01_nguon, 03_text_sach, 04_dong_hang,
+    bao_cao.md; tên riêng cho mốc dóng hàng thu thẳng từ 01_nguon."""
+    import io
+    import zipfile
+    from hvalign import app, extract
+    from hvalign.config import Project
+    pr = Project(tmp_path, {"ma_de_tai": "CV02"})
+    wd = tmp_path / "CV02_HCB_99"
+    for lang, name, text in (("han", "書_卷1.wikitext", "福康安奏。\n"),
+                             ("viet", "Sách_Quyển_1.wikitext", "Phúc Khang An (福康安) tâu.\n")):
+        (wd / "01_nguon" / lang).mkdir(parents=True)
+        (wd / "01_nguon" / lang / name).write_text(text, encoding="utf-8")
+    legacy = wd / "02_ocr_tho" / "han"
+    legacy.mkdir(parents=True)
+    (legacy / "q001.tsv").write_text("# hvalign | HCB_99 quyển 1 | han | thành viên: x\n", encoding="utf-8")
+    extract.run(pr, "HCB_99", log=lambda *a: None)
+    assert not (wd / "02_ocr_tho").exists()
+    assert sorted(p.parent.name for p in pr.raw_dir("HCB_99").glob("*/*.tsv")) == ["han", "viet"]
+    acc: dict = {}
+    extract.harvest_sources(pr, "HCB_99", acc)
+    assert ("Phúc Khang An", "福康安") in acc
+    (wd / "03_text_sach").mkdir()
+    (wd / "03_text_sach" / "han.txt").write_text("福康安奏。\n", encoding="utf-8")
+    xuat = pr.scratch("HCB_99") / "xuat"
+    xuat.mkdir()
+    for ext in ("tsv", "xlsx"):
+        (xuat / f"HCB_99_parallel.{ext}").write_text("x", encoding="utf-8")
+    (pr.scratch("HCB_99") / "bao_cao.md").write_text("# x", encoding="utf-8")
+    names = zipfile.ZipFile(io.BytesIO(app.build_zip(pr, ["HCB_99"]))).namelist()
+    assert {n.split("/")[1] for n in names} == {"01_nguon", "03_text_sach", "04_dong_hang", "bao_cao.md"}
+    assert not any("02_ocr_tho" in n for n in names)

@@ -2,7 +2,7 @@
 
 Lệnh:
   inventory  kiểm kê nguồn (đủ cặp, SHA-256, trùng bài)
-  extract    B4: đọc nguồn (.wikitext/.txt/.html), chuẩn hóa → 02_ocr_tho/
+  extract    B4: đọc nguồn (.wikitext/.txt/.html), chuẩn hóa → work/<MA>/02_ocr_tho/ (không nộp)
   clean      B5: làm sạch → 03_text_sach/ + log
   segment    B6: tách câu
   align      B7: dóng hàng 3 tầng
@@ -31,7 +31,7 @@ def status(project, works):
     print(f"  {'Mã':7} {'B4 thô':>7} {'han.txt':>8} {'viet.txt':>8} {'cặp':>6}  theo thành viên")
     for w in works:
         wd, sc = project.work_dir(w), project.scratch(w)
-        raw = len(list((wd / "02_ocr_tho").glob("*/*.tsv")))
+        raw = len(list(project.raw_dir(w).glob("*/*.tsv")))
         lines = []
         for lang in ("han", "viet"):
             p = wd / "03_text_sach" / f"{lang}.txt"
