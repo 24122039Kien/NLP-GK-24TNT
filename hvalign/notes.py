@@ -89,7 +89,8 @@ def notes_for(project, work: str, pairs: list[dict], idx: AnchorIndex | None = N
         except OSError:
             idx = None
     c = ratio_base(pairs)
-    notes = [pair_note(p, c, idx) for p in pairs]
+    # ghi chú do người viết khi hiệu đính (nêu cụ thể phần bị lược) thay cho ghi chú máy đoán theo độ dài
+    notes = [p.get("ghi_chu_hd") or pair_note(p, c, idx) for p in pairs]
     # câu không ghép được → ghi vào cặp đứng ngay trước (mã câu cùng tác phẩm so sánh được theo thứ tự chữ)
     last = {lang: [p[f"{lang}_ids"][-1] for p in pairs] for lang in ("han", "viet")}
     for uid, lang, text in _unpaired(project.scratch(work) / "khong_ghep.tsv"):
@@ -99,7 +100,4 @@ def notes_for(project, work: str, pairs: list[dict], idx: AnchorIndex | None = N
         s = (f"Câu Hán ngay sau không có bản dịch, không đưa vào dữ liệu: «{_short(text)}»" if lang == "han"
              else f"Câu Việt ngay sau không có trong bản Hán, không đưa vào dữ liệu: «{_short(text)}»")
         notes[i] = f"{notes[i]}; {s}" if notes[i] else s
-    for i, p in enumerate(pairs):
-        if p.get("ghi_chu_hd"):
-            notes[i] = f"{notes[i]}; {p['ghi_chu_hd']}" if notes[i] else p["ghi_chu_hd"]
     return notes

@@ -1,6 +1,6 @@
 # Báo cáo tự sinh – HCB_04
 
-Ngày: 2026-11-24 · hvalign 0.3.0 · **Trạng thái: dóng tự động, ghi chú tự động**
+Ngày: 2026-11-26 · hvalign 0.3.0 · **Trạng thái: dóng tự động, ghi chú tự động**
 
 ## 1. Số cặp
 
@@ -27,7 +27,7 @@ Kiểu ghép: `1-1` 61, `1-2` 5, `1-3` 1, `2-2` 1
 - Luật làm sạch đã áp dụng: 
 - Loại trừ (không có bản dịch / không phải chính văn): 0 khối
 - Câu không ghép được (ghi ở `work/HCB_04/khong_ghep.tsv`, không đưa vào TSV): 0
-- Cặp máy gắn cờ: 4 (`lech_moc` 2, `lech_do_dai` 1, `n-m` 1); người đã xem 0
+- Cặp máy gắn cờ: 3 (`lech_moc` 2, `lech_do_dai` 1, `n-m` 1); người đã xem 0
 - Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 0, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_04__<người>.tsv`)
 - Cảnh báo khi làm sạch: 0 (xem `work/HCB_04/canh_bao.tsv`)
 - Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 0 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
@@ -43,7 +43,7 @@ Kiểu ghép: `1-1` 61, `1-2` 5, `1-3` 1, `2-2` 1
 
 ## 5. Công cụ
 
-- `hvalign` 0.3.0 (Lab/GK/hvalign), Python 3.11.9, PyYAML.
+- `hvalign` 0.3.0 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
 - Bước 4: tự nhận dạng định dạng nguồn (wikitext / text thuần / HTML sillok) và chuẩn hóa về một dạng.
 - Bước 7: dóng 3 tầng (mục → đoạn → câu), chi phí Gale–Church + mốc can chi và tên riêng Hán Việt.
 - Cấu hình: `config/project.yaml`, `config/works/HCB_04.yaml`, `config/phan_cong.tsv`.
