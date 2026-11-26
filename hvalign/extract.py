@@ -62,6 +62,7 @@ def run(project, work: str, log=print) -> dict:
     out_dir = wdir / "02_ocr_tho"
     force = wcfg.get("dinh_dang_nguon") or {}
     log_rows, pairs, summary = [], {}, Counter()
+    written: set[Path] = set()
     for vs in vols:
         vl = vol_label(vs.volume)
         for lang in ("han", "viet"):
@@ -108,6 +109,18 @@ def run(project, work: str, log=print) -> dict:
                 log(f"  ! {path_out.name} ({lang}): {residual} dòng còn markup chưa xử lý")
             summary["files"] += 1
             summary["rows"] += len(rows)
+            written.add(path_out.resolve())
+
+    # Xóa tệp text thô cũ của chính chương trình mà lần chạy này không sinh lại (nguồn đã đổi tên/bị bỏ,
+    # hoặc tệp do máy khác sinh ra) – nếu không, Bước 5 vẫn đọc chúng và dóng nhầm. Không đụng tệp người tự viết.
+    for old in sorted(out_dir.glob("*/*.tsv")):
+        if old.resolve() in written:
+            continue
+        with open(old, encoding="utf-8", errors="replace") as f:
+            first = f.readline()
+        if first.startswith(f"# hvalign | {work} "):
+            old.unlink()
+            log(f"  · xóa text thô cũ không còn nguồn: 02_ocr_tho/{old.parent.name}/{old.name}")
 
     write_tsv(scratch / "extract_log.tsv",
               ["quyen", "ngon_ngu", "thanh_vien", "tep", "dinh_dang", "ly_do_nhan_dang", "ma_hoa",

@@ -1,6 +1,6 @@
 # Báo cáo tự sinh – HCB_02
 
-Ngày: 2026-11-26 · hvalign 0.3.0 · **Trạng thái: dóng tự động, ghi chú tự động; người đã xem 3/6 cặp máy gắn cờ**
+Ngày: 2026-11-26 · hvalign 0.3.0 · **Trạng thái: dóng tự động, ghi chú tự động; người đã xem 3/7 cặp máy gắn cờ**
 
 ## 1. Số cặp
 
@@ -27,7 +27,7 @@ Kiểu ghép: `1-1` 21, `1-2` 3, `2-4` 1, `1-3` 1, `2-18` 1
 - Luật làm sạch đã áp dụng: R03_bo_ref ×1, R12_loai_tru ×56
 - Loại trừ (không có bản dịch / không phải chính văn): 56 khối – Bảng nguyên văn chữ Hán + phiên âm, không phải bản dịch (9); Phụ ghi trích Minh thực lục – bản Hán không có (47)
 - Câu không ghép được (ghi ở `work/HCB_02/khong_ghep.tsv`, không đưa vào TSV): 0
-- Cặp máy gắn cờ: 6 (`lech_moc` 5, `lech_do_dai` 2); người đã xem 3
+- Cặp máy gắn cờ: 7 (`lech_moc` 6, `lech_do_dai` 2); người đã xem 3
 - Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 2, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_02__<người>.tsv`)
 - Cảnh báo khi làm sạch: 0 (xem `work/HCB_02/canh_bao.tsv`)
 - Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 2 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET

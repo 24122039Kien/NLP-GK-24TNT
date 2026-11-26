@@ -42,12 +42,26 @@ class AnchorIndex:
 
     @classmethod
     def load(cls, root: Path) -> "AnchorIndex":
+        """Thu cặp tên Việt–Hán từ text thô bản Việt của MỌI tác phẩm trong repo (<MA_DE_TAI>_HCB_xx/02_ocr_tho).
+
+        Không đọc work/*/hv_pairs.tsv nữa: thư mục work/ chỉ có những tác phẩm đã chạy trên máy đó, nên trước
+        đây mỗi máy ra kết quả dóng hơi khác nhau. Text thô nằm trong git, nên mọi máy dùng cùng một bộ mốc.
+        """
+        from .extract import _harvest  # tránh vòng import lúc nạp module
+        from .textutil import strip_markers
+        acc: dict = {}
+        for f in sorted(root.glob("*_HCB_*/02_ocr_tho/viet/*.tsv")):
+            for line in f.read_text(encoding="utf-8").splitlines():
+                cols = line.split("\t")
+                if line.startswith("#") or len(cols) < 3 or cols[0] == "id":
+                    continue
+                _harvest(strip_markers(cols[2]), cols[0], acc)
         pairs: dict[str, set[str]] = {}
-        files = list((root / "work").glob("*/hv_pairs.tsv")) + [root / "resources" / "han_viet_extra.tsv"]
-        for f in files:
-            if not f.exists():
-                continue
-            for line in f.read_text(encoding="utf-8").splitlines()[1:]:
+        for (viet, han) in acc:
+            pairs.setdefault(han, set()).add(viet)
+        extra = root / "resources" / "han_viet_extra.tsv"
+        if extra.exists():
+            for line in extra.read_text(encoding="utf-8").splitlines()[1:]:
                 cols = line.split("\t")
                 if len(cols) >= 2 and not line.startswith("#"):
                     pairs.setdefault(cols[1], set()).add(cols[0])

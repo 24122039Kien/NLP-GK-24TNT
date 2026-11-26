@@ -1,26 +1,19 @@
 # hvalign | HCB_14 quyển 1360 | han | thành viên: Tai
-# nguon: 01_nguon/han/清實錄_大清高宗純皇帝實錄_卷之一千三百六十.wikitext | dinh_dang: wikitext (đuôi .wikitext (link×2)) | ma_hoa: utf-8 | sha256: bbe3ba596b634a5d548fa02fea8c44e9262c466d8b5f4758281d21f307d4da25
+# nguon: 01_nguon/han/清實錄_高宗純皇帝實錄_卷1360_qsilok_007_1360_0010_0010_0010_0010.html | dinh_dang: html (đuôi .html; bộ đọc sillok (div#dmv01 p.paragraph)) | ma_hoa: utf-8 | sha256: 4a4f1698782e11e2589e8b85cc7b5ecb6151f22f14dd4d7da116d22f4dc78f90
+# nguon: 01_nguon/han/清實錄_高宗純皇帝實錄_卷1360_qsilok_007_1360_0010_0010_0110_0030.html | dinh_dang: html (đuôi .html; bộ đọc sillok (div#dmv01 p.paragraph)) | ma_hoa: utf-8 | sha256: 3a9fe8da36573e88a4c00ecc42be281087a820b507e528440f0d136314c8a491
+# nguon: 01_nguon/han/清實錄_高宗純皇帝實錄_卷1360_qsilok_007_1360_0010_0010_0120_0010.html | dinh_dang: html (đuôi .html; bộ đọc sillok (div#dmv01 p.paragraph)) | ma_hoa: utf-8 | sha256: 83c60de0ba17c49b7f431395a5012e5b67c90a111a891c7ddee7e6861152abbc
+# nguon: 01_nguon/han/清實錄_高宗純皇帝實錄_卷1360_qsilok_007_1360_0010_0010_0120_0020.html | dinh_dang: html (đuôi .html; bộ đọc sillok (div#dmv01 p.paragraph)) | ma_hoa: utf-8 | sha256: 48bec3793bf20c903e0bb36f94d0f486d900397953e521d8ce4781612800c7e0
+# nguon: 01_nguon/han/清實錄_高宗純皇帝實錄_卷1360_qsilok_007_1360_0010_0010_0130_0040.html | dinh_dang: html (đuôi .html; bộ đọc sillok (div#dmv01 p.paragraph)) | ma_hoa: utf-8 | sha256: 9ea378ecee2bbfbad8b3bdcd34f82f97b2ef71e405c03cc17fdb0590f774007c
 id	loai	noi_dung
-HCB_14/q1360/han/s00/p001	para	乾隆五十五年八月上／13日(P.236-1)
-HCB_14/q1360/han/s00/p002	para	○辛酉
-HCB_14/q1360/han/s00/p003	para	上八旬萬壽慶節｡遣官祭
-HCB_14/q1360/han/s00/p004	para	福陵。
-HCB_14/q1360/han/s00/p005	para	昭陵。
-HCB_14/q1360/han/s00/p006	para	昭西陵。
-HCB_14/q1360/han/s00/p007	para	孝陵。
-HCB_14/q1360/han/s00/p008	para	孝東陵。
-HCB_14/q1360/han/s00/p009	para	景陵。
-HCB_14/q1360/han/s00/p010	para	泰陵。
-HCB_14/q1360/han/s00/p011	para	泰東陵｡
-HCB_14/q1360/han/s00/p012	para	○遣官祭
-HCB_14/q1360/han/s00/p013	para	孝賢皇后陵｡
-HCB_14/q1360/han/s00/p014	para	○遣官祭
-HCB_14/q1360/han/s00/p015	para	顯佑宮
-HCB_14/q1360/han/s00/p016	para	東嶽廟｡
-HCB_14/q1360/han/s00/p017	para	城隍廟
-HCB_14/q1360/han/s00/p018	para	上詣
-HCB_14/q1360/han/s00/p019	para	奉先殿行禮｡
-HCB_14/q1360/han/s00/p020	para	○御太和殿｡王。貝勒。貝子。公。文武大臣官員｡蒙古王。貝勒。貝子。公。額駙。台吉｡安南國王及陪臣｡朝鮮國。緬甸國。南掌國使臣｡金川土司｡臺灣生番等｡行慶賀禮｡作樂宣表如儀｡禮成｡
-HCB_14/q1360/han/s00/p021	para	上幸寧壽宮｡賜王公大臣。蒙古王。貝勒。貝子。公。
-HCB_14/q1360/han/s00/p022	para	額駙。台吉｡外藩使臣等宴｡
-HCB_14/q1360/han/s00/p023	para	○御乾清宮｡賜宗室諸王等宴皇子。皇孫。皇曾孫。皇元孫。以次舞綵稱祝如儀｡
+HCB_14/q1360/han/s01/h	h3	高宗純皇帝實錄卷之一千三百六十乾隆五十五年八月一日
+HCB_14/q1360/han/s01/p001	para	乾隆五十五年。庚戌。八月。己酉朔。
+HCB_14/q1360/han/s01/p002	para	上御同樂園。賜王、貝勒、貝子、公、大臣蒙古王、貝勒、貝子、公、額駙台吉。回部郡王、伯克。安南國王及陪臣朝鮮、緬甸、南掌等國使臣。金川土司臺灣生番等食。至甲寅皆如之。
+HCB_14/q1360/han/s02/h	h3	高宗純皇帝實錄卷之一千三百六十乾隆五十五年八月十一日
+HCB_14/q1360/han/s02/p001	para	○諭軍機大臣等、據英善奏、安南陪臣陳有和、捧齎賞給阮光垂玉如意回國。於七月初八日進關。並帶阮光垂遣來陪臣阮德潤、陳文對二員。護送前進。在桂林省城。酌量賞賚。准其一體由驛進京等語。陪臣陳有和業經出關回國。將所賞玉如意、面交阮光垂。原可無庸再行赴京。茲又帶同。阮德潤、陳文對二員。一併馳驛前進。而英善於省城接見時。復加以賞賚。徒多繁費。現在阮光平於祝嘏後。即令起程回國。該陪臣等來京。亦已無及。著傳諭英善、即飭知陳有和等。不必馳驛趲行。令其緩程行走。於途次接遇該國王轉程。即隨同回國。較為省便也。將此並諭沿途督撫知之。
+HCB_14/q1360/han/s03/h	h3	高宗純皇帝實錄卷之一千三百六十乾隆五十五年八月十二日
+HCB_14/q1360/han/s03/p001	para	○庚申。
+HCB_14/q1360/han/s03/p002	para	上御禮輿。還宮騎駕鹵簿全設。導迎樂作。並奏萬壽衢歌。皇子、皇孫、皇曾孫、皇元孫、王以下文武大臣官員紳民耆老。蒙古王、貝勒、貝子、公、額駙台吉回部王、公伯克。安南國王及陪臣朝鮮、緬甸、南掌等國使臣。金川土司。臺灣生番等。環跪稱慶。賞賚老民樂工承應匠藝人等有差。
+HCB_14/q1360/han/s03/p003	para	○詣大高殿壽皇殿行禮。
+HCB_14/q1360/han/s04/h	h3	高宗純皇帝實錄卷之一千三百六十乾隆五十五年八月十三日
+HCB_14/q1360/han/s04/p001	para	○御太和殿。王、貝勒、貝子、公、文武大臣官員。蒙古王、貝勒、貝子、公、額駙、台吉。安南國王及陪臣。朝鮮國、緬甸國、南掌國使臣。金川土司。臺灣生番等。行慶賀禮。作樂宣表如儀。禮成。
+HCB_14/q1360/han/s04/p002	para	上幸寧壽宮。賜王公大臣、蒙古王、貝勒、貝子、公、額駙、台吉。外藩使臣等宴。

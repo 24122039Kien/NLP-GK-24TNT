@@ -4,13 +4,13 @@ Ngày: 2026-11-26 · hvalign 0.3.0 · **Trạng thái: dóng tự động, ghi c
 
 ## 1. Số cặp
 
-Tổng: **8104** cặp.
+Tổng: **8102** cặp.
 
 | Thành viên | Số cặp |
 |---|---|
-| Dang | 2343 |
+| Dang | 2344 |
 | Huy | 2129 |
-| Kien | 1961 |
+| Kien | 1958 |
 | Tai | 1671 |
 
 | Quyển | Thành viên | Số cặp |
@@ -23,20 +23,20 @@ Tổng: **8104** cặp.
 | 6 | Kien | 371 |
 | 7 | Huy | 454 |
 | 8 | Tai | 437 |
-| 9 | Dang | 405 |
+| 9 | Dang | 406 |
 | 10 | Kien | 462 |
 | 11 | Huy | 403 |
 | 12 | Dang | 413 |
 | 13 | Dang | 374 |
 | 14 | Dang | 337 |
-| 15 | Kien | 352 |
+| 15 | Kien | 351 |
 | 16 | Huy | 379 |
 | 17 | Tai | 351 |
 | 18 | Dang | 416 |
 | 19 | Tai | 464 |
-| 20 | Kien | 323 |
+| 20 | Kien | 321 |
 
-Kiểu ghép: `1-1` 6497, `1-2` 1387, `1-3` 145, `2-2` 27, `2-1` 24, `1-4` 10, `1-5` 8, `1-6` 4, `1-7` 1, `1-8` 1
+Kiểu ghép: `1-1` 6495, `1-2` 1382, `1-3` 149, `2-2` 29, `2-1` 24, `1-4` 9, `1-5` 8, `1-6` 4, `1-7` 1, `1-8` 1
 
 ## 2. Số dòng văn bản sạch
 
@@ -49,7 +49,7 @@ Kiểu ghép: `1-1` 6497, `1-2` 1387, `1-3` 145, `2-2` 27, `2-1` 24, `1-4` 10, `
 - Luật làm sạch đã áp dụng: R04_bo_chu_nho ×87, R06_bo_chu_han_trong_viet ×1442, R08_bo_dong_tieu_de ×285, R10_chuan_hoa_khoang_trang_dau_cau ×87, rong_sau_lam_sach ×4
 - Loại trừ (không có bản dịch / không phải chính văn): 0 khối
 - Câu không ghép được (ghi ở `work/HCB_01/khong_ghep.tsv`, không đưa vào TSV): 10
-- Cặp máy gắn cờ: 315 (`lech_moc` 190, `lech_do_dai` 103, `n-m` 27); người đã xem 0
+- Cặp máy gắn cờ: 1114 (`lech_moc` 1001, `lech_do_dai` 102, `n-m` 29); người đã xem 0
 - Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 0, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_01__<người>.tsv`)
 - Cảnh báo khi làm sạch: 9 (xem `work/HCB_01/canh_bao.tsv`)
 - Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 5 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET

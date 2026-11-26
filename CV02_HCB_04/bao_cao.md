@@ -27,7 +27,7 @@ Kiểu ghép: `1-1` 61, `1-2` 5, `1-3` 1, `2-2` 1
 - Luật làm sạch đã áp dụng: 
 - Loại trừ (không có bản dịch / không phải chính văn): 0 khối
 - Câu không ghép được (ghi ở `work/HCB_04/khong_ghep.tsv`, không đưa vào TSV): 0
-- Cặp máy gắn cờ: 3 (`lech_moc` 2, `lech_do_dai` 1, `n-m` 1); người đã xem 0
+- Cặp máy gắn cờ: 9 (`lech_moc` 9, `lech_do_dai` 1, `n-m` 1); người đã xem 0
 - Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 0, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_04__<người>.tsv`)
 - Cảnh báo khi làm sạch: 0 (xem `work/HCB_04/canh_bao.tsv`)
 - Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 0 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET

@@ -23,6 +23,7 @@ Kiểu ghép: `1-10` 4, `1-2` 3, `1-1` 1
 
 ## 3. Kết quả tự kiểm tra
 
+- Kiểm định định dạng TSV/XLSX: **đạt**; cảnh báo: 3 cặp có chữ Latin ở vế Hán (thường là mã lỗi chữ chưa tra)
 - Luật làm sạch đã áp dụng: R06_bo_chu_han_trong_viet ×72, R07_bo_nam_duong_lich ×15, R10_chuan_hoa_khoang_trang_dau_cau ×3
 - Loại trừ (không có bản dịch / không phải chính văn): 0 khối
 - Câu không ghép được (ghi ở `work/HCB_03/khong_ghep.tsv`, không đưa vào TSV): 23
@@ -42,7 +43,7 @@ Kiểu ghép: `1-10` 4, `1-2` 3, `1-1` 1
 
 ## 5. Công cụ
 
-- `hvalign` 0.3.0 (Lab/GK/hvalign), Python 3.11.9, PyYAML.
+- `hvalign` 0.3.0 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
 - Bước 4: tự nhận dạng định dạng nguồn (wikitext / text thuần / HTML sillok) và chuẩn hóa về một dạng.
 - Bước 7: dóng 3 tầng (mục → đoạn → câu), chi phí Gale–Church + mốc can chi và tên riêng Hán Việt.
 - Cấu hình: `config/project.yaml`, `config/works/HCB_03.yaml`, `config/phan_cong.tsv`.

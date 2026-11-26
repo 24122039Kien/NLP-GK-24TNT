@@ -1,0 +1,27 @@
+# HCB_10 – 後漢書 卷81 獨行列傳 / Hậu Hán thư quyển 81 (Đăng).
+# Bản Việt chỉ dịch Lời tựa, truyện Lý Thiện (李善) và Lời bàn (评语); 23 truyện còn lại không có bản dịch.
+# Theo trả lời của giảng viên (QA 16/11): chỉ dóng phần có song ngữ → loại 23 truyện bên Hán.
+loai_tru:
+  - {lang: han, muc: "谯玄", ly_do: "Truyện 谯玄 – bản Việt không dịch"}
+  - {lang: han, muc: "李业", ly_do: "Truyện 李业 – bản Việt không dịch"}
+  - {lang: han, muc: "刘茂", ly_do: "Truyện 刘茂 – bản Việt không dịch"}
+  - {lang: han, muc: "温序", ly_do: "Truyện 温序 – bản Việt không dịch"}
+  - {lang: han, muc: "彭脩", ly_do: "Truyện 彭脩 – bản Việt không dịch"}
+  - {lang: han, muc: "索卢放", ly_do: "Truyện 索卢放 – bản Việt không dịch"}
+  - {lang: han, muc: "周嘉", ly_do: "Truyện 周嘉 – bản Việt không dịch"}
+  - {lang: han, muc: "范式", ly_do: "Truyện 范式 – bản Việt không dịch"}
+  - {lang: han, muc: "王忳", ly_do: "Truyện 王忳 – bản Việt không dịch"}
+  - {lang: han, muc: "张武", ly_do: "Truyện 张武 – bản Việt không dịch"}
+  - {lang: han, muc: "陆续", ly_do: "Truyện 陆续 – bản Việt không dịch"}
+  - {lang: han, muc: "戴封", ly_do: "Truyện 戴封 – bản Việt không dịch"}
+  - {lang: han, muc: "李充", ly_do: "Truyện 李充 – bản Việt không dịch"}
+  - {lang: han, muc: "缪肜", ly_do: "Truyện 缪肜 – bản Việt không dịch"}
+  - {lang: han, muc: "陈重", ly_do: "Truyện 陈重 – bản Việt không dịch"}
+  - {lang: han, muc: "雷义", ly_do: "Truyện 雷义 – bản Việt không dịch"}
+  - {lang: han, muc: "范冉", ly_do: "Truyện 范冉 – bản Việt không dịch"}
+  - {lang: han, muc: "戴就", ly_do: "Truyện 戴就 – bản Việt không dịch"}
+  - {lang: han, muc: "赵苞", ly_do: "Truyện 赵苞 – bản Việt không dịch"}
+  - {lang: han, muc: "向栩", ly_do: "Truyện 向栩 – bản Việt không dịch"}
+  - {lang: han, muc: "谅辅", ly_do: "Truyện 谅辅 – bản Việt không dịch"}
+  - {lang: han, muc: "刘翊", ly_do: "Truyện 刘翊 – bản Việt không dịch"}
+  - {lang: han, muc: "王烈", ly_do: "Truyện 王烈 – bản Việt không dịch"}

@@ -1,6 +1,6 @@
 # Báo cáo tự sinh – HCB_11
 
-Ngày: 2026-11-26 · hvalign 0.3.0 · **Trạng thái: dóng tự động, ghi chú tự động; người đã xem 16/79 cặp máy gắn cờ**
+Ngày: 2026-11-26 · hvalign 0.3.0 · **Trạng thái: dóng tự động, ghi chú tự động; người đã xem 16/89 cặp máy gắn cờ**
 
 ## 1. Số cặp
 
@@ -27,7 +27,7 @@ Kiểu ghép: `1-1` 449, `2-1` 36, `1-2` 16, `3-1` 4, `5-2` 1, `6-2` 1, `5-3` 1,
 - Luật làm sạch đã áp dụng: R06_bo_chu_han_trong_viet ×495, R07_bo_nam_duong_lich ×76, R10_chuan_hoa_khoang_trang_dau_cau ×1
 - Loại trừ (không có bản dịch / không phải chính văn): 0 khối
 - Câu không ghép được (ghi ở `work/HCB_11/khong_ghep.tsv`, không đưa vào TSV): 0
-- Cặp máy gắn cờ: 79 (`rut_gon` 69, `lech_moc` 17, `lech_do_dai` 9, `n-m` 1); người đã xem 16
+- Cặp máy gắn cờ: 89 (`rut_gon` 69, `lech_moc` 28, `lech_do_dai` 9, `n-m` 1); người đã xem 16
 - Hiệu đính đã áp: xác nhận đúng 10, sửa chữ 0, gộp 4, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_11__<người>.tsv`)
 - Cảnh báo khi làm sạch: 12 (xem `work/HCB_11/canh_bao.tsv`)
 - Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 33 cặp, ghi ở cột `Ghi chú` của sheet DONG_HANG
