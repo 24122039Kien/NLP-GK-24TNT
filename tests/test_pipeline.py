@@ -52,6 +52,14 @@ def test_wikitext_templates_refs_headings():
     assert d.meta["title"] == "續資治通鑑卷第二"  # đầu đề → siêu dữ liệu, không vào text
 
 
+def test_wikitext_language_conversion_and_quote(tmp_path: Path):
+    p = tmp_path / "x_han.wikitext"
+    p.write_text("又交阯女子-{徵}-側反，皇-{后}--{H|zh-hans:后;zh-hant:后;}-崩。"
+                 "-{zh-hans:范;zh-hant:範}-\n\n{{quote|\n禹敷土。\n}}\n", encoding="utf-8")
+    d = load_document(p, "han")
+    assert [b.text for b in d.blocks] == ["又交阯女子徵側反，皇后崩。範", "禹敷土。"]
+
+
 def test_non_utf8_source_gives_clear_error(tmp_path: Path):
     p = tmp_path / "x_han.txt"
     p.write_bytes("天子曰。".encode("big5"))
@@ -122,6 +130,19 @@ def test_markers_and_titles_han():
     assert _c("春，正月, 丙申朔:", "han") == "春，正月，丙申朔："
     assert _c("春。⟪*:注文⟫", "han", R04_bo_chu_nho=False) == "春。注文"  # tắt luật → giữ chữ của chú
 
+
+
+def test_r13_manual_punctuation_only_when_same_chars(tmp_path: Path):
+    f = tmp_path / "cham.txt"
+    f.write_text("# chú thích\n交趾本南粤之地，漢武帝平南粤。\n後漢置交州，晋宋齊因之。\n", encoding="utf-8")
+    rules = {"R08_bo_dong_tieu_de": True, "R09_sua_ma_chu": True, "R10_chuan_hoa_khoang_trang_dau_cau": True}
+    cl = Cleaner({"lam_sach": rules, "cham_cau_thu_cong": str(f)}, {"SKchar|1": "南"})
+    blk = {"id": "x", "kind": "para", "text": "交趾本⟪char:SKchar|1⟫粤之地　漢武帝平南粤"}
+    assert cl.clean_block(blk, "han", False) == "交趾本南粤之地，漢武帝平南粤。"  # khớp từng chữ (sau R09)
+    # lệch một chữ (州 ≠ 洲) → giữ nguyên bản gốc, không thay
+    assert cl.clean_block({"id": "y", "kind": "para", "text": "後漢置交洲晋宋齊因之"}, "han", False) == "後漢置交洲晋宋齊因之"
+    assert cl.clean_block({"id": "z", "kind": "para", "text": "後漢置交洲"}, "viet", False) == "後漢置交洲"
+    assert cl.punct_used == {"交趾本南粤之地漢武帝平南粤"}  # dòng thứ hai không dùng → run() báo cảnh báo R13
 
 # ------------------------------------------------------------------ Bước 6: tách câu
 def test_split_han_quotes_soft():

@@ -1,1 +1,5 @@
 # HCB_08 - Hau Han thu / Q24: Ma Vien liet truyen
+loai_tru:
+  - {lang: viet, regex: '^Chú thích ý nghĩa', den_het_quyen: true, ly_do: "Lời giải thích của dịch giả cho bài Tán, bản Hán không có"}
+dong_hang:
+  tang2_doan: false     # bản Việt chia đoạn khác hẳn bản Hán (vd. thư răn cháu: 1 đoạn Hán ↔ 7 đoạn Việt, ranh giới lệch 1 câu)

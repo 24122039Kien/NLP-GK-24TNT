@@ -1,1 +1,9 @@
 # HCB_03 - Dong Do Su Luoc / Q130: Phu luc 8 Giao Chi
+# Bản Hán (Tứ khố) không có dấu câu: dùng bản chấm câu thủ công. Chương trình chỉ thay khi bỏ dấu đi thì giống hệt từng chữ.
+cham_cau_thu_cong: resources/cham_cau/HCB_03_q130.txt
+loai_tru:
+  - {lang: han, regex: "^(欽定四庫全書|東都事略卷一百三十)", ly_do: "Dòng tên bộ sách / tên quyển / lạc khoản cuối quyển, không phải nội dung"}
+  - {lang: viet, regex: '^(Khâm định tứ khố toàn thư|《 Đông Đô sự lược 》 quyển 130|Đông Đô sự lược \(東都事略\), quyển 130)', ly_do: "Dòng tên bộ sách / tên quyển / lạc khoản cuối quyển, không phải nội dung"}
+  - {lang: viet, muc: Chú thích, ly_do: "Phần chú thích nguồn của trang vi.wikisource, bản Hán không có"}
+dong_hang:
+  tang2_max: 20        # bản Hán chỉ có 1 đoạn nội dung, ứng với 16 đoạn của bản Việt

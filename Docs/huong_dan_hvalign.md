@@ -1,6 +1,6 @@
 # Hướng dẫn thực hành `hvalign`
 
-**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.3.2, ngày 2026-11-26.
+**Dành cho:** cả nhóm CV02 (Kiên, Huy, Tài, Đăng). **Phiên bản chương trình:** 0.3.3, ngày 2026-11-26.
 **Liên quan:** [phan_viec_hvalign.md](phan_viec_hvalign.md) (việc của từng người) · [implementation_plan.md](implementation_plan.md) (thiết kế).
 
 Mọi ví dụ đầu ra trong tài liệu này đều chép từ lần chạy thật trên dữ liệu của nhóm.
@@ -342,6 +342,30 @@ lam_sach:
 ```
 
 Danh sách luật và giá trị mặc định nằm ở `config/project.yaml`.
+
+### 5I. Bản Hán không có dấu câu (từ 0.3.3)
+
+Ví dụ bản Tứ khố của HCB_03. Chấm câu bản Hán vào một tệp trong `resources/cham_cau/`, mỗi dòng là một đoạn Hán, rồi khai báo:
+
+```yaml
+cham_cau_thu_cong: resources/cham_cau/HCB_03_q130.txt
+```
+
+Chương trình (luật R13) chỉ thay đoạn Hán bằng bản đã chấm khi **bỏ hết dấu câu thì hai bản giống hệt nhau từng chữ** (so sau khi đã tra mã chữ R09). Có dòng nào lệch chữ thì không dùng dòng đó, và `canh_bao.tsv` ghi "R13 … KHÔNG dùng". Chỉ được thêm dấu câu, không được sửa chữ.
+
+### 5J. Hai bản chia đoạn khác nhau
+
+Tầng 2 ghép đoạn trước rồi tầng 3 mới ghép câu. Ghép đoạn sai thì các câu bên trong trượt theo.
+
+```yaml
+dong_hang:
+  tang2_max: 20        # một đoạn Hán dài ứng với nhiều đoạn Việt (mặc định 8); dùng ở HCB_02, 03, 12
+  tang2_doan: false    # bỏ ghép đoạn, dóng câu trên cả mục; dùng ở HCB_08 (chạy chậm hơn, khoảng 1 phút)
+```
+
+### 5K. Thêm cặp tên làm mốc
+
+Mốc tên riêng tự lấy từ dạng "Tên Việt (漢字)" trong bản Việt. Tên nào bản Việt không chú chữ Hán thì thêm vào `resources/han_viet_extra.tsv` (cột `viet`, `han`, `ghi_chu`). Bộ mốc dùng chung cho cả 14 tác phẩm, nên chỉ thêm tên ít gặp, rồi chạy lại cả 14 tác phẩm để so.
 
 ---
 

@@ -1,6 +1,6 @@
 # Báo cáo tự sinh – HCB_13
 
-Ngày: 2026-11-26 · hvalign 0.3.2 · **Trạng thái: dóng tự động, ghi chú tự động**
+Ngày: 2026-11-26 · hvalign 0.3.3 · **Trạng thái: dóng tự động, ghi chú tự động**
 
 ## 1. Số cặp
 
@@ -31,7 +31,7 @@ Kiểu ghép: `1-1` 318, `1-2` 18, `3-3` 1, `2-1` 1
 - Luật làm sạch đã áp dụng: R03_bo_ref ×44, R06_bo_chu_han_trong_viet ×222, R07_bo_nam_duong_lich ×71, R10_chuan_hoa_khoang_trang_dau_cau ×32, R12_loai_tru ×7
 - Loại trừ (không có bản dịch / không phải chính văn): 7 khối – Bản Việt không dịch mục 大理 (7)
 - Câu không ghép được (ghi ở `work/HCB_13/khong_ghep.tsv`, không đưa vào TSV): 0
-- Cặp máy gắn cờ: 35 (`lech_moc` 35); người đã xem 0
+- Cặp máy gắn cờ: 36 (`lech_moc` 36); người đã xem 0
 - Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 2, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_13__<người>.tsv`)
 - Cảnh báo khi làm sạch: 10 (xem `work/HCB_13/canh_bao.tsv`)
 - Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 1 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
@@ -47,7 +47,7 @@ Kiểu ghép: `1-1` 318, `1-2` 18, `3-3` 1, `2-1` 1
 
 ## 5. Công cụ
 
-- `hvalign` 0.3.2 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
+- `hvalign` 0.3.3 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
 - Bước 4: tự nhận dạng định dạng nguồn (wikitext / text thuần / HTML sillok) và chuẩn hóa về một dạng.
 - Bước 7: dóng 3 tầng (mục → đoạn → câu), chi phí Gale–Church + mốc can chi và tên riêng Hán Việt.
 - Cấu hình: `config/project.yaml`, `config/works/HCB_13.yaml`, `config/phan_cong.tsv`.

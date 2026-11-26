@@ -191,6 +191,10 @@ def run(project, work: str, log=print) -> dict:
             else:
                 break
         stats[f"s2:{vol}"] = round(s2, 2)
+        if ac.get("tang2_doan", True) is False:
+            # bỏ ghép đoạn (vẫn dùng s² ước lượng ở trên): tầng 3 dóng câu trên cả mục. Dùng khi hai bản chia đoạn
+            # khác hẳn nhau, ví dụ bản Việt tách một đoạn Hán thành nhiều đoạn với ranh giới lệch câu.
+            par_pairs = [(paragraphs("han", h), paragraphs("viet", v)) for h, v in sec_pairs]
 
         # ---- tầng 3: câu
         for P, Q in par_pairs:

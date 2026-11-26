@@ -84,7 +84,7 @@ _DROP = {
 _DROP_RE = re.compile(r"作品$|^pd-|^cc-|^license", re.I)
 _HEADER_TPL = {"header", "header2", "đầu đề", "đầu đề biên dịch"}
 # Template giữ chữ của tham số đầu (hiển thị chữ bên trong).
-_KEEP_FIRST = {"yl", "參", "nowrap", "small", "big", "larger", "center", "ruby", "lang-zh"}
+_KEEP_FIRST = {"yl", "參", "nowrap", "small", "big", "larger", "center", "ruby", "lang-zh", "quote"}
 _KEEP_LAST = {"lang"}
 # Template chú thích → dấu ⟪loại:…⟫.
 _NOTE = {"*": "*", "注": "注", "小注": "注", "夾注": "注", "efn": "ref", "note": "ref"}
@@ -224,6 +224,24 @@ def _strip_links(s: str) -> str:
     return s
 
 
+_LANG_CONV = re.compile(r"-\{([^{}\n]*)\}-")
+_CONV_PREF = ("zh-hant", "zh-tw", "zh-hk", "zh", "zh-hans", "zh-cn")
+
+
+def _lang_conv(m: re.Match) -> str:
+    """-{X}- → X; -{zh-hans:A;zh-hant:B}- → bản phồn thể; -{H|…}- (chỉ khai báo luật) → bỏ."""
+    body = m.group(1)
+    flag = re.match(r"^\s*([A-Za-z;\s-]{1,10})\|", body)
+    if flag:
+        if any(f in flag.group(1) for f in ("H", "-")):
+            return ""
+        body = body[flag.end():]
+    variants = dict(re.findall(r"(zh(?:-[a-z]+)?)\s*:\s*([^;]*)", body))
+    if variants:
+        return next(variants[k].strip() for k in _CONV_PREF + tuple(variants) if k in variants)
+    return body
+
+
 def read_wikitext(text: str, doc: Doc, han: bool) -> None:
     st = doc.stats
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
@@ -235,6 +253,10 @@ def read_wikitext(text: str, doc: Doc, han: bool) -> None:
         text = re.sub(r"<pages\b[^>]*/>", "", text)
     # dòng in đậm bị ngắt: '''Tên\n''' → '''Tên'''
     text = re.sub(r"'''([^'\n]+)\n'''", r"'''\1'''", text)
+    # markup chuyển đổi phồn/giản của MediaWiki: -{徵}- → 徵
+    text, n_conv = _LANG_CONV.subn(_lang_conv, text)
+    if n_conv:
+        st["bỏ markup -{…}-"] += n_conv
 
     text = _Expander(doc).expand(text)
 

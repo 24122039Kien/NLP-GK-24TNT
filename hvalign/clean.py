@@ -1,6 +1,8 @@
 """Bước 5 – làm sạch text thô bằng bộ luật R01–R12; mọi luật đều ghi log số lần áp dụng.
 
 Đầu vào : work/<MA>/02_ocr_tho/{han,viet}/<quyển>.tsv  (text thô Bước 4, không nộp)
+Chấm câu thủ công (R13, khóa cham_cau_thu_cong): bản Hán không có dấu câu thì thay bằng bản đã chấm trong
+          resources/cham_cau/, CHỈ khi bỏ hết dấu câu thì hai bản giống hệt nhau từng chữ.
 Đầu ra  : <MA>/03_text_sach/han.txt, viet.txt   (mỗi dòng một đoạn, không mã)
           work/<MA>/clean.jsonl                   (cùng nội dung, có mã truy vết)
           work/<MA>/clean_log.tsv, loai_tru.tsv, canh_bao.tsv
@@ -12,7 +14,7 @@ from collections import Counter
 
 from .config import ROOT, norm_vol
 from .extract import read_raw
-from .textutil import (CJK_CLASS, CJK_RE, LATIN_RE, MARKER_RE, VI_LETTER, strip_markers,
+from .textutil import (CJK_CLASS, CJK_RE, HAN_PUNCT, LATIN_RE, MARKER_RE, VI_LETTER, strip_markers,
                        vol_sort_key, write_jsonl, write_tsv)
 
 HAN_SENT_PUNCT = re.compile("[。，、；：？！]")
@@ -43,11 +45,34 @@ def load_char_fix() -> dict[str, str]:
     return out
 
 
+_PUNCT_STRIP = re.compile(rf"[{re.escape(HAN_PUNCT)},.;:?!()\s　]")
+
+
+def han_bare(text: str) -> str:
+    """Chữ Hán trơn: bỏ mọi dấu câu và khoảng trắng – dùng để so bản chấm câu thủ công với bản gốc."""
+    return _PUNCT_STRIP.sub("", text)
+
+
+def load_punctuated(paths) -> dict[str, str]:
+    """Đọc các tệp chấm câu thủ công (mỗi dòng không bắt đầu bằng '#' là một khối Hán đã chấm câu).
+    Trả về {chữ trơn: bản đã chấm}."""
+    out: dict[str, str] = {}
+    for rel in ([paths] if isinstance(paths, str) else (paths or [])):
+        path = ROOT / rel
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line and not line.startswith("#"):
+                out[han_bare(line)] = line
+    return out
+
+
 class Cleaner:
     def __init__(self, wcfg: dict, char_fix: dict[str, str]):
         self.rules = wcfg.get("lam_sach", {})
         self.drop_patterns = wcfg.get("bo_mau") or []
         self.char_fix = char_fix
+        self.punctuated = load_punctuated(wcfg.get("cham_cau_thu_cong"))
+        self.punct_used: set[str] = set()
         self.cnt: Counter = Counter()
         self.warnings: list[tuple[str, str, str]] = []
 
@@ -151,6 +176,12 @@ class Cleaner:
         if not text:
             self.cnt["rong_sau_lam_sach"] += 1
             return None
+        if lang == "han" and self.punctuated:
+            bare = han_bare(text)
+            if bare in self.punctuated:
+                self.punct_used.add(bare)
+                self.cnt["R13_cham_cau_thu_cong"] += 1
+                text = self.punctuated[bare]
         if lang == "viet" and CJK_RE.search(text):
             self.warnings.append((bid, "bản Việt còn chữ Hán", "".join(CJK_RE.findall(text))[:40]))
         if lang == "han" and LATIN_RE.search(text):
@@ -256,6 +287,11 @@ def run(project, work: str, log=print) -> dict:
                     text_lines[lang].append(text)
             diff = cleaner.cnt - before
             log_rows += [(vol, lang, k, v) for k, v in sorted(diff.items())]
+
+    for bare, line in cleaner.punctuated.items():
+        if bare not in cleaner.punct_used:  # chữ không khớp từng chữ với khối nào → không dùng, báo lỗi
+            cleaner.warnings.append(("", "R13 bản chấm câu không khớp chữ với khối Hán nào – KHÔNG dùng", line[:60]))
+            log(f"  ⚠ B5 {work}: một dòng chấm câu thủ công không khớp chữ với bản Hán, đã bỏ qua: {line[:40]}…")
 
     sach = wdir / "03_text_sach"
     sach.mkdir(parents=True, exist_ok=True)

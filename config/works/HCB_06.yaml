@@ -2,3 +2,14 @@
 loai_tru:
   - {lang: han, muc: 他本, ly_do: "Bản Việt không có phần khảo bản"}
   - {lang: han, muc: 斠勘, ly_do: "Bản Việt không có phần giáo khám"}
+  - {lang: han, muc: 秦地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Tần, chưa dịch nội dung"}
+  - {lang: han, muc: 魏地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Ngụy, chưa dịch nội dung"}
+  - {lang: han, muc: 周地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Chu, chưa dịch nội dung"}
+  - {lang: han, muc: 韓地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Hàn, chưa dịch nội dung"}
+  - {lang: han, muc: 趙地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Triệu, chưa dịch nội dung"}
+  - {lang: han, muc: 燕地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Yên, chưa dịch nội dung"}
+  - {lang: han, muc: 齊地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Tề, chưa dịch nội dung"}
+  - {lang: han, muc: 魯地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Lỗ, chưa dịch nội dung"}
+  - {lang: han, muc: 宋地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Tống, chưa dịch nội dung"}
+  - {lang: han, muc: 衛地, ly_do: "Bản Việt (vi.wikisource) chỉ có tiêu đề Đất Vệ, chưa dịch nội dung"}
+  - {lang: han, regex: '^廣陽國，戶二萬七百四$', ly_do: "Dòng lặp dở dang trong nguồn zh.wikisource (dòng 244, lặp đầu dòng 廣陽國 ở trên), không có bản dịch"}

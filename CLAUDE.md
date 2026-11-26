@@ -112,7 +112,8 @@ Kiểm **từng tác phẩm, từng quyển, đọc MỌI cặp**, không bỏ c
 Sau đó: ghi bản nộp vào `04_dong_hang` + `bao_cao.md`, cập nhật `Docs/report7.md` và `TIEN_DO.md`, commit (khi được bảo), rồi báo người dùng.
 
 **Điểm đã biết, cần xem kỹ:**
-- HCB_03: chỉ 8 cặp là đoạn dài, độ phủ âm tiết Việt 73,8%.
+- ~~HCB_03: chỉ 8 cặp là đoạn dài~~ → đã sửa ở đợt 2 (chấm câu thủ công R13, 59 cặp).
+- Bản Việt do thành viên chép tay (`.txt` không có `{{đầu đề…}}`) có thể mất khối `<div>`, `<poem>`, `{{quote}}`; đợt 2 gặp ở HCB_06, 08, 09. Mỗi đợt phải so với wikitext tải qua API (xem `TIEN_DO.md`).
 - HCB_14 Q1421, Q1445: vài cặp lệch ranh giới, ví dụ `批、所見是。` ↔ `Lại tâu:`.
 - HCB_01 phần của Kiên là 1.958 cặp (< 2.000 nếu tính riêng HCB_01; tổng của Kiên là 3.483).
 

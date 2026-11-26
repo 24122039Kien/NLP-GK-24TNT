@@ -1,2 +1,4 @@
 # Bảng thay mã lỗi chữ (R09). Cột 'ma' là chuỗi xuất hiện trong text thô, ví dụ "[BD77]" hoặc "SKchar|…".
 ma	thay_bang	ghi_chu
+SKchar|2652	𫝊	U+2B74A, dị thể của 傳; tra bằng API zh.wikisource ngày 26/11 (HCB_03: 「丁氏𫝊襲三世」, 「再𫝊而遽亡」)
+SKchar|1440	𤋮	U+242EE, dị thể của 熙; tra bằng API zh.wikisource ngày 26/11 (HCB_03: 「𤋮寧八年」, bản Việt cũng ghi 𤋮寧)

@@ -9,3 +9,4 @@ loai_tru:
   - {lang: han, muc: 劉寵, ly_do: "Bản Việt không dịch Lưu Sủng"}
   - {lang: han, muc: 仇覽, ly_do: "Bản Việt không dịch Cừu Lãm"}
   - {lang: han, muc: 童恢, ly_do: "Bản Việt không dịch Đồng Khôi"}
+  - {lang: viet, regex: '^Chú thích từ văn bản', den_het_quyen: true, ly_do: "Bản dịch các lời chú nhỏ của bài Tán; bản Hán đã bỏ chú nhỏ (R04)"}

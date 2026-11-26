@@ -65,3 +65,32 @@ Câu trả lời gợi ý cho giảng viên về HCB_11: *"Bản demo em chỉ t
 **Ảnh hưởng tới các đợt sau:** thay đổi ở Bước 6 đã làm đổi một số cặp của HCB_01 (97 khối), HCB_06 (5), HCB_08 (6), HCB_03, HCB_09, HCB_12. Các cặp này sẽ được đọc lại khi tới đợt của từng tác phẩm.
 
 **Công cụ:** `Docs/kiem_tra_toan_bo/cong_cu/` gồm `dump.py` (in cặp theo khúc) và `hd.py` (ghi quyết định hiệu đính theo số cặp).
+
+## E. Kiểm tra toàn bộ – Đợt 2 (HCB_03, 06, 08, 09 – phần của Huy): XONG
+
+Đã đọc **mọi cặp** của 4 tác phẩm (1.143 cặp sau khi sửa). Chi tiết ở `Docs/kiem_tra_toan_bo/HCB_xx.md`.
+
+| Tác phẩm | Cặp trước → sau | Lỗi chính | Cách sửa |
+|---|---|---|---|
+| HCB_03 | 8 → 59 | Bản Hán (Tứ khố) không có dấu câu; 2 mã chữ `SKchar` chưa tra; giới hạn tầng 2 | Chấm câu thủ công (R13 mới), tra mã chữ qua API zh.wikisource (𫝊, 𤋮), `tang2_max: 20`, `loai_tru` dòng tên sách; 2 ghi chú `dung` về chỗ dịch giả hiểu sai |
+| HCB_06 | 360 → 454 | **Bản Việt tải thiếu** toàn bộ phần dịch 禹貢 trong `{{quote}}`; 10 mục Đất Tần → Đất Vệ chưa dịch; template `quote` chưa được đọc | Tải lại wikitext, `quote` → giữ nội dung, `loai_tru` 10 mục và 1 dòng lặp của nguồn |
+| HCB_08 | 411 → 481 | **Bản Việt tải thiếu** các khối `<div>`, `<poem>` (đoạn Trưng Trắc, trống đồng, thư gửi Dương Quảng); markup `-{徵}-` còn trong text; hai bản chia đoạn khác nhau | Tải lại wikitext, xử lý `-{…}-`, tùy chọn `tang2_doan: false`, 2 cặp tên mốc trong `resources/han_viet_extra.tsv`, `loai_tru` lời giải thích của dịch giả, 3 `gop` |
+| HCB_09 | 132 → 159 | **Bản Việt tải thiếu** khối `<div>` (Nhâm Diên ở Cửu Chân, Tích Quang); bài Tán kèm lời giải thích của dịch giả | Tải lại wikitext, `loai_tru` phần giải thích |
+
+**Nguồn:** 3 tệp Việt (HCB_06, 08, 09) là bản Huy chép từ trang hiển thị, nên mất các khối đặc biệt. Đã thay bằng wikitext tải qua API (giữ tên tệp) và cập nhật `Docs/nguon_manifest_Huy.tsv`: URL đúng, revid, SHA-256, ngày tải 26/11. Bản Hán của 4 tác phẩm trùng với trang hiện tại. Bản Việt HCB_03 đủ nội dung. Các tác phẩm đợt 1 đều là `.wikitext` tải qua API, nên không bị lỗi này.
+
+**Thay đổi chương trình (hvalign 0.3.3):**
+- `clean.py`: luật **R13 chấm câu thủ công** (`cham_cau_thu_cong`). Chỉ thay khi bỏ dấu đi thì giống hệt từng chữ; lệch thì không dùng và ghi cảnh báo.
+- `readers.py`: markup chuyển đổi phồn/giản `-{…}-` → chữ phồn thể (sửa luôn 3 chỗ `-{后}-` ở HCB_01, ranh giới cặp không đổi); template `quote` giữ nội dung.
+- `align.py`: tùy chọn `dong_hang.tang2_doan: false` (dóng câu trên cả mục, bỏ ghép đoạn). Mặc định không đổi.
+- `resources/han_viet_extra.tsv` (mốc tên thêm tay), `resources/cham_cau/HCB_03_q130.txt`, 2 dòng trong `char_fix.tsv`.
+- 2 kiểm thử mới (R13; `-{…}-` và `quote`): 23/23 đạt. Hướng dẫn thêm mục 5I–5K.
+
+**Kiểm chứng:**
+- Bản sao sạch từ git (bcaf883), chép đè 24 tệp nguồn, cấu hình và code, chạy từ đầu: **70/70 tệp nộp giống hệt repo** (TSV, xlsx, `03_text_sach`, `bao_cao.md`).
+- 14/14 kiểm định ĐẠT, `khong_khop = 0` ở mọi tác phẩm. Manifest của Huy khớp SHA 30/30.
+- Dấu vân tay TSV mới: `5983599663f5422a`.
+- TSV của 9 tác phẩm còn lại giống hệt trước, trừ HCB_01 (2 cặp có `-{后}-`).
+- `bao_cao.md` của HCB_01, 04, 11, 13 chỉ đổi số cặp gắn cờ `lech_moc`, vì bộ mốc tên dùng chung đã có thêm tên từ các bản Việt mới tải.
+
+**Số cặp sau đợt 2:** Kiên 3.463, **Huy 3.498** (+242), Đăng 2.637, Tài 2.115.

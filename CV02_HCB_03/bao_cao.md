@@ -1,40 +1,40 @@
 # Báo cáo tự sinh – HCB_03
 
-Ngày: 2026-11-26 · hvalign 0.3.2 · **Trạng thái: dóng tự động, ghi chú tự động**
+Ngày: 2026-11-26 · hvalign 0.3.3 · **Trạng thái: dóng tự động, ghi chú tự động**
 
 ## 1. Số cặp
 
-Tổng: **8** cặp.
+Tổng: **59** cặp.
 
 | Thành viên | Số cặp |
 |---|---|
-| Huy | 8 |
+| Huy | 59 |
 
 | Quyển | Thành viên | Số cặp |
 |---|---|---|
-| 130 | Huy | 8 |
+| 130 | Huy | 59 |
 
-Kiểu ghép: `1-2` 3, `1-10` 3, `1-9` 1, `1-1` 1
+Kiểu ghép: `1-1` 54, `4-1` 2, `2-1` 2, `3-1` 1
 
 - Phạm vi được giao (`config/phan_cong.tsv`): **cả tác phẩm** (Huy); quyển có trong nguồn và đã dóng: 130.
-- Độ phủ: các cặp chứa **100.0%** số chữ Hán và **78.6%** số âm tiết Việt của `03_text_sach` (phần chưa phủ là câu không ghép được hoặc cặp bỏ khi hiệu đính; phần chỉ một bản có đã bị loại trừ từ Bước 5, không tính ở đây).
+- Độ phủ: các cặp chứa **100.0%** số chữ Hán và **100.0%** số âm tiết Việt của `03_text_sach` (phần chưa phủ là câu không ghép được hoặc cặp bỏ khi hiệu đính; phần chỉ một bản có đã bị loại trừ từ Bước 5, không tính ở đây).
 
 ## 2. Số dòng văn bản sạch
 
-- `03_text_sach/han.txt`: 5 dòng
-- `03_text_sach/viet.txt`: 21 dòng
+- `03_text_sach/han.txt`: 2 dòng
+- `03_text_sach/viet.txt`: 17 dòng
 - Thư mục nộp: `01_nguon` (dữ liệu đã tải/crawl), `03_text_sach` (text Hán và Việt đã trích xuất và làm sạch), `04_dong_hang` (TSV + XLSX), `bao_cao.md`. Không có `02_ocr_tho`: nguồn là text số (wikitext/HTML/txt), không phải ảnh/PDF scan, nên không OCR (theo nhận xét của giảng viên 18/11). Tệp `.pdf` trong `01_nguon` là bản in của trang nguồn, lưu để đối chiếu.
 
 ## 3. Kết quả tự kiểm tra
 
-- Kiểm định định dạng TSV/XLSX: **đạt**; cảnh báo: 3 cặp có chữ Latin ở vế Hán (thường là mã lỗi chữ chưa tra)
-- Luật làm sạch đã áp dụng: R06_bo_chu_han_trong_viet ×72, R07_bo_nam_duong_lich ×15, R10_chuan_hoa_khoang_trang_dau_cau ×3
-- Loại trừ (không có bản dịch / không phải chính văn): 0 khối
-- Câu không ghép được (ghi ở `work/HCB_03/khong_ghep.tsv`, không đưa vào TSV): 17
-- Cặp máy gắn cờ: 4 (`lech_do_dai` 4, `lech_moc` 2); người đã xem 0
-- Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 0, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_03__<người>.tsv`)
-- Cảnh báo khi làm sạch: 5 (xem `work/HCB_03/canh_bao.tsv`)
-- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 3 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
+- Kiểm định định dạng TSV/XLSX: **đạt**
+- Luật làm sạch đã áp dụng: R06_bo_chu_han_trong_viet ×71, R07_bo_nam_duong_lich ×15, R09_sua_ma_chu ×3, R12_loai_tru ×8, R13_cham_cau_thu_cong ×2
+- Loại trừ (không có bản dịch / không phải chính văn): 8 khối – Dòng tên bộ sách / tên quyển / lạc khoản cuối quyển, không phải nội dung (6); Phần chú thích nguồn của trang vi.wikisource, bản Hán không có (2)
+- Câu không ghép được (ghi ở `work/HCB_03/khong_ghep.tsv`, không đưa vào TSV): 0
+- Cặp máy gắn cờ: 2 (`lech_moc` 2); người đã xem 0
+- Hiệu đính đã áp: xác nhận đúng 2, sửa chữ 0, gộp 0, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_03__<người>.tsv`)
+- Cảnh báo khi làm sạch: 0 (xem `work/HCB_03/canh_bao.tsv`)
+- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 2 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
 - Phạm vi theo trả lời của giảng viên: chỉ dóng hàng phần có song ngữ; phần chỉ một bản có thì không đưa vào dữ liệu (đã liệt kê ở mục Loại trừ và Câu không ghép được).
 - Tỷ lệ lỗi theo §8 Guideline: chưa chấm mẫu (tuỳ chọn: app → Nâng cao → Chấm mẫu).
 
@@ -47,7 +47,7 @@ Kiểu ghép: `1-2` 3, `1-10` 3, `1-9` 1, `1-1` 1
 
 ## 5. Công cụ
 
-- `hvalign` 0.3.2 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
+- `hvalign` 0.3.3 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
 - Bước 4: tự nhận dạng định dạng nguồn (wikitext / text thuần / HTML sillok) và chuẩn hóa về một dạng.
 - Bước 7: dóng 3 tầng (mục → đoạn → câu), chi phí Gale–Church + mốc can chi và tên riêng Hán Việt.
 - Cấu hình: `config/project.yaml`, `config/works/HCB_03.yaml`, `config/phan_cong.tsv`.
