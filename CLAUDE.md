@@ -98,8 +98,9 @@ Kiểm **từng tác phẩm, từng quyển, đọc MỌI cặp**, không bỏ c
 **Thứ tự sửa, để chạy lại vẫn ra đúng:**
 
 1. Lỗi có hệ thống trước: lệch cả đoạn, thiếu dấu câu, phần không song ngữ. Sửa tận gốc bằng cấu hình `config/works/<MA>.yaml` (`loai_tru`, `dong_hang`…), chấm câu, hoặc sửa `hvalign`.
-2. Sau đó mới sửa từng cặp lẻ bằng `hieu_dinh/<MA>__<người>.tsv` (`gop` / `sai` / `sua` / `dung` / `xoa`). Quyết định gắn với mã câu, nên phải làm **sau** khi cách tách câu đã ổn định.
-3. Lỗi đã sửa ở mức chương trình thì thêm kiểm thử vào `tests/`.
+2. **Chỗ nào hvalign không tự dóng chuẩn thì sửa tay cho chính xác** (người dùng yêu cầu 26/11, coi là human in the loop): ranh giới lệch, nhãn hoặc tiêu đề bị bỏ ở một vế (ví dụ 太史公曰 ↔ "Thái Sử Công nói:"), câu thừa hoặc thiếu. Không dừng ở "ghi chú khi đọc". Lỗi chữ của nguồn (ví dụ 高後) không phải lỗi dóng: giữ nguyên.
+3. Sau đó mới sửa từng cặp lẻ bằng `hieu_dinh/<MA>__<người>.tsv` (`gop` / `sai` / `sua` / `dung` / `xoa`). Quyết định gắn với mã câu, nên phải làm **sau** khi cách tách câu đã ổn định.
+4. Lỗi đã sửa ở mức chương trình thì thêm kiểm thử vào `tests/`.
 
 **Kiểm chứng trước khi coi một đợt là xong:**
 

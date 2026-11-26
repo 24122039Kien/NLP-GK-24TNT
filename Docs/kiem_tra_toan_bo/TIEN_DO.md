@@ -15,7 +15,7 @@ Cập nhật lần cuối: 2026-11-26. Kế hoạch và quy trình: `CLAUDE.md`,
 
 ## Đang làm
 
-Đợt 3 đã xong (commit cục bộ, chưa push), đang chờ người dùng đồng ý sang đợt 4. Kết quả ở `Docs/report7.md` mục F và `HCB_02/10/12.md`.
+Đợt 3 đã xong (commit cục bộ c47d6ca + bổ sung sửa tay HCB_12, chưa push), đang chờ người dùng đồng ý sang đợt 4. Kết quả ở `Docs/report7.md` mục F và `HCB_02/10/12.md`.
 
 ## Bước tiếp theo (đợt 4: HCB_14 – cả 4 người)
 
@@ -29,7 +29,7 @@ Gợi ý chung: nguồn Hán chấm câu thưa (nối cả đoạn bằng ，) t
 
 ## Mốc sau đợt 3
 
-- hvalign 0.3.3 (không đổi code), 14/14 kiểm định ĐẠT, dấu vân tay TSV `a16d2e1e586709fe`, kiểm thử 23/23.
+- hvalign 0.3.3 (không đổi code), 14/14 kiểm định ĐẠT, dấu vân tay TSV `5abc170b74b6ee51`, kiểm thử 23/23.
 - Số cặp: Kiên 3.463, Huy 3.498, Đăng 2.637, Tài 2.137.
 
 ## Mốc sau đợt 2

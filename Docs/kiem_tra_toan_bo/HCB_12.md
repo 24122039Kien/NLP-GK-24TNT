@@ -1,6 +1,6 @@
 # HCB_12 – 史記 卷113 南越列傳 / Sử ký tam gia chú quyển 113, Nam Việt liệt truyện (Tài)
 
-**Trạng thái:** XONG (đợt 3, 2026-11-26). **149 cặp** (1-1×136, 1-2×13), đã đọc hết 149/149, tất cả đúng. Không phải sửa cặp nào, không còn câu nào chưa ghép.
+**Trạng thái:** XONG (đợt 3, 2026-11-26). **149 cặp** (1-1×136, 1-2×13), đã đọc hết 149/149. 3 cặp do máy bỏ tiêu đề nên thiếu nhãn ở một vế, đã sửa tay (`sua`); giờ tất cả đúng, không còn câu nào chưa ghép.
 
 | Bước | Kết quả |
 |---|---|
@@ -11,9 +11,15 @@
 
 **Phạm vi song ngữ:** bỏ 67 dòng lời chú Tam gia chú (Tập giải, Sách ẩn, Chính nghĩa) bên Việt, vì bản Hán chỉ có chính văn. Giữ bài Thái sử công và "Sách Ẩn thuật tán" vì bản Hán có mục 太史公曰 và 索隱述贊. Cấu hình cũ đã đúng.
 
+## Hiệu đính (`hieu_dinh/HCB_12__Tai.tsv`, sửa tay theo yêu cầu "human in the loop")
+
+| Cặp | Lỗi | Sửa |
+|---|---|---|
+| 1 | Bản Việt viết "Nam Việt Vương (南越王)" thành dòng tiêu đề riêng, máy bỏ như tiêu đề, nên vế Việt thiếu 南越王 | `sua` vế Việt: "Nam Việt Vương Úy Đà là người Chân Định, họ Triệu." |
+| 135 | Bên Hán 太史公曰 là tiêu đề mục (bị bỏ), bên Việt nhãn "Thái Sử Công nói:" nằm trong câu | `sua` vế Hán: 「太史公曰：尉佗之王，本由任囂。」 |
+| 145 | Tương tự với 索隱述贊 ↔ "Sách Ẩn thuật tán:" | `sua` vế Hán: 「索隱述贊：中原鹿走，群雄莫制。」 |
+
 ## Ghi chú khi đọc
 
-- Cặp 135 và 145: bên Hán, 太史公曰 / 索隱述贊 là tiêu đề mục (đã bỏ như mọi tiêu đề), còn bên Việt "Thái Sử Công nói:" / "Sách Ẩn thuật tán:" nằm trong câu. Nội dung vẫn khớp.
-- Dòng tiêu đề "Nam Việt Vương (南越王)" ở đầu bản Việt bị bỏ như tiêu đề, tương ứng tiêu đề ==南越王 趙佗== bên Hán.
 - Lỗi chữ của nguồn Hán, giữ nguyên vì không sửa nguồn: 高後 / 太後 (đúng là 后) ở cặp 15, 17, 64, 97; 嫪後 (đúng là 樛后) ở cặp 148.
 - Bản Việt thêm năm dương lịch và giải thích trong ngoặc, ví dụ "(Nguyên Đỉnh năm thứ 4)", "(Lê đán)"; ghi chú tự động đã nêu.

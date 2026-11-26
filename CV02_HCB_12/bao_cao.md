@@ -32,9 +32,9 @@ Kiểu ghép: `1-1` 136, `1-2` 13
 - Loại trừ (không có bản dịch / không phải chính văn): 67 khối – Lời chú Tam gia chú – bản Hán không có (67)
 - Câu không ghép được (ghi ở `work/HCB_12/khong_ghep.tsv`, không đưa vào TSV): 0
 - Cặp máy gắn cờ: 3 (`lech_moc` 3); người đã xem 0
-- Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 0, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_12__<người>.tsv`)
+- Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 3, gộp 0, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_12__<người>.tsv`)
 - Cảnh báo khi làm sạch: 0 (xem `work/HCB_12/canh_bao.tsv`)
-- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 1 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
+- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 3 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
 - Phạm vi theo trả lời của giảng viên: chỉ dóng hàng phần có song ngữ; phần chỉ một bản có thì không đưa vào dữ liệu (đã liệt kê ở mục Loại trừ và Câu không ghép được).
 - Tỷ lệ lỗi theo §8 Guideline: chưa chấm mẫu (tuỳ chọn: app → Nâng cao → Chấm mẫu).
 
