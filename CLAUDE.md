@@ -39,7 +39,9 @@ Ghi tiến độ thường xuyên (sau mỗi khúc cặp đọc xong), không đ
   1. chạy `python -m pytest -q`;
   2. chạy lại `python -m hvalign run` cho cả 14 tác phẩm;
   3. so dấu vân tay các tệp nộp. Chỉ được đổi đúng những gì cố ý sửa.
-- Thử app hoặc thử nghiệm thì làm trên bản sao trong scratchpad, không ghi vào `hieu_dinh/` thật.
+- Thử app hoặc thử nghiệm thì làm trên bản sao, không ghi vào `hieu_dinh/` thật.
+- **Thư mục làm việc tạm: `D:/study_file/Nhập môn NLP/Lab/GK_tam`** (ổ C gần đầy, từ 26/11). Bản sao sạch để kiểm chứng, tệp tải về để đối chiếu và script phụ (`deliver_all.py`, `probe_sillok.py`, `add_sillok.py`, `fetch_*.py`) đặt ở đây, không đặt trong scratchpad trên ổ C. Kiểm chứng xong thì xóa bản sao cũ.
+- Tệp khúc sửa tay để ở `Docs/kiem_tra_toan_bo/khuc/<MA>/` (trong repo) để áp lại được khi máy dóng lại.
 - Mọi tệp sinh ra phải **giống hệt nhau giữa các máy và giữa các lần chạy**: không đưa ngày giờ, đường dẫn máy hay số phiên bản vào nội dung tệp. Riêng dòng ngày trong `bao_cao.md` là ngoại lệ đã biết.
 - Lệnh trên Windows: đặt `PYTHONUTF8=1 PYTHONIOENCODING=utf-8`. Script nằm ngoài repo cần `PYTHONPATH=.`.
 
@@ -104,7 +106,7 @@ Kiểm **từng tác phẩm, từng quyển, đọc MỌI cặp**, không bỏ c
 
 **Kiểm chứng trước khi coi một đợt là xong:**
 
-1. Chạy hvalign từ đầu trên **bản sao sạch** (clone từ git vào scratchpad).
+1. Chạy hvalign từ đầu trên **bản sao sạch** (clone từ git vào `Lab/GK_tam` trên ổ D).
 2. Rà lại đúng các cặp đã sửa.
 3. Hai lần chạy cho cùng dấu vân tay.
 4. Bản trong `04_dong_hang` khớp với lần chạy lại.
@@ -121,7 +123,11 @@ Sau đó: ghi bản nộp vào `04_dong_hang` + `bao_cao.md`, cập nhật `Docs
 - ~~HCB_14 Q1421, Q1445 lệch ranh giới~~ → đợt 4 đã chia lại toàn bộ HCB_14.
 - Sillok dùng 。 cả ở chỗ ngắt nhỏ: máy hay trượt 1 vế suốt quyển → chia lại bằng `cong_cu/chia_lai.py` (giữ nguyên chữ). Câu Việt không có vế Hán thường là do **thiếu bài sillok cùng ngày** → tải thêm (id `…_<ngày×10>_<số bài>`), đừng bỏ.
 - Quyết định `sua`/`sai` gắn với cặp máy: sửa code/cấu hình làm máy dóng lại thì kiểm `khong_khop`, lệch thì xóa quyết định của quyển đó và áp lại tệp khúc.
-- HCB_01 phần của Kiên là 1.958 cặp (< 2.000 nếu tính riêng HCB_01; tổng của Kiên là 3.483).
+- HCB_01 phần của Kiên là 1.955 cặp (< 2.000 nếu tính riêng HCB_01; tổng của Kiên là 3.463).
+- HCB_01 (nguồn zh.wikisource), điểm đã gặp ở đợt 5:
+  - Chữ ghép bộ: một chữ bị viết thành bộ thủ + chữ khác (扌晉 = 搢, 衤復 = 複, 钅句 = 鉤). Sửa bằng `sua`. Tìm bằng regex bộ thủ đứng riêng `[衤礻扌氵亻犭忄阝钅]` trên `03_text_sach/han.txt`. Còn #6686, #7157, #7358, #7451 cho đợt 6.
+  - Đầu mỗi đời vua, nguồn zh đặt tiêu đề đế hiệu **sau** đoạn tiểu sử, còn bản Việt đưa tên lên đầu câu, nên máy trượt 1 vế (q9 #3421–3425). Đợt 6 cần xem kỹ chỗ chuyển đời vua.
+- `.xlsx` có ô "Ngày xuất" (`hvalign/export.py`): chạy khác ngày thì `.xlsx` và `bao_cao.md` của mọi tác phẩm đổi theo. Tác phẩm không sửa thì `git checkout` lại 2 tệp này, đừng commit thay đổi chỉ do ngày. Chưa chốt có bỏ ô này hay không (đã nêu ở report7 mục H).
 
 ## 6. Lệnh hay dùng
 

@@ -21,7 +21,7 @@
 
 ## Sửa tay (human in the loop) – `hieu_dinh/HCB_14__<người>.tsv`
 
-Bản Việt ngắt câu khác hẳn dấu 。 của sillok (sillok dùng 。 cả ở chỗ ngắt nhỏ). Vì vậy máy thường trượt 1 vế suốt quyển. Mọi quyển đều được chia lại ranh giới bằng `cong_cu/chia_lai.py`, với ràng buộc nối toàn bộ chữ Hán và toàn bộ chữ Việt của khúc phải **giống hệt** bản gốc. Tệp khúc lưu ở scratchpad `khuc/q<quyển>.txt`. Tổng cộng 544 `sua`, 22 `sai`. 22 cặp `sai` đều thuộc Q1346, là các cặp số thứ tự "1.", "2."… đã ghép vào nội dung điều tương ứng.
+Bản Việt ngắt câu khác hẳn dấu 。 của sillok (sillok dùng 。 cả ở chỗ ngắt nhỏ). Vì vậy máy thường trượt 1 vế suốt quyển. Mọi quyển đều được chia lại ranh giới bằng `cong_cu/chia_lai.py`, với ràng buộc nối toàn bộ chữ Hán và toàn bộ chữ Việt của khúc phải **giống hệt** bản gốc. Tệp khúc lưu ở `Docs/kiem_tra_toan_bo/khuc/HCB_14/q<quyển>*.txt`. Tổng cộng 544 `sua`, 22 `sai`. 22 cặp `sai` đều thuộc Q1346, là các cặp số thứ tự "1.", "2."… đã ghép vào nội dung điều tương ứng.
 
 | Người | Quyển (số cặp sau sửa) |
 |---|---|

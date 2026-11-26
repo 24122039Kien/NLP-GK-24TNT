@@ -142,3 +142,33 @@ Câu trả lời gợi ý cho giảng viên về HCB_11: *"Bản demo em chỉ t
 - TSV của 13 tác phẩm khác giữ nguyên; `.xlsx` và `bao_cao.md` của các tác phẩm này chỉ đổi số phiên bản 0.3.3 → 0.3.4.
 
 **Số cặp sau đợt 4:** Kiên 3.463 (HCB_14: 124), Huy 3.504 (225), **Tài 2.149** (279), **Đăng 2.663** (284).
+
+## H. Kiểm tra toàn bộ – Đợt 5 (HCB_01 quyển 1–10 – cả 4 người): XONG
+
+Đã đọc **mọi cặp** của quyển 1–10 (4.285 cặp, #1–#4285). Chi tiết ở `Docs/kiem_tra_toan_bo/HCB_01.md`.
+
+**Nguồn và manifest:**
+- Đã tải lại 20 trang qua API wikisource để đối chiếu. Mọi trang đều khớp bản hiện hành.
+- Bổ sung manifest cho q1, q8 (Tài) và q4, q9 (Đăng); điền revid cho q3, 5, 7 (Huy). 30/30 tệp khớp SHA.
+
+**Lỗi hệ thống đã sửa:**
+- Bản Việt q1 có đoạn tiểu sử Thái Tổ dịch từ lời chú nhỏ mà bên Hán đã bỏ. Đã đặt `loai_tru` trong `config/works/HCB_01.yaml`.
+- Trang zh/vi quyển 5 chép trùng một đoạn. Đã bỏ 2 cặp lặp, nên HCB_01 giảm từ 8.094 xuống **8.092 cặp**.
+
+**Sửa tay (human in the loop):** 40 quyết định (37 `sua`, 2 `sai`, 1 `dung`).
+- Chia lại ranh giới 9 khúc (`khuc/HCB_01/q1_a` … `q9_b`). Lớn nhất là q9 #3421–3425: tiêu đề 太宗…皇帝 trong nguồn zh đặt sau đoạn tiểu sử, làm máy trượt 1 vế.
+- Bỏ phần ngoặc là bản dịch lời chú nhỏ `{{*|…}}` ở 6 cặp.
+- Sửa lỗi chữ của nguồn zh:
+  - chữ PUA (渾瑊, 踰);
+  - chữ ghép bộ (扌晉 → 搢, 衤復 → 複, 钅句 → 鉤);
+  - ký tự rác ở 3 cặp.
+- Lỗi chữ có nghĩa (餘斌, ngày can chi sai thứ tự) và lỗi thiếu dấu của bản dịch được giữ nguyên.
+
+**Kiểm chứng:**
+- Chạy từ đầu trên bản sao sạch (3142d80 + toàn bộ thay đổi chưa commit), chạy 2 lần: **70/70 tệp nộp giống repo**, chỉ khác ô ngày.
+- 14/14 kiểm định ĐẠT, `khong_khop = 0` ở mọi tác phẩm, 24/24 kiểm thử đạt. Dấu vân tay TSV: `3881da12c970ac7b`.
+- TSV của 13 tác phẩm khác giữ nguyên. `.xlsx` và `bao_cao.md` của các tác phẩm này chỉ khác ngày xuất, nên giữ bản đã commit.
+
+**Điểm mở:** `.xlsx` có ô "Ngày xuất" (`hvalign/export.py`). Ô này đổi theo ngày chạy, giống dòng ngày trong `bao_cao.md`. Cần quyết định giữ nó như một ngoại lệ đã biết, hay bỏ đi để `.xlsx` giống hệt nhau giữa các ngày.
+
+**Số cặp sau đợt 5:** Kiên 3.463 (HCB_01: 1.955), Huy **3.502** (2.124), Tài 2.149 (1.672), Đăng 2.663 (2.341).

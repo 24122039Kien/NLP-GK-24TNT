@@ -1,3 +1,7 @@
 # HCB_01 – 續資治通鑑 / Tục tư trị thông giám (quyển 1–20, chia cho cả 4 người; xem phan_cong.tsv)
 # Bản Hán có {{*|…}} (chú nhỏ, gồm 【攷異】) và <ref> năm công nguyên → R03, R04 xóa.
 # 5 quyển của Kiên có 507 mốc can chi khớp thứ tự giữa hai bản (Check_Kien.md).
+loai_tru:
+  # Q1: đoạn tiểu sử Thái Tổ ở đầu bản Việt là bản dịch lời chú nhỏ {{*|帝諱匡胤…}} sau miếu hiệu bên Hán;
+  # R04 bỏ mọi lời chú nhỏ bên Hán (như HCB_09 bỏ bản dịch lời chú) → bỏ đoạn dịch tương ứng bên Việt.
+  - {lang: viet, id: "HCB_01/q001/viet/s00/p001", ly_do: "Bản dịch lời chú nhỏ {{*|帝諱匡胤…}} – bên Hán đã bỏ lời chú (R04)"}

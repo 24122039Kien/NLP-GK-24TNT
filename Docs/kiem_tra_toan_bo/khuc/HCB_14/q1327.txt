@@ -1,0 +1,52 @@
+H: ○御製安南記事文曰、
+V: Bài văn ngự chế Ký sự An Nam dịch như sau:
+H: 安南雖南瀛小邦耶。然亦有民人焉。有社稷焉。且奉本朝正朔。稱外藩者百餘年。
+V: An Nam tuy là một nước nhỏ ở phương Nam, nhưng cũng có dân, có xã tắc, lại phụng hành chính thống của triều đình ta, xưng là ngoại phiên đã hơn trăm năm.
+H: 其邦遭亂。興滅繼絕。禮亦宜之。是蓋奉天道也。
+V: Nước ấy gặp loạn, việc hưng diệt nối tiếp, lễ nghi cũng nên theo đó, ấy là thuận theo đạo trời vậy.
+H: 然彼邦之遭亂。豈無所由。
+V: Song nước ấy gặp loạn, há lại không có nguyên do?
+H: 且其據黎城而擅號召者。原非一姓也。
+V: Kẻ chiếm cứ Lê Thành mà tự xưng hiệu triệu, vốn chẳng phải một họ.
+H: 則自古至今。主中華而稱正統者。率可知矣。
+V: Từ xưa đến nay, ai làm chủ Trung Hoa mà xưng chính thống, đều có thể biết rõ.
+H: 雖乘除有命。而興亡在人。
+V: Tuy hưng vong có mệnh, nhưng thành bại là do người.
+H: 順天者昌。逆天者亡。
+V: Thuận thiên thì thịnh, nghịch thiên thì vong.
+H: 吁。是不大可畏乎。
+V: Than ôi, đó chẳng phải là điều rất đáng sợ sao?
+H: 黎城既復。嗣孫重封。
+V: Lê Thành đã được thu hồi, hậu duệ được phong lại.
+H: 其陷於阮之土地。以次傳檄而定。
+V: Đất đai rơi vào tay họ Nguyễn, rồi lần lượt truyền hịch mà định.
+H: 二阮窮蹙。竄歸廣南。
+V: Hai họ Nguyễn cùng đường, trốn về Quảng Nam.
+H: 廣南去黎城又二千餘里。
+V: Quảng Nam cách Lê Thành hơn 2.000 dặm.
+H: 是役也。官軍裹糧以進設臺站以運。不資安南一草一木。
+V: Trận này, quan quân mang lương tiến đánh, lập trạm vận chuyển, không dùng đến một cọng cỏ một nhành cây của An Nam.
+H: 而安南荒亂之餘。亦不能供軍儲也。
+V: Mà An Nam sau loạn cũng không thể cung cấp quân nhu.
+H: 官軍纔萬餘。而臺站運糧之夫。將用至十餘萬。則勞內地矣。
+V: Quan quân chỉ hơn 10.000, nhưng dân phu vận lương cho trạm có thể lên đến hơn 100.000, vậy là đã làm khổ nội địa.
+H: 因護外小邦。為之掃穴執醜。而勞內地。是大不可也。
+V: Vì bảo vệ một nước nhỏ bên ngoài mà phải quét sạch hang ổ, bắt giặc, khiến nội địa lao lực, đó là điều rất không nên.
+H: 且既己為之興滅繼絕。則彼之竄寇。應付彼平之。
+V: Huống hồ đã thay họ hưng diệt nối tiếp, thì giặc trốn cũng nên để họ tự xử.
+H: 夫以國家之力。抵廣南。執二醜亦優為之。
+V: Với sức nước nhà, đến Quảng Nam bắt hai tên giặc cũng không khó.
+H: 但權其輕重。知止不殆。
+V: Nhưng xét nhẹ nặng, biết dừng thì không nguy.
+H: 佳兵不祥。
+V: Binh tốt không phải là điềm lành.
+H: 且安南亦一小邦也。
+V: An Nam cũng chỉ là một nước nhỏ.
+H: 黎氏近代以來。鮮有能為自強之君。或者天將厭其德乎。
+V: Họ Lê gần đây hiếm có vua biết tự cường, có lẽ trời đã chán đức của họ.
+H: 夫天厭其德之邦。而予助之。則予豈敢。
+V: Một nước bị trời chán ghét mà ta lại giúp, thì ta há dám sao?
+H: 出師以定亂。班師以知退。或者不違天道。而有合於王者之師乎
+V: Xuất quân để bình loạn, rút quân để biết dừng, có lẽ không trái đạo trời, mà hợp với đạo quân vương vậy.
+H: 是為記。
+V: Bài này là để ghi lại.
