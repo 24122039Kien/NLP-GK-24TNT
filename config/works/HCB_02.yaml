@@ -1,0 +1,9 @@
+# HCB_02 – 平安南詔 / Bình An Nam chiếu (Tài). Bản Hán: một đoạn chiếu văn duy nhất.
+# Bản Việt có 3 phần: (s00) bảng "Nguyên văn chữ Hán | Phiên âm Hán Việt", (s01) "Dịch nghĩa", (s02) "Phụ ghi"
+# trích Minh thực lục (đoạn sau của chiếu, bản Hán không có).
+# Theo trả lời của giảng viên (QA 16/11): chỉ dóng phần có song ngữ → chỉ giữ phần Dịch nghĩa.
+loai_tru:
+  - {lang: viet, id: "HCB_02/q001/viet/s00/", ly_do: "Bảng nguyên văn chữ Hán + phiên âm, không phải bản dịch"}
+  - {lang: viet, muc: "Phụ ghi", ly_do: "Phụ ghi trích Minh thực lục – bản Hán không có"}
+dong_hang:
+  tang2_max: 20        # bản Hán chỉ có 1 đoạn, bản Việt chia 17 đoạn

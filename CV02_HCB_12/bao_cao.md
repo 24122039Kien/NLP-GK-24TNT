@@ -1,36 +1,36 @@
 # Báo cáo tự sinh – HCB_12
 
-Ngày: 2026-11-24 · hvalign 0.3.0 · **Trạng thái: dóng tự động, ghi chú tự động**
+Ngày: 2026-11-26 · hvalign 0.3.0 · **Trạng thái: dóng tự động, ghi chú tự động**
 
 ## 1. Số cặp
 
-Tổng: **119** cặp.
+Tổng: **148** cặp.
 
 | Thành viên | Số cặp |
 |---|---|
-| chua_phan_cong | 119 |
+| Tai | 148 |
 
 | Quyển | Thành viên | Số cặp |
 |---|---|---|
-| 113 | chua_phan_cong | 119 |
+| 113 | Tai | 148 |
 
-Kiểu ghép: `1-1` 46, `1-2` 15, `1-3` 15, `1-4` 11, `1-10` 7, `2-1` 5, `1-8` 4, `1-5` 4, `1-9` 3, `8-1` 2, `1-7` 2, `1-6` 2, `2-2` 2, `10-1` 1
+Kiểu ghép: `1-1` 118, `1-2` 27, `1-3` 2, `2-2` 1
 
 ## 2. Số dòng văn bản sạch
 
 - `03_text_sach/han.txt`: 14 dòng
-- `03_text_sach/viet.txt`: 126 dòng
+- `03_text_sach/viet.txt`: 59 dòng
 
 ## 3. Kết quả tự kiểm tra
 
 - Kiểm định định dạng TSV/XLSX: **đạt**
-- Luật làm sạch đã áp dụng: R06_bo_chu_han_trong_viet ×158, R07_bo_nam_duong_lich ×4, R08_bo_dong_tieu_de ×2
-- Loại trừ (không có bản dịch / không phải chính văn): 0 khối
-- Câu không ghép được (ghi ở `work/HCB_12/khong_ghep.tsv`, không đưa vào TSV): 46
-- Cặp máy gắn cờ: 81 (`lech_moc` 68, `lech_do_dai` 22, `n-m` 2); người đã xem 0
+- Luật làm sạch đã áp dụng: R06_bo_chu_han_trong_viet ×83, R07_bo_nam_duong_lich ×3, R08_bo_dong_tieu_de ×2, R12_loai_tru ×67
+- Loại trừ (không có bản dịch / không phải chính văn): 67 khối – Lời chú Tam gia chú – bản Hán không có (67)
+- Câu không ghép được (ghi ở `work/HCB_12/khong_ghep.tsv`, không đưa vào TSV): 0
+- Cặp máy gắn cờ: 4 (`lech_moc` 3, `n-m` 1); người đã xem 0
 - Hiệu đính đã áp: xác nhận đúng 0, sửa chữ 0, gộp 0, bỏ cặp sai 0 (quyết định lưu ở `hieu_dinh/HCB_12__<người>.tsv`)
 - Cảnh báo khi làm sạch: 0 (xem `work/HCB_12/canh_bao.tsv`)
-- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 19 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
+- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 2 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
 - Phạm vi theo trả lời của giảng viên: chỉ dóng hàng phần có song ngữ; phần chỉ một bản có thì không đưa vào dữ liệu (đã liệt kê ở mục Loại trừ và Câu không ghép được).
 - Tỷ lệ lỗi theo §8 Guideline: chưa chấm mẫu (tuỳ chọn: app → Nâng cao → Chấm mẫu).
 
@@ -43,7 +43,7 @@ Kiểu ghép: `1-1` 46, `1-2` 15, `1-3` 15, `1-4` 11, `1-10` 7, `2-1` 5, `1-8` 4
 
 ## 5. Công cụ
 
-- `hvalign` 0.3.0 (Lab/GK/hvalign), Python 3.11.9, PyYAML.
+- `hvalign` 0.3.0 (Lab/GK/hvalign), Python 3.12.6, PyYAML.
 - Bước 4: tự nhận dạng định dạng nguồn (wikitext / text thuần / HTML sillok) và chuẩn hóa về một dạng.
 - Bước 7: dóng 3 tầng (mục → đoạn → câu), chi phí Gale–Church + mốc can chi và tên riêng Hán Việt.
 - Cấu hình: `config/project.yaml`, `config/works/HCB_12.yaml`, `config/phan_cong.tsv`.

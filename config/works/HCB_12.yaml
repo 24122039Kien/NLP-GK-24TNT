@@ -1,0 +1,8 @@
+# HCB_12 – 史記 卷113 南越列傳 / Sử ký tam gia chú quyển 113 (Tài).
+# Bản Việt dịch kèm chú giải Tam gia chú (集解 Tập giải, 索隱 Sách ẩn, 正義 Chính nghĩa), mỗi lời chú là một
+# dòng liệt kê riêng; bản Hán (zh.wikisource) chỉ có chính văn. Theo trả lời của giảng viên: chỉ dóng phần có
+# song ngữ → bỏ các lời chú bên Việt, dóng chính văn. Giữ "Sách Ẩn thuật tán" vì bản Hán có mục 索隱述贊.
+loai_tru:
+  - {lang: viet, loai: item, regex: '^(Sách ẩn|Tập giải|Chính nghĩa)[ :(]', ly_do: "Lời chú Tam gia chú – bản Hán không có"}
+dong_hang:
+  tang2_max: 20        # một đoạn Hán dài ứng với nhiều đoạn Việt ngắn
