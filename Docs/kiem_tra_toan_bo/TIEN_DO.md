@@ -9,8 +9,8 @@ Cập nhật lần cuối: 2026-11-27. Kế hoạch và quy trình: `CLAUDE.md`,
 | 1 | HCB_04, 05, 07, 11, 13 | **XONG** 26/11 (report7 mục D), đã push bcaf883 |
 | 2 | HCB_03, 06, 08, 09 | **XONG** 26/11 (report7 mục E), đã push 587a97a |
 | 3 | HCB_02, 10, 12 | **XONG** 26/11 (report7 mục F), đã push 32db2ae |
-| 4 | HCB_14 | **XONG** 26/11 (report7 mục G), commit 3142d80 (chưa push) |
-| 5 | HCB_01 quyển 1–10 | **XONG** 27/11 (report7 mục H), đã commit (chưa push) |
+| 4 | HCB_14 | **XONG** 26/11 (report7 mục G), đã push 3142d80 |
+| 5 | HCB_01 quyển 1–10 | **XONG** 27/11 (report7 mục H), đã push 5123b3e |
 | 6 | HCB_01 quyển 11–20 | chưa bắt đầu (chờ người dùng đồng ý) |
 
 ## Đang làm
@@ -33,7 +33,11 @@ Số # (theo TSV sau đợt 5, tổng 8.092 cặp) và người phụ trách:
    - Lỗi chữ lẻ: dùng `hd.py … sua`.
    - Chữ ghép bộ đã biết: #6686 钅屈, #7157 và #7358 鹿阝 (= 鄜), #7451 扌捲. Kiểm lại số # trước khi sửa, vì có thể đã dời.
    - Xem kỹ chỗ chuyển đời vua: tiêu đề đế hiệu trong nguồn zh đặt sau đoạn tiểu sử.
-4. Sau đợt: chạy lại 14 tác phẩm, kiểm `khong_khop`, kiểm chứng trên bản sao sạch ở GK_tam, bàn giao (`GK_tam/deliver_all.py`). `git checkout` lại `.xlsx`/`bao_cao.md` của tác phẩm chỉ đổi ngày. Cập nhật report7 (mục I), HCB_01.md và TIEN_DO.
+4. Sau đợt: chạy lại 14 tác phẩm, kiểm `khong_khop`, kiểm chứng trên bản sao sạch ở GK_tam, bàn giao (`GK_tam/deliver_all.py`). `git checkout` lại `bao_cao.md` của tác phẩm chỉ đổi ngày (từ 0.3.5 `.xlsx` không còn ô ngày). Cập nhật report7 (mục I), HCB_01.md và TIEN_DO.
+
+## Mốc sau khi bỏ ô ngày trong `.xlsx` (27/11)
+
+- hvalign 0.3.5 (bỏ ô "Ngày xuất", report7 mục H1), 14/14 kiểm định ĐẠT, dấu vân tay TSV `3881da12c970ac7b` (không đổi), kiểm thử 24/24. Số cặp không đổi.
 
 ## Mốc sau đợt 5
 

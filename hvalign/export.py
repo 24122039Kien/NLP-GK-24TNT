@@ -8,7 +8,6 @@ from __future__ import annotations
 import random
 import re
 from collections import Counter
-from datetime import date
 from pathlib import Path
 
 from . import __version__
@@ -52,7 +51,6 @@ def run(project, work: str, deliver: bool = False, log=print) -> dict:
              ["Tác phẩm", work, ""], ["Tổng số cặp", len(rows), ""],
              ["Số dòng han.txt", n_lines["han"], "03_text_sach/han.txt"],
              ["Số dòng viet.txt", n_lines["viet"], "03_text_sach/viet.txt"],
-             ["Ngày xuất", date.today().isoformat(), ""],
              ["Công cụ", f"hvalign {__version__}", "Lab/GK/hvalign"],
              ["Hiệu đính: xác nhận đúng", hd["dung"], "hieu_dinh/<MA>__<người>.tsv"],
              ["Hiệu đính: sửa chữ", hd["sua"], ""], ["Hiệu đính: gộp cặp", hd["gop"], ""],

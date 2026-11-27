@@ -169,6 +169,15 @@ Câu trả lời gợi ý cho giảng viên về HCB_11: *"Bản demo em chỉ t
 - 14/14 kiểm định ĐẠT, `khong_khop = 0` ở mọi tác phẩm, 24/24 kiểm thử đạt. Dấu vân tay TSV: `3881da12c970ac7b`.
 - TSV của 13 tác phẩm khác giữ nguyên. `.xlsx` và `bao_cao.md` của các tác phẩm này chỉ khác ngày xuất, nên giữ bản đã commit.
 
-**Điểm mở:** `.xlsx` có ô "Ngày xuất" (`hvalign/export.py`). Ô này đổi theo ngày chạy, giống dòng ngày trong `bao_cao.md`. Cần quyết định giữ nó như một ngoại lệ đã biết, hay bỏ đi để `.xlsx` giống hệt nhau giữa các ngày.
+**Điểm mở (đã chốt, xem mục H1):** `.xlsx` có ô "Ngày xuất" (`hvalign/export.py`), đổi theo ngày chạy.
 
 **Số cặp sau đợt 5:** Kiên 3.463 (HCB_01: 1.955), Huy **3.502** (2.124), Tài 2.149 (1.672), Đăng 2.663 (2.341).
+
+### H1. Bỏ ô "Ngày xuất" trong `.xlsx` (hvalign 0.3.5, 27/11)
+
+- **Lý do:** mẫu `example.xlsx` của giảng viên chỉ có một sheet với 2 cột, không có ô ngày. Guideline chỉ cho phép thêm sheet thống kê, không yêu cầu ghi ngày. Ô này làm `.xlsx` của cả 14 tác phẩm đổi mỗi khi chạy vào ngày khác, trái với yêu cầu "chạy lại phải ra đúng kết quả". Người dùng chốt bỏ.
+- **Thay đổi:** bỏ dòng "Ngày xuất" ở sheet `THONG_KE` (`hvalign/export.py`). Sheet `DONG_HANG` và `TRUY_VET` không đổi. Ngày chạy vẫn ghi ở `bao_cao.md`. Thêm kiểm thử: `THONG_KE` không có ô ngày và xuất lại ra `.xlsx` giống hệt từng byte.
+- **Kiểm chứng:**
+  - 24/24 kiểm thử đạt; 14/14 kiểm định ĐẠT; dấu vân tay TSV vẫn `3881da12c970ac7b`.
+  - So với bản đã commit: `DONG_HANG` và `TRUY_VET` của cả 14 tác phẩm giống hệt; `THONG_KE` chỉ mất dòng ngày và đổi dòng "Công cụ" sang 0.3.5.
+  - Bản sao sạch: 70/70 tệp nộp giống repo, `.xlsx` giống từng byte.

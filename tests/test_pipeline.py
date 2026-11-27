@@ -277,6 +277,10 @@ def test_export_note_column_and_validate(tmp_path: Path):
     assert out["tsv"].read_text(encoding="utf-8").count("\t") == 6  # TSV vẫn đúng 2 cột
     errs, _ = export.validate(pr, "HCB_99", log=lambda *a: None)
     assert errs == []
+    # .xlsx không chứa ngày chạy: xuất lại (khác ngày) vẫn ra đúng từng byte
+    assert not any(r and r[0] == "Ngày xuất" for r in read_xlsx(out["xlsx"]).sheets["THONG_KE"])
+    first = out["xlsx"].read_bytes()
+    assert export.run(pr, "HCB_99", log=lambda *a: None)["xlsx"].read_bytes() == first
 
 
 # ------------------------------------------------------------------ cấu trúc nộp (nhận xét GV 18/11)

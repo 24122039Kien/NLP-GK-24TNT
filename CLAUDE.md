@@ -127,7 +127,7 @@ Sau đó: ghi bản nộp vào `04_dong_hang` + `bao_cao.md`, cập nhật `Docs
 - HCB_01 (nguồn zh.wikisource), điểm đã gặp ở đợt 5:
   - Chữ ghép bộ: một chữ bị viết thành bộ thủ + chữ khác (扌晉 = 搢, 衤復 = 複, 钅句 = 鉤). Sửa bằng `sua`. Tìm bằng regex bộ thủ đứng riêng `[衤礻扌氵亻犭忄阝钅]` trên `03_text_sach/han.txt`. Còn #6686, #7157, #7358, #7451 cho đợt 6.
   - Đầu mỗi đời vua, nguồn zh đặt tiêu đề đế hiệu **sau** đoạn tiểu sử, còn bản Việt đưa tên lên đầu câu, nên máy trượt 1 vế (q9 #3421–3425). Đợt 6 cần xem kỹ chỗ chuyển đời vua.
-- `.xlsx` có ô "Ngày xuất" (`hvalign/export.py`): chạy khác ngày thì `.xlsx` và `bao_cao.md` của mọi tác phẩm đổi theo. Tác phẩm không sửa thì `git checkout` lại 2 tệp này, đừng commit thay đổi chỉ do ngày. Chưa chốt có bỏ ô này hay không (đã nêu ở report7 mục H).
+- Từ hvalign 0.3.5, `.xlsx` không còn ô "Ngày xuất" (người dùng chốt bỏ 27/11; mẫu `example.xlsx` của GV và Guideline đều không có ô ngày). Chạy lại khác ngày thì `.xlsx` giống hệt từng byte. Chỉ còn dòng ngày trong `bao_cao.md` đổi theo ngày chạy: tác phẩm không sửa thì `git checkout` lại `bao_cao.md`, đừng commit thay đổi chỉ do ngày.
 
 ## 6. Lệnh hay dùng
 
