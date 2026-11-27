@@ -181,3 +181,31 @@ Câu trả lời gợi ý cho giảng viên về HCB_11: *"Bản demo em chỉ t
   - 24/24 kiểm thử đạt; 14/14 kiểm định ĐẠT; dấu vân tay TSV vẫn `3881da12c970ac7b`.
   - So với bản đã commit: `DONG_HANG` và `TRUY_VET` của cả 14 tác phẩm giống hệt; `THONG_KE` chỉ mất dòng ngày và đổi dòng "Công cụ" sang 0.3.5.
   - Bản sao sạch: 70/70 tệp nộp giống repo, `.xlsx` giống từng byte.
+
+## I. Kiểm tra toàn bộ – Đợt 6 (HCB_01 quyển 11–20 – cả 4 người): XONG
+
+Đợt này còn chốt thêm một việc: **làm theo Guideline** (sheet `DONG_HANG`, tiêu đề `Hán`/`Việt`, TSV LF), không theo `example.xlsx` của giảng viên. Chương trình vốn đã làm như vậy nên không phải sửa code.
+
+**Phạm vi:** 3.807 cặp (#4286–#8092), đã đọc hết 3.807/3.807 cặp. Tính cả đợt 5, đã đọc đủ 8.092/8.092 cặp HCB_01. Chi tiết từng quyển ở `Docs/kiem_tra_toan_bo/HCB_01.md`.
+
+**Bước 1–3 (nguồn):**
+- Tải lại 20 trang qua API wikisource (`GK_tam/dot6_live`). 16 tệp `.wikitext` giống hệt bản hiện hành. 4 tệp `.txt` của Huy (q11, q16) đủ chữ, không lệch chữ nào.
+- Bổ sung manifest: Tài q17, q19 (+8 dòng); Đăng q12, 13, 14, 18 (+8 dòng); Huy điền revid q11, q16. 28/28 tệp nguồn của q11–20 có trong manifest, SHA khớp.
+
+**Sửa tay (41 quyết định: 37 `sua`, 4 `dung`):**
+- **Chia lại ranh giới, 8 khúc** (`khuc/HCB_01/q11_a`, `q14_a`, `q15_a`, `q16_a`, `q18_a`, `q19_a`, `q19_b`, `q20_a`). Lỗi đều cùng một dạng: một vế Việt ngắn ở ranh giới (như "Hoàng đế nổi giận…", "Sách Quân chí nói") bị máy dính sang cặp bên cạnh. Tệp khúc dựng bằng công cụ mới `cong_cu/mkkhuc.py`: chỉ cần nêu đoạn chữ mở đầu mỗi cặp mới, không chép tay chữ nào.
+- **Chữ PUA của nguồn zh:** ghép lại 5 chữ (#5019 巇, #6179 棲, #6314 穡, #6998 楊礪, #7316 秕).
+- **Chữ ghép bộ:** sửa 4 chữ (#5667 牸, #7157 và #7358 鄜, #7451 捲).
+- **Rác do bộ chuyển phồn–giản:** 備位元 → 備位 (#5373); 乙太 → 以太 (#4855, #7657, và #3386 ở q9, đợt 5 đã bỏ sót). Đã quét cả 14 tác phẩm: chỉ HCB_01 có loại lỗi này.
+- **Dấu và chữ thừa:** #4869, #5385, #6288, #6583, #7135.
+- **Để nguyên, có ghi chú `dung`:** 4 chữ không xác định được chữ gốc (PUA #5723, #6109, #6625; 钅屈 #6686). Không đoán, để khỏi đưa chữ sai vào ngữ liệu.
+- **Không phải sửa:** #7772. Tiêu đề đế hiệu 真宗… trong nguồn zh là dòng đề mục `== … ==` nên bị bỏ như mọi đề mục; bản Việt viết tên hiệu liền trong câu.
+
+**Kiểm chứng:**
+- 14/14 kiểm định ĐẠT, `khong_khop = 0`, 24/24 kiểm thử. Dấu vân tay TSV: `afb9a88ede60aa8b`.
+- Chỉ HCB_01 đổi: 37 dòng TSV, đúng bằng 37 quyết định `sua`. 13 tác phẩm còn lại giống từng byte, kể cả `.xlsx`, vì từ 0.3.5 không còn ô ngày.
+- Bản sao sạch, chạy 2 lần: 70/70 tệp nộp giống repo.
+
+**Số cặp sau đợt 6 (không đổi):** Kiên 3.463, Huy 3.502, Tài 2.149, Đăng 2.663. HCB_01: 8.092 cặp, 81 quyết định hiệu đính.
+
+**Kết thúc kiểm tra toàn bộ:** cả 6 đợt đã xong. Đã đọc mọi cặp của 14 tác phẩm.

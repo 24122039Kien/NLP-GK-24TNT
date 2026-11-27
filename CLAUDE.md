@@ -73,9 +73,11 @@ CV02_HCB_xx/
 - Không có `02_ocr_tho`. Text thô trung gian nằm ở `work/<MA>/02_ocr_tho` và không nộp.
 - Mốc tên riêng cho dóng hàng lấy thẳng từ `01_nguon`, nên mọi máy ra cùng kết quả.
 
-**Còn chưa chốt:** Guideline ghi sheet `DONG_HANG`, tiêu đề `Hán`/`Việt`, nhưng `example.xlsx` của giảng viên dùng `Sheet1`, tiêu đề `han`/`vi`, TSV CRLF. Chương trình đang theo Guideline. Nhắc người dùng hỏi lại giảng viên nếu chưa hỏi.
+**Đã chốt (người dùng, 27/11): theo Guideline.** Sheet `DONG_HANG`, tiêu đề `Hán`/`Việt`, TSV LF. Không làm theo `example.xlsx` của giảng viên (`Sheet1`, `han`/`vi`, TSV CRLF), vì Guideline là chuẩn.
 
-## 5. Nhiệm vụ đang làm: kiểm tra toàn bộ (người dùng giao ngày 26/11)
+## 5. Kiểm tra toàn bộ (người dùng giao ngày 26/11): ĐÃ XONG cả 6 đợt (27/11)
+
+Kết quả: report7 mục D–I, `Docs/kiem_tra_toan_bo/`. Quy trình dưới đây giữ lại để dùng khi phải kiểm lại.
 
 Kiểm **từng tác phẩm, từng quyển, đọc MỌI cặp**, không bỏ cặp nào. Đọc theo khúc khoảng 150–200 cặp mỗi lượt để tiết kiệm context.
 
@@ -118,15 +120,19 @@ Sau đó: ghi bản nộp vào `04_dong_hang` + `bao_cao.md`, cập nhật `Docs
 - ~~HCB_03: chỉ 8 cặp là đoạn dài~~ → đã sửa ở đợt 2 (chấm câu thủ công R13, 59 cặp).
 - Bản Việt do thành viên chép tay (`.txt` không có `{{đầu đề…}}`) có thể mất khối `<div>`, `<poem>`, `{{quote}}`; đợt 2 gặp ở HCB_06, 08, 09. Mỗi đợt phải so với wikitext tải qua API (xem `TIEN_DO.md`).
 - Nguồn Hán chấm câu thưa (cả đoạn nối bằng ，) làm cặp rất dài: dùng chấm câu thủ công R13 như HCB_02 (đợt 3), chỉ đổi dấu ở chỗ bản Việt hết câu.
-- Manifest: HCB_02, 10, 12 đã bổ sung ở đợt 3; nguồn của Đăng (HCB_01, HCB_14) hầu như chưa có trong manifest, thêm vào `Docs/nguon_manifest_Dang.tsv` khi kiểm.
+- Manifest: đã đủ cho mọi tác phẩm sau đợt 6 (HCB_01 cả 20 quyển, HCB_14 ở đợt 4).
 - HCB_10: bản Hán zh.wikisource là giản thể, không có bản phồn thể dùng được; đã ghi hạn chế, không chuyển bằng máy.
 - ~~HCB_14 Q1421, Q1445 lệch ranh giới~~ → đợt 4 đã chia lại toàn bộ HCB_14.
 - Sillok dùng 。 cả ở chỗ ngắt nhỏ: máy hay trượt 1 vế suốt quyển → chia lại bằng `cong_cu/chia_lai.py` (giữ nguyên chữ). Câu Việt không có vế Hán thường là do **thiếu bài sillok cùng ngày** → tải thêm (id `…_<ngày×10>_<số bài>`), đừng bỏ.
 - Quyết định `sua`/`sai` gắn với cặp máy: sửa code/cấu hình làm máy dóng lại thì kiểm `khong_khop`, lệch thì xóa quyết định của quyển đó và áp lại tệp khúc.
 - HCB_01 phần của Kiên là 1.955 cặp (< 2.000 nếu tính riêng HCB_01; tổng của Kiên là 3.463).
-- HCB_01 (nguồn zh.wikisource), điểm đã gặp ở đợt 5:
-  - Chữ ghép bộ: một chữ bị viết thành bộ thủ + chữ khác (扌晉 = 搢, 衤復 = 複, 钅句 = 鉤). Sửa bằng `sua`. Tìm bằng regex bộ thủ đứng riêng `[衤礻扌氵亻犭忄阝钅]` trên `03_text_sach/han.txt`. Còn #6686, #7157, #7358, #7451 cho đợt 6.
-  - Đầu mỗi đời vua, nguồn zh đặt tiêu đề đế hiệu **sau** đoạn tiểu sử, còn bản Việt đưa tên lên đầu câu, nên máy trượt 1 vế (q9 #3421–3425). Đợt 6 cần xem kỹ chỗ chuyển đời vua.
+- HCB_01 (nguồn zh.wikisource), điểm đã gặp ở đợt 5–6:
+  - Chữ ghép bộ: một chữ bị viết thành bộ thủ + chữ khác (扌晉 = 搢, 衤復 = 複, 钅句 = 鉤, 牜字 = 牸, 鹿阝 = 鄜). Sửa bằng `sua`.
+  - Chữ PUA `{{PUA|…}}`: bộ thủ ở vùng riêng + phần còn lại của chữ (足 + 俞 = 踰, 山 + 戲 = 巇, 禾 + 嗇 = 穡). Không ghép ra chữ chắc chắn thì để nguyên, ghi `dung` (#5723, #6109, #6625, #6686).
+  - Rác do bộ chuyển phồn–giản: 乙太 (= 以太), 位元 (= 位).
+  - Cách tìm: regex `[衤礻扌氵亻犭忄阝钅牜糹訁釒飠讠纟饣]` cộng vùng PUA `U+E000–U+F8FF` trên vế Hán, và các cụm 乙太, 位元.
+  - Đầu mỗi đời vua: ở q9, tiêu đề đế hiệu nằm trong câu, đặt sau đoạn tiểu sử, làm máy trượt 1 vế. Ở q20, tiêu đề là dòng `== … ==` nên bị bỏ, cặp đầu vẫn đúng.
+  - Lỗi dóng hay gặp nhất: một vế Việt ngắn ở ranh giới ("Hoàng đế nổi giận…", "X nói") bị dính sang cặp bên cạnh. Sửa bằng `cong_cu/mkkhuc.py` + `chia_lai.py`.
 - Từ hvalign 0.3.5, `.xlsx` không còn ô "Ngày xuất" (người dùng chốt bỏ 27/11; mẫu `example.xlsx` của GV và Guideline đều không có ô ngày). Chạy lại khác ngày thì `.xlsx` giống hệt từng byte. Chỉ còn dòng ngày trong `bao_cao.md` đổi theo ngày chạy: tác phẩm không sửa thì `git checkout` lại `bao_cao.md`, đừng commit thay đổi chỉ do ngày.
 
 ## 6. Lệnh hay dùng

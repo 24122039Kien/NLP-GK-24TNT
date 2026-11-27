@@ -1,0 +1,3 @@
+# q14 (Đăng) #5705–#5706: vế Việt 'Sách Quân chí nói' (軍志曰) dính vào cặp trước
+HB: 三鎮分峙，隱若長城，大軍雲屯，虎視燕、趙，臣知契丹雖精兵利甲，終不敢越三十萬之眾南侵貝、冀矣。|「軍志曰：『凡臨敵，法令不明，賞罰不信，聞鼓不進，聞金不止，雖有百萬之師，何益於用！』
+VB: Ba trấn chia nhau đứng vững, sừng sững như Trường Thành, đại quân tụ như mây, hổ thị Yên, Triệu, thần biết rằng Khiết Đan tuy binh tinh, giáp sắc, rốt cuộc không dám vượt qua 30 vạn quân mà nam xâm Bối, Ký vậy.|Sách Quân chí nói Phàm khi đối địch, pháp lệnh không rõ ràng, thưởng phạt không đáng tin, nghe trống mà không tiến, nghe chiêng mà không dừng, thì dẫu có đội quân trăm vạn, cũng có ích gì cho việc dùng binh!"

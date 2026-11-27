@@ -1,6 +1,6 @@
 # Báo cáo tự sinh – HCB_01
 
-Ngày: 2026-11-27 · hvalign 0.3.5 · **Trạng thái: dóng tự động, ghi chú tự động; người đã xem 10/1135 cặp máy gắn cờ**
+Ngày: 2026-11-27 · hvalign 0.3.5 · **Trạng thái: dóng tự động, ghi chú tự động; người đã xem 22/1135 cặp máy gắn cờ**
 
 ## 1. Số cặp
 
@@ -53,10 +53,10 @@ Kiểu ghép: `1-1` 7683, `1-2` 308, `2-1` 31, `2-2` 28, `1-3` 26, `1-5` 7, `1-4
 - Luật làm sạch đã áp dụng: R04_bo_chu_nho ×87, R06_bo_chu_han_trong_viet ×1442, R08_bo_dong_tieu_de ×285, R10_chuan_hoa_khoang_trang_dau_cau ×87, R12_loai_tru ×1, rong_sau_lam_sach ×4
 - Loại trừ (không có bản dịch / không phải chính văn): 1 khối – Bản dịch lời chú nhỏ {{*|帝諱匡胤…}} – bên Hán đã bỏ lời chú (R04) (1)
 - Câu không ghép được (ghi ở `work/HCB_01/khong_ghep.tsv`, không đưa vào TSV): 0
-- Cặp máy gắn cờ: 1135 (`lech_moc` 1022, `lech_do_dai` 105, `n-m` 28); người đã xem 10
-- Hiệu đính đã áp: xác nhận đúng 1, sửa chữ 37, gộp 0, bỏ cặp sai 2 (quyết định lưu ở `hieu_dinh/HCB_01__<người>.tsv`)
+- Cặp máy gắn cờ: 1135 (`lech_moc` 1022, `lech_do_dai` 105, `n-m` 28); người đã xem 22
+- Hiệu đính đã áp: xác nhận đúng 5, sửa chữ 74, gộp 0, bỏ cặp sai 2 (quyết định lưu ở `hieu_dinh/HCB_01__<người>.tsv`)
 - Cảnh báo khi làm sạch: 9 (xem `work/HCB_01/canh_bao.tsv`)
-- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 16 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
+- Ghi chú tự động (dịch rút gọn, vế Việt thêm diễn giải, câu không được dịch): 37 cặp, ghi ở cột `Ghi chú` của sheet TRUY_VET
 - Phạm vi theo trả lời của giảng viên: chỉ dóng hàng phần có song ngữ; phần chỉ một bản có thì không đưa vào dữ liệu (đã liệt kê ở mục Loại trừ và Câu không ghép được).
 - Tỷ lệ lỗi theo §8 Guideline: chưa chấm mẫu (tuỳ chọn: app → Nâng cao → Chấm mẫu).
 
@@ -84,24 +84,24 @@ Kiểu ghép: `1-1` 7683, `1-2` 308, `2-1` 31, `2-2` 28, `1-3` 26, `1-5` 7, `1-4
 | 9 | viet | `Tục_tư_trị_thông_giám_Quyển_9.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_9 | 202681 |
 | 10 | han | `續資治通鑑_卷010.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7010 | 2311081 |
 | 10 | viet | `Tục_tư_trị_thông_giám_Quyển_10.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_10 | 202674 |
-| 11 | han | `TTTTG_q11_han.txt` | wikitext | https://zh.wikisource.org/wiki/續資治通鑑/卷011 |  |
-| 11 | viet | `TTTTG_q11_viet.txt` | wikitext | https://vi.wikisource.org/wiki/Tục_tư_trị_thông_giám/Quyển_11 |  |
-| 12 | han | `續資治通鑑_卷012.wikitext` | wikitext | (không có trong manifest) |  |
-| 12 | viet | `Tục_tư_trị_thông_giám_Quyển_12.wikitext` | wikitext | (không có trong manifest) |  |
-| 13 | han | `續資治通鑑_卷013.wikitext` | wikitext | (không có trong manifest) |  |
-| 13 | viet | `Tục_tư_trị_thông_giám_Quyển_13.wikitext` | wikitext | (không có trong manifest) |  |
-| 14 | han | `續資治通鑑_卷014.wikitext` | wikitext | (không có trong manifest) |  |
-| 14 | viet | `Tục_tư_trị_thông_giám_Quyển_14.wikitext` | wikitext | (không có trong manifest) |  |
+| 11 | han | `TTTTG_q11_han.txt` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7011 | 2271042 |
+| 11 | viet | `TTTTG_q11_viet.txt` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_11 | 202691 |
+| 12 | han | `續資治通鑑_卷012.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7012 | 1515100 |
+| 12 | viet | `Tục_tư_trị_thông_giám_Quyển_12.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_12 | 203303 |
+| 13 | han | `續資治通鑑_卷013.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7013 | 2601957 |
+| 13 | viet | `Tục_tư_trị_thông_giám_Quyển_13.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_13 | 202698 |
+| 14 | han | `續資治通鑑_卷014.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7014 | 2271043 |
+| 14 | viet | `Tục_tư_trị_thông_giám_Quyển_14.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_14 | 202701 |
 | 15 | han | `續資治通鑑_卷015.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7015 | 1328859 |
 | 15 | viet | `Tục_tư_trị_thông_giám_Quyển_15.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_15 | 202704 |
-| 16 | han | `TTTTG_q16_han.txt` | wikitext | https://zh.wikisource.org/wiki/續資治通鑑/卷016 |  |
-| 16 | viet | `TTTTG_q16_viet.txt` | wikitext | https://vi.wikisource.org/wiki/Tục_tư_trị_thông_giám/Quyển_16 |  |
-| 17 | han | `續資治通鑑_卷017.wikitext` | wikitext | (không có trong manifest) |  |
-| 17 | viet | `Tục_tư_trị_thông_giám_Quyển_17.wikitext` | wikitext | (không có trong manifest) |  |
-| 18 | han | `續資治通鑑_卷018.wikitext` | wikitext | (không có trong manifest) |  |
-| 18 | viet | `Tục_tư_trị_thông_giám_Quyển_18.wikitext` | wikitext | (không có trong manifest) |  |
-| 19 | han | `續資治通鑑_卷019.wikitext` | wikitext | (không có trong manifest) |  |
-| 19 | viet | `Tục_tư_trị_thông_giám_Quyển_19.wikitext` | wikitext | (không có trong manifest) |  |
+| 16 | han | `TTTTG_q16_han.txt` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7016 | 2271044 |
+| 16 | viet | `TTTTG_q16_viet.txt` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_16 | 202711 |
+| 17 | han | `續資治通鑑_卷017.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7017 | 2611601 |
+| 17 | viet | `Tục_tư_trị_thông_giám_Quyển_17.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_17 | 202712 |
+| 18 | han | `續資治通鑑_卷018.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7018 | 2260856 |
+| 18 | viet | `Tục_tư_trị_thông_giám_Quyển_18.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_18 | 202715 |
+| 19 | han | `續資治通鑑_卷019.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7019 | 2626397 |
+| 19 | viet | `Tục_tư_trị_thông_giám_Quyển_19.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_19 | 202716 |
 | 20 | han | `續資治通鑑_卷020.wikitext` | wikitext | https://zh.wikisource.org/wiki/%E7%BA%8C%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7020 | 2260978 |
 | 20 | viet | `Tục_tư_trị_thông_giám_Quyển_20.wikitext` | wikitext | https://vi.wikisource.org/wiki/T%E1%BB%A5c_t%C6%B0_tr%E1%BB%8B_th%C3%B4ng_gi%C3%A1m/Quy%E1%BB%83n_20 | 203331 |
 
