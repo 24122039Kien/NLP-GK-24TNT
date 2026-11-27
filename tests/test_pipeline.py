@@ -323,3 +323,13 @@ def test_raw_text_not_in_submission_and_zip_layout(tmp_path: Path):
     names = zipfile.ZipFile(io.BytesIO(app.build_zip(pr, ["HCB_99"]))).namelist()
     assert {n.split("/")[1] for n in names} == {"01_nguon", "03_text_sach", "04_dong_hang", "bao_cao.md"}
     assert not any("02_ocr_tho" in n for n in names)
+
+
+def test_thu_muc_nop_gom_chung(tmp_path):
+    """Khóa thu_muc_nop: mọi thư mục CV02_<MA> nằm chung một thư mục; thiếu khóa thì ở gốc như cũ."""
+    from hvalign.config import Project
+    (tmp_path / "Nop_bai" / "CV02_HCB_98").mkdir(parents=True)
+    pr = Project(tmp_path, {"ma_de_tai": "CV02", "thu_muc_nop": "Nop_bai"})
+    assert pr.work_dir("HCB_98") == tmp_path / "Nop_bai" / "CV02_HCB_98"
+    assert "HCB_98" in pr.works()
+    assert Project(tmp_path, {"ma_de_tai": "CV02"}).work_dir("HCB_98") == tmp_path / "CV02_HCB_98"

@@ -1,5 +1,5 @@
 # Bản chấm câu thủ công cho HCB_03 (東都事略 卷130 附録八 交趾), dùng qua khóa cấu hình cham_cau_thu_cong.
-# Nguồn chữ: CV02_HCB_03/01_nguon/han/DongDoSuLuoc_q130_han.txt (bản Tứ khố, không có dấu câu). Không thêm, bớt hay đổi chữ nào.
+# Nguồn chữ: Nop_bai/CV02_HCB_03/01_nguon/han/DongDoSuLuoc_q130_han.txt (bản Tứ khố, không có dấu câu). Không thêm, bớt hay đổi chữ nào.
 # Mỗi dòng không bắt đầu bằng '#' là một khối Hán (một đoạn) đã chấm câu. Chương trình chỉ dùng dòng này khi bỏ hết dấu câu
 # thì nó giống hệt từng chữ khối Hán đã làm sạch (sau khi tra mã chữ R09: SKchar|2652 = 𫝊, SKchar|1440 = 𤋮).
 # Cách chấm: 。 ở chỗ hết câu, theo cách ngắt câu của bản dịch Việt (vi.wikisource); các vế liền ý dùng ，/；; lời nói dùng 「」.

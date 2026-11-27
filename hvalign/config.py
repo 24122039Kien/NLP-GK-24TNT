@@ -37,8 +37,13 @@ class Project:
     def code(self) -> str:
         return self.cfg.get("ma_de_tai", "CV02")
 
+    @property
+    def deliver_root(self) -> Path:
+        """Thư mục chung chứa mọi thư mục nộp <MA_DE_TAI>_<MA> (khóa `thu_muc_nop`; trống = gốc repo)."""
+        return self.root / self.cfg.get("thu_muc_nop", "")
+
     def work_dir(self, work: str) -> Path:
-        return self.root / f"{self.code}_{work}"
+        return self.deliver_root / f"{self.code}_{work}"
 
     def scratch(self, work: str) -> Path:
         return self.root / "work" / work
@@ -54,7 +59,7 @@ class Project:
 
     def works(self) -> list[str]:
         """Mọi tác phẩm có thư mục bàn giao hoặc có tệp cấu hình."""
-        found = {p.name.split("_", 1)[1] for p in self.root.glob(f"{self.code}_HCB_*") if p.is_dir()}
+        found = {p.name.split("_", 1)[1] for p in self.deliver_root.glob(f"{self.code}_HCB_*") if p.is_dir()}
         found |= {p.stem for p in (CONFIG_DIR / "works").glob("HCB_*.yaml")}
         return sorted(found)
 

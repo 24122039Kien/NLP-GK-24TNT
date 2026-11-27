@@ -1,5 +1,5 @@
 # Bản chấm câu thủ công cho HCB_02 (平安南詔), dùng qua khóa cấu hình cham_cau_thu_cong.
-# Nguồn chữ: CV02_HCB_02/01_nguon/han/平安南詔.wikitext (zh.wikisource, revid 1808602). Không thêm, bớt hay đổi chữ nào.
+# Nguồn chữ: Nop_bai/CV02_HCB_02/01_nguon/han/平安南詔.wikitext (zh.wikisource, revid 1808602). Không thêm, bớt hay đổi chữ nào.
 # Bản nguồn có dấu câu nhưng nối cả chiếu văn bằng ，/；, nên đoạn 「興言至此…慰其幽冥；」 (~500 chữ) chỉ là một câu
 # và ghép với 15 câu Việt. Ở đây chỉ đổi ，/； thành 。 tại chỗ bản dịch Việt (vi.wikisource) hết câu; mọi dấu khác giữ nguyên.
 # Người chấm: kiểm tra toàn bộ đợt 3, 2026-11-26.

@@ -60,10 +60,10 @@ Sửa cấu hình xong thì bấm **Chạy** trong app, hoặc chạy lại lệ
 
 ### 2.1. Chép tệp
 
-Chép tệp nguồn vào `CV02_<MA>/01_nguon/`. **Giữ nguyên tên và định dạng.** Cả hai cách sắp xếp sau đều được:
+Chép tệp nguồn vào `Nop_bai/CV02_<MA>/01_nguon/` (mọi thư mục nộp nằm chung trong `Nop_bai/`, khóa `thu_muc_nop` trong `config/project.yaml`). **Giữ nguyên tên và định dạng.** Cả hai cách sắp xếp sau đều được:
 
 ```
-CV02_HCB_01/01_nguon/                      CV02_HCB_01/01_nguon/
+Nop_bai/CV02_HCB_01/01_nguon/              Nop_bai/CV02_HCB_01/01_nguon/
 ├── han/                                   ├── TTTTG_q03_han.txt
 │   └── 續資治通鑑_卷002.wikitext           ├── TTTTG_q03_viet.txt
 └── viet/                                  ├── TTTTG_q05_han.txt
@@ -100,7 +100,7 @@ HCB_06	*	Huy
 
 ### 2.3. Manifest
 
-Chép manifest của bạn thành `Docs/nguon_manifest_<ten>.tsv`. Cột `tep` phải ghi đường dẫn tính từ gốc repo, ví dụ `CV02_HCB_01/01_nguon/han/x.wikitext`. Nhờ đó:
+Chép manifest của bạn thành `Docs/nguon_manifest_<ten>.tsv`. Cột `tep` phải ghi đường dẫn tính từ gốc repo, ví dụ `Nop_bai/CV02_HCB_01/01_nguon/han/x.wikitext`. Nhờ đó:
 - `inventory` so được SHA-256 để biết tệp có bị sửa không;
 - báo cáo tự ghi được link nguồn.
 
@@ -167,7 +167,7 @@ Không ghi `--work` thì chương trình chạy **mọi** tác phẩm có trên 
 
 ### 4.1. Bước 4 – text thô: `work/<MA>/02_ocr_tho/{han,viet}/<quyển>.tsv`
 
-Đây là tệp trung gian, **không nộp**. Nguồn của nhóm là text số (wikitext/HTML/txt), không phải ảnh hay PDF scan, nên theo nhận xét của giảng viên (18/11) thư mục nộp không cần `02_ocr_tho`. Từ bản 0.3.1, chạy `extract` sẽ tự dọn `CV02_<MA>/02_ocr_tho` cũ.
+Đây là tệp trung gian, **không nộp**. Nguồn của nhóm là text số (wikitext/HTML/txt), không phải ảnh hay PDF scan, nên theo nhận xét của giảng viên (18/11) thư mục nộp không cần `02_ocr_tho`. Từ bản 0.3.1, chạy `extract` sẽ tự dọn `02_ocr_tho` cũ trong thư mục nộp.
 
 ```
 HCB_01/q002/han/s01/h	h2	建隆二年⟪*:遼應歴十一年。⟫⟪ref:建隆二年︰辛酉，公元九六一年⟫
@@ -183,7 +183,7 @@ HCB_01/q002/han/s01/p001	para	§春，正月，丙申朔，御崇元殿受朝，
 
 | Tệp | Xem gì |
 |---|---|
-| `CV02_<MA>/03_text_sach/han.txt`, `viet.txt` | Text sạch, mỗi dòng một đoạn: không còn chú thích, chữ Hán xen trong bản Việt, năm dương lịch |
+| `Nop_bai/CV02_<MA>/03_text_sach/han.txt`, `viet.txt` | Text sạch, mỗi dòng một đoạn: không còn chú thích, chữ Hán xen trong bản Việt, năm dương lịch |
 | `work/<MA>/canh_bao.tsv` | **Đọc hết.** Mỗi dòng là một chỗ chương trình không tự quyết được |
 | `work/<MA>/loai_tru.tsv` | Các khối bị loại theo cấu hình, kèm lý do. Kiểm tra không loại nhầm chính văn |
 | `work/<MA>/clean_log.tsv` | Số lần áp dụng từng luật R01–R12 trên từng quyển |
@@ -334,8 +334,8 @@ dinh_dang_nguon: {han: plain, viet: wikitext}   # các giá trị: wikitext / pl
 sources:
   - volume: "130"
     member: Huy
-    han:  CV02_HCB_03/01_nguon/DongDoSuLuoc_q130_han.txt
-    viet: CV02_HCB_03/01_nguon/DongDoSuLuoc_q130_viet.txt
+    han:  Nop_bai/CV02_HCB_03/01_nguon/DongDoSuLuoc_q130_han.txt
+    viet: Nop_bai/CV02_HCB_03/01_nguon/DongDoSuLuoc_q130_viet.txt
 ```
 
 Đường dẫn tính từ gốc repo. Với HCB_14, nếu một quyển có nhiều bài sillok thì `han:` có thể là một danh sách.
@@ -452,7 +452,7 @@ Tải về **không ghi gì vào repo**. Nếu tác phẩm chưa đạt kiểm �
 python -m hvalign run --work HCB_xx --ban-giao
 ```
 
-Cả hai cách đều áp quyết định hiệu đính, rồi ghi `<MA>_parallel.tsv` và `.xlsx` vào `CV02_<MA>/04_dong_hang/` (thư mục nộp), và kiểm định ngay tại đó. Báo cáo nộp lấy số liệu từ `work/<MA>/bao_cao.md`.
+Cả hai cách đều áp quyết định hiệu đính, rồi ghi `<MA>_parallel.tsv` và `.xlsx` vào `Nop_bai/CV02_<MA>/04_dong_hang/` (thư mục nộp), và kiểm định ngay tại đó. Báo cáo nộp lấy số liệu từ `work/<MA>/bao_cao.md`.
 
 ---
 
@@ -483,7 +483,7 @@ Cả hai cách đều áp quyết định hiệu đính, rồi ghi `<MA>_paralle
 ```
 git pull                                   # lấy bản mới của cả nhóm
 python -m hvalign run --work <các mã của bạn>     # hoặc bấm Chạy trong app
-git add config/ Docs/ CV02_<MA>/ hieu_dinh/  # chỉ thêm phần mình sửa
+git add config/ Docs/ Nop_bai/CV02_<MA>/ hieu_dinh/  # chỉ thêm phần mình sửa
 git commit -m "HCB_06: loại trừ phần chưa dịch"
 git push
 ```

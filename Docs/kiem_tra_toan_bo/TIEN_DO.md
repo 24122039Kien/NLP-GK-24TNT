@@ -11,7 +11,7 @@ Cập nhật lần cuối: 2026-11-27. Kế hoạch và quy trình: `CLAUDE.md`,
 | 3 | HCB_02, 10, 12 | **XONG** 26/11 (report7 mục F), đã push 32db2ae |
 | 4 | HCB_14 | **XONG** 26/11 (report7 mục G), đã push 3142d80 |
 | 5 | HCB_01 quyển 1–10 | **XONG** 27/11 (report7 mục H), đã push 5123b3e |
-| 6 | HCB_01 quyển 11–20 | **XONG** 27/11 (report7 mục I), đã commit (chưa push) |
+| 6 | HCB_01 quyển 11–20 | **XONG** 27/11 (report7 mục I), đã push b93862b |
 
 ## Đang làm
 
@@ -21,6 +21,10 @@ Nếu sau này sửa code hay cấu hình làm máy dóng lại:
 1. Chạy `python -m hvalign run`.
 2. Kiểm `khong_khop = 0`. Nếu lệch, xóa quyết định của quyển đó và áp lại tệp khúc ở `khuc/`.
 3. Kiểm chứng trên bản sao sạch ở `GK_tam`, rồi bàn giao bằng `GK_tam/deliver_all.py`.
+
+## Mốc sau khi gom thư mục nộp vào `Nop_bai/` (27/11)
+
+- 14 thư mục `CV02_HCB_xx/` chuyển vào `Nop_bai/` (report7 mục J). Nội dung tệp nộp không đổi, dấu vân tay TSV `afb9a88ede60aa8b`, kiểm thử 25/25.
 
 ## Mốc sau đợt 6
 

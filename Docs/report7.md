@@ -209,3 +209,20 @@ Câu trả lời gợi ý cho giảng viên về HCB_11: *"Bản demo em chỉ t
 **Số cặp sau đợt 6 (không đổi):** Kiên 3.463, Huy 3.502, Tài 2.149, Đăng 2.663. HCB_01: 8.092 cặp, 81 quyết định hiệu đính.
 
 **Kết thúc kiểm tra toàn bộ:** cả 6 đợt đã xong. Đã đọc mọi cặp của 14 tác phẩm.
+
+## J. Gom 14 thư mục nộp vào `Nop_bai/`
+
+Người dùng yêu cầu để nộp và quản lý cho gọn.
+
+**Thay đổi:**
+- `git mv` 14 thư mục `CV02_HCB_xx/` vào `Nop_bai/`. Lịch sử git của từng tệp được giữ.
+- Thêm khóa `thu_muc_nop: Nop_bai` vào `config/project.yaml`. `Project.deliver_root` trong `hvalign/config.py` trỏ tới thư mục này; `work_dir` và `works()` dùng nó. Thiếu khóa thì vẫn như cũ (thư mục nộp ở gốc repo). Thêm kiểm thử `test_thu_muc_nop_gom_chung`.
+- Cột `tep` của 4 manifest `Docs/nguon_manifest*.tsv` (237 dòng), dòng chú thích nguồn của `resources/cham_cau/HCB_02.txt`, `HCB_03_q130.txt`, và `Docs/tai_nguon.py` đổi sang `Nop_bai/CV02_HCB_xx/…`.
+- Cập nhật đường dẫn trong `README.md`, `CLAUDE.md`, `huong_dan_hvalign.md`, `phan_viec_hvalign.md`, `kiem_tra_toan_bo/HCB_01.md`. Các báo cáo và tệp kiểm tra cũ giữ nguyên vì là ghi chép lịch sử.
+- Không đổi số phiên bản (vẫn 0.3.5): số phiên bản có trong sheet `THONG_KE`, đổi thì cả 14 tệp `.xlsx` đổi theo mà nội dung dóng hàng không khác gì.
+- Cấu trúc bên trong tệp `.zip` của app không đổi: vẫn là `CV02_<MA>/…` ở gốc tệp nén.
+
+**Kiểm chứng:**
+- Kiểm thử 25/25. Chạy lại `python -m hvalign run` cho 14 tác phẩm: 14/14 kiểm định ĐẠT. Ghi bản nộp bằng `deliver_all.py`: dấu vân tay TSV `afb9a88ede60aa8b`, không đổi.
+- Git ghi nhận 307 tệp đổi chỗ thuần (0 dòng thêm, 0 dòng bớt): mọi tệp nộp giống từng byte bản trước.
+- `python -m hvalign inventory`: 0 vấn đề. Mọi tệp nguồn có trong manifest theo đường dẫn mới, SHA khớp.

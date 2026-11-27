@@ -2,6 +2,7 @@
 # Cấu hình riêng từng tác phẩm ở config/works/<MA>.yaml, ghi đè lên khối mac_dinh dưới đây.
 
 ma_de_tai: CV02
+thu_muc_nop: Nop_bai          # mọi thư mục nộp CV02_HCB_xx/ nằm chung trong thư mục này (để nộp gọn)
 
 cham_mau:
   so_cap: 100                  # số cặp ngẫu nhiên mỗi người cần được chấm chéo (Guideline §8)

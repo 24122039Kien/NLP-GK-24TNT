@@ -25,9 +25,9 @@ Mỗi phần còn thiếu được giao cho người có dữ liệu cần đế
 Làm trước tiên, vì đợt này lộ ra lỗi sớm nhất.
 
 1. **Lấy code:** clone kho chung https://github.com/24122039Kien/NLP-GK-24TNT.git. Chạy `pip install -r requirements.txt`, rồi `python -m pytest -q` phải ra 18 passed.
-2. **Chép nguồn:** chép vào `CV02_<MA>/01_nguon/` và **giữ nguyên tên và định dạng** (`.wikitext`, `.txt`, `.html` đều được). PDF cứ để đó, chương trình không đọc PDF.
+2. **Chép nguồn:** chép vào `Nop_bai/CV02_<MA>/01_nguon/` và **giữ nguyên tên và định dạng** (`.wikitext`, `.txt`, `.html` đều được). PDF cứ để đó, chương trình không đọc PDF.
 3. **Khai báo phân công:** thêm dòng của mình vào `config/phan_cong.tsv`.
-4. **Manifest:** chép manifest của mình thành `Docs/nguon_manifest_<ten>.tsv`. Cột `tep` phải là đường dẫn tính từ `Lab/GK`, ví dụ `CV02_HCB_01/01_nguon/han/x.wikitext`.
+4. **Manifest:** chép manifest của mình thành `Docs/nguon_manifest_<ten>.tsv`. Cột `tep` phải là đường dẫn tính từ `Lab/GK`, ví dụ `Nop_bai/CV02_HCB_01/01_nguon/han/x.wikitext`.
 5. **Chạy:** `python -m hvalign inventory --work <các mã của bạn>` để kiểm kê nguồn. Sau đó mở app (`Mo_hvalign.bat`), chọn tên mình và bấm **▶ Làm tự động tất cả**.
 6. **Nhìn qua** (không bắt buộc): bấm **Xem nhanh**, lướt tab *Cặp có ghi chú*, bấm **Bỏ** cặp sai rõ ràng ([hướng dẫn mục 6.1](huong_dan_hvalign.md#61-cách-nhanh-xem-nhanh-trên-trang-chính)). Có bấm Bỏ thì commit thư mục `hieu_dinh/`. Sau đó bấm **⬇ Tải về** để lấy `.zip` nộp.
 7. **Chấm chéo** (không bắt buộc, nên làm nếu còn thời gian) 100 cặp trong *Công cụ nâng cao → Chấm mẫu*, theo vòng: **Kiên chấm Huy → Huy chấm Tài → Tài chấm Đăng → Đăng chấm Kiên.** Người chấm cần `git pull` và chạy tác phẩm của bạn mình để có cùng dữ liệu. Cặp sai thì báo người làm sửa.

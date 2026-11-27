@@ -106,7 +106,7 @@ def record(rows, ma, lang, path, url, title, revid="", ts=""):
 
 
 def download_wiki(rows, ma, lang, host, title):
-    out = ROOT / f"CV02_{ma}" / "01_nguon" / ("viet" if lang == "Việt" else "han")
+    out = ROOT / "Nop_bai" / f"CV02_{ma}" / "01_nguon" / ("viet" if lang == "Việt" else "han")
     p = get_page(host, title)
     rev = p["revisions"][0]
     wikitext = rev["slots"]["main"]["content"]
@@ -158,7 +158,7 @@ def write_manifest(rows):
 
 
 def download_sillok(rows, ma, wikitext, quyen):
-    out = ROOT / f"CV02_{ma}" / "01_nguon" / "han"
+    out = ROOT / "Nop_bai" / f"CV02_{ma}" / "01_nguon" / "han"
     browser = next(b for b in BROWSERS if Path(b).exists())
     for url in re.findall(r"https://sillok\.history\.go\.kr/mc/id/[\w]+", wikitext):
         art = url.rsplit("/", 1)[-1]

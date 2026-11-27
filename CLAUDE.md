@@ -56,14 +56,14 @@ Ghi tiến độ thường xuyên (sau mỗi khúc cặp đọc xong), không đ
 - "Kết quả dóng hàng tốt, có ghi chú rõ ràng."
 - "Cần xác nhận cuốn HCB_11 chỉ mới thực hiện 1 phần, chưa đủ toàn bộ."
   - Bản demo chỉ trích 49 cặp đầu của HCB_11.
-  - Bản đầy đủ dóng **toàn bộ Hậu Hán thư quyển 86** (cả phạm vi được giao), 512 cặp, độ phủ 100% chữ Hán và 100% âm tiết Việt. Số liệu này ghi ở `CV02_HCB_11/bao_cao.md` mục 1.
+  - Bản đầy đủ dóng **toàn bộ Hậu Hán thư quyển 86** (cả phạm vi được giao), 512 cặp, độ phủ 100% chữ Hán và 100% âm tiết Việt. Số liệu này ghi ở `Nop_bai/CV02_HCB_11/bao_cao.md` mục 1.
   - Mọi `bao_cao.md` đều có dòng "Phạm vi được giao / đã dóng / độ phủ".
 - "File output cuối cùng nên có thêm folder **03_text_sach** chứa text Hán và Việt sau khi đã trích xuất và làm sạch. Với nguồn không phải ảnh/PDF scan thì **không cần folder 02**. Có thể bổ sung **folder 01** (dữ liệu đã tải/crawl)."
 
-Cấu trúc nộp hiện tại (từ hvalign 0.3.1):
+Cấu trúc nộp hiện tại (từ hvalign 0.3.1; từ 27/11 cả 14 thư mục nằm chung trong `Nop_bai/`, khóa `thu_muc_nop` trong `config/project.yaml`):
 
 ```
-CV02_HCB_xx/
+Nop_bai/CV02_HCB_xx/
 ├── 01_nguon/        dữ liệu đã tải/crawl (.pdf = bản in trang nguồn để đối chiếu, không phải scan)
 ├── 03_text_sach/    CHỈ có han.txt, viet.txt do hvalign sinh ra
 ├── 04_dong_hang/    HCB_xx_parallel.tsv, HCB_xx_parallel.xlsx
@@ -144,4 +144,4 @@ python -m pytest -q                         # kiểm thử
 python -m hvalign app                       # app web cục bộ (cổng 8765)
 ```
 
-Ghi bản nộp vào repo: dùng `app.build_zip` rồi giải nén chỉ `04_dong_hang` và `bao_cao.md` vào `CV02_<MA>/`, hoặc chạy `run --ban-giao` (chỉ ghi `04_dong_hang`).
+Ghi bản nộp vào repo: dùng `app.build_zip` rồi giải nén chỉ `04_dong_hang` và `bao_cao.md` vào `Nop_bai/CV02_<MA>/` (`GK_tam/deliver_all.py` ghi theo `Project.deliver_root`), hoặc chạy `run --ban-giao` (chỉ ghi `04_dong_hang`).

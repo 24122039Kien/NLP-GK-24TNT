@@ -27,7 +27,7 @@ HCB_01 có **8.092 cặp**; đã đọc hết 8.092/8.092 cặp. Sau khi sửa, 
 | 19 | Tài | 464 | 7308–7771 | Sửa #7326–7327, #7344–7345 (khúc `q19_a`, `q19_b`); chữ PUA #7316 (秕); chữ ghép bộ #7358 (鄜), #7451 (扌捲 → 捲); #7657 乙太 → 以太 |
 | 20 | Kiên | 321 | 7772–8092 | Sửa #7866–7868 (khúc `q20_a`) |
 
-Số # là số thứ tự trong `CV02_HCB_01/04_dong_hang/HCB_01_parallel.tsv`.
+Số # là số thứ tự trong `Nop_bai/CV02_HCB_01/04_dong_hang/HCB_01_parallel.tsv`.
 
 ## Bước 1–3: tài liệu, nguồn, bản text
 
